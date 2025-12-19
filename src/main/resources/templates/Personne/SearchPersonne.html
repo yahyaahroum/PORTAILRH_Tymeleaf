@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments/layout :: head"/>
+<body class="header-fixed">
+<!-- partial:../../partials/_header.html -->
+<nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+<!-- partial -->
+<div class="page-body">
+    <!-- partial:../../partials/_sidebar.html -->
+    <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+    <!-- partial -->
+    <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+            <div class="viewport-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb has-arrow">
+                        <li class="breadcrumb-item">
+                            <a href="#">Personne Recherchée : <p th:text="${codecin}"></p></a>
+                        </li>
+
+                    </ol>
+                    <div class="alert-danger" th:if="${errorSearch}">
+
+                            <p th:text="${errorSearch}"></p>
+
+                    </div>
+                </nav>
+            </div>
+            <div class="content-viewport">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="grid">
+                            <div class="item-wrapper">
+                                <div class="table-responsive" style="height: 500px;">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Matricule</th>
+                                            <th>Nom</th>
+                                            <th>Prénom</th>
+                                            <th>CIN</th>
+                                            <th>Pays</th>
+                                            <th>Ville</th>
+                                            <th>Rue</th>
+
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="person : ${listperson}">
+                                            <td th:text="${person.individu}"></td>
+                                            <td th:text="${person.nom}"></td>
+                                            <td th:text="${person.prenom}"></td>
+                                            <td th:text="${person.codecin}"></td>
+                                            <td th:text="${person.adressepays}"></td>
+                                            <td th:text="${person.adresseville}"></td>
+                                            <td th:text="${person.adresserue}"></td>
+                                            <td >
+                                                <div class="dropdown show">
+                                                    <a class="btn btn-xs btn-dark dropdown-toggle"
+                                                       href="#"
+                                                       role="button"
+                                                       th:id="${'dropdownMenuLink'+person.id}"
+                                                       data-toggle="dropdown" aria-haspopup="true"
+                                                       aria-expanded="false">
+                                                        Action
+                                                    </a>
+
+                                                    <div class="dropdown-menu"
+                                                         aria-labelledby="dropdownMenuLink">
+                                                        <a sec:authorize="hasAnyAuthority('RH','admin','Pointeur')" type="button" class="dropdown-item" data-toggle="modal"
+                                                           data-target="#modal-lg1"
+                                                           th:attrappend="data-target=${person.id}" >STC</a>
+                                                        <a sec:authorize="hasAnyAuthority('RH','admin','Pointeur')" type="button" class="dropdown-item"
+                                                           th:href="@{/Personne/NouveauContrat/{id}(id=${person.id})}"
+                                                        >Nouveau Contrat</a>
+                                                        <a sec:authorize="hasAnyAuthority('RH','admin','Pointeur')" type="button" class="dropdown-item" data-toggle="modal"
+                                                           data-target="#modal-lg2"
+                                                           th:attrappend="data-target=${person.id}" >Congé</a>
+                                                        <a sec:authorize="hasAnyAuthority('RH','admin','Pointeur')" type="button" class="dropdown-item" data-toggle="modal"
+                                                           data-target="#modal-lg3"
+                                                           th:attrappend="data-target=${person.id}" >AT</a>
+                                                    </div>
+                                                    <div class="modal fade" tabindex="-1" id="modal-lg1"
+                                                         role="dialog" aria-labelledby="exampleModalLongTitle"
+                                                         aria-hidden="true" th:attrappend="id=${person.id}">
+                                                        <div class="modal-dialog modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle1">
+                                                                        Demande du STC</h5>
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Fermer">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+
+                                                                <form th:action="@{/STC/Ajouter/{id}(id=${person.id})}"  method="post">
+                                                                    <div class="modal-body">
+                                                                        <section class="content">
+                                                                            <div class="container-fluid">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <!-- About Me Box -->
+                                                                                        <div class="card card-primary">
+                                                                                            <!-- /.card-header -->
+                                                                                            <div class="card-body">
+                                                                                                <p>Veuillez remplir les champs pour demander le STC :</p>
+
+                                                                                                <hr>
+
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Date de départ
+                                                                                                            :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <input type="date" class="form-control" name="datedepart"
+                                                                                                               required >
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Chantier :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <select class="custom-select" name="chantier" required>
+                                                                                                            <option value="">Choisir le chantier</option>
+                                                                                                            <option th:each="code : ${chantier}" th:id="${code.code}"
+                                                                                                                    th:value="${code.code}"
+                                                                                                                    th:text="${code.codedes}"></option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Liste Noire :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <div class="form-inline" >
+                                                                                                            <div class="radio mb-3">
+                                                                                                                <label class="radio-label mr-4">
+                                                                                                                    <input type="radio" name="listNoir" th:value="true" required>Oui<i
+                                                                                                                        class="input-frame"></i>
+                                                                                                                </label>
+                                                                                                            </div>
+                                                                                                            <div class="radio mb-3">
+                                                                                                                <label class="radio-label">
+                                                                                                                    <input type="radio" name="listNoir" th:value="false">Non<i
+                                                                                                                        class="input-frame"></i>
+                                                                                                                </label>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Evaluation :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <div class="rate" >
+                                                                                                            <input type="radio" th:id="${'star5'+person.id}" name="evalu" value="5/5" />
+                                                                                                            <label th:for="${'star5'+person.id}"  title="5/5">5 </label>
+                                                                                                            <input type="radio" th:id="${'star4'+person.id}" name="evalu" value="4/5" />
+                                                                                                            <label th:for="${'star4'+person.id}" title="4/5">4 </label>
+                                                                                                            <input type="radio" th:id="${'star3'+person.id}" name="evalu" value="3/5" />
+                                                                                                            <label th:for="${'star3'+person.id}" title="3/5">3 </label>
+                                                                                                            <input type="radio" th:id="${'star2'+person.id}" name="evalu" value="2/5" />
+                                                                                                            <label th:for="${'star2'+person.id}" title="2/5">2 </label>
+                                                                                                            <input type="radio" th:id="${'star1'+person.id}" name="evalu" value="1/5" required/>
+                                                                                                            <label th:for="${'star1'+person.id}" title="1/5">1 </label>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Numéro de téléphone :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <input type="tel" class="form-control" name="telephone"
+                                                                                                              maxlength="10" minlength="10"     >
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                        <!-- /.card-body -->
+                                                                                    </div>
+                                                                                    <!-- /.card -->
+                                                                                </div>
+                                                                                <!-- /.col -->
+                                                                            </div>
+                                                                            <!-- /.row -->
+
+                                                                        </section>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                                data-dismiss="modal">Fermer
+                                                                        </button>
+
+                                                                        <input type="submit" value="Valider"
+                                                                               class="btn btn-success"/>
+
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="modal fade" tabindex="-1" id="modal-lg2"
+                                                         role="dialog" aria-labelledby="exampleModalLongTitle2"
+                                                         aria-hidden="true" th:attrappend="id=${person.id}">
+                                                        <div class="modal-dialog modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle2">
+                                                                        Demande d'un congé</h5>
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Fermer">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+
+                                                                <form th:action="@{/Conge/Ajouter/{id}(id=${person.id})}"  method="post">
+                                                                    <div class="modal-body">
+                                                                        <section class="content">
+                                                                            <div class="container-fluid">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <!-- About Me Box -->
+                                                                                        <div class="card card-primary">
+                                                                                            <!-- /.card-header -->
+                                                                                            <div class="card-body">
+                                                                                                <p>Veuillez remplir les champs pour demander un congé :</p>
+                                                                                                <hr>
+
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Date début
+                                                                                                            :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <input type="date" class="form-control" name="dateDebut"
+                                                                                                               required>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Date fin
+                                                                                                            :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <input type="date" class="form-control" name="dateFin"
+                                                                                                               required>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="row showcase_row_area" >
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Motif :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <select class="custom-select" id="selectType" name="motif" required>
+                                                                                                            <option value="">Choisir une option</option>
+                                                                                                            <option value="Congés payés à titre de l’année">Congés payés à titre de l’année</option>
+                                                                                                            <option id="exceptionnel" value="Congés payés à titre exceptionnel">Congés payés à titre exceptionnel </option>
+                                                                                                            <option value="Congés sans solde pour des raisons personnelles">Congés sans solde pour des raisons personnelles</option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div id="divException" style="display: none">
+                                                                                                    <div class="row showcase_row_area" >
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label></label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <select class="custom-select" name="exception">
+                                                                                                                <option value="">Choisir une
+                                                                                                                    option d'exception
+                                                                                                                </option>
+                                                                                                                <option value="Raisons personnelles">
+                                                                                                                    Raisons personnelles
+                                                                                                                </option>
+                                                                                                                <option value="Mariage">
+                                                                                                                    Mariage
+                                                                                                                </option>
+                                                                                                                <option value="Naissance">
+                                                                                                                    Naissance
+                                                                                                                </option>
+                                                                                                                <option value="Hospitalisation">
+                                                                                                                    Hospitalisation
+                                                                                                                </option>
+                                                                                                                <option value="Décès">
+                                                                                                                    Décès
+                                                                                                                </option>
+                                                                                                                <option value="Circoncision">
+                                                                                                                    Circoncision
+                                                                                                                </option>
+                                                                                                            </select>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <br>
+                                                                                                </div>
+
+
+                                                                                                <div class="row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Chantier :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <select class="custom-select" name="chantier" required>
+                                                                                                            <option value="">Choisir le chantier</option>
+                                                                                                            <option th:each="code : ${chantier}" th:id="${code.code}"
+                                                                                                                    th:value="${code.code}"
+                                                                                                                    th:text="${code.codedes}"></option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                
+
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                        <!-- /.card-body -->
+                                                                                    </div>
+                                                                                    <!-- /.card -->
+                                                                                </div>
+                                                                                <!-- /.col -->
+                                                                            </div>
+                                                                            <!-- /.row -->
+
+                                                                        </section>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                                data-dismiss="modal">Fermer
+                                                                        </button>
+
+                                                                        <input type="submit" value="Valider"
+                                                                               class="btn btn-success"/>
+
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="modal fade" tabindex="-1" id="modal-lg3"
+                                                         role="dialog" aria-labelledby="exampleModalLongTitle3"
+                                                         aria-hidden="true" th:attrappend="id=${person.id}">
+                                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle3">
+                                                                        Accident de travail</h5>
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Fermer">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+
+                                                                <form th:action="@{/AT/Ajouter/{id}(id=${person.id})}"  method="post">
+                                                                    <div class="modal-body">
+                                                                        <section class="content">
+                                                                            <div class="container-fluid">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <!-- About Me Box -->
+                                                                                        <div class="card card-primary">
+                                                                                            <!-- /.card-header -->
+                                                                                            <div class="card-body">
+                                                                                                <p>Veuillez remplir les champs ci-dessous:</p>
+                                                                                                <hr>
+
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Date et heure d'accident
+                                                                                                            :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <input type="datetime-local" class="form-control" name="dateAT"
+                                                                                                               required >
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Lieu d'accident
+                                                                                                            :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <select class="custom-select" name="placeAT" id="selectLieu" required>
+                                                                                                            <option value="">Choisir une option</option>
+                                                                                                            <option id="interieur" value="À l'intérieur du lieu de travail">À l'intérieur du lieu de travail</option>
+                                                                                                            <option id="mission" value="Dans le cadre d'une mission">Dans le cadre d'une mission </option>
+                                                                                                            <option id="distance" value="La distance aller-retour">La distance aller-retour</option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div id="chantierAT" style="display: none">
+                                                                                                    <div class="form-group row showcase_row_area" >
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Chantier
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <select class="custom-select" name="chantierAT">
+                                                                                                                <option value="">Choisir une option</option>
+                                                                                                                <option th:each="affaire : ${chantier}"
+                                                                                                                        th:id="${affaire.code}"
+                                                                                                                        th:value="${affaire.id}"
+                                                                                                                        th:text="${affaire.code+' '+affaire.designation}"
+                                                                                                                ></option>
+                                                                                                            </select>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <br>
+                                                                                                <div id="villeacc" style="display: none">
+                                                                                                    <div class="form-group row showcase_row_area" >
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Ville d'accident
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <select class="custom-select" name="villeAT" >
+                                                                                                                <option value="">Choisir une option</option>
+                                                                                                                <option th:each="ville : ${villes}"
+                                                                                                                        th:id="${ville.id}"
+                                                                                                                        th:value="${ville.id}"
+                                                                                                                        th:text="${ville.designation}"
+                                                                                                                ></option>
+                                                                                                            </select>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <br>
+                                                                                                <div id="addresseacc" style="display: none">
+                                                                                                    <div class="row showcase_row_area" >
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Adresse d'accident :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <input type="text" class="form-control" name="adresseAT">
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <br>
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Type de blessure
+                                                                                                            :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <select class="custom-select" name="typeBlessure" required>
+                                                                                                            <option value="">Choisir une option</option>
+                                                                                                            <option value="blessure légère">blessure légère</option>
+                                                                                                            <option value="blessure grave">blessure grave</option>
+                                                                                                            <option value="décès">décès</option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label></label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <div class="form-inline">
+                                                                                                            <div class="radio mb-6">
+                                                                                                                <label class="radio-label">
+                                                                                                                    <input type="radio" onclick="checkBless()"
+                                                                                                                           id="ArT"
+                                                                                                                           name="arretTravail" value="1">Avec arrêt du travail<i
+                                                                                                                        class="input-frame"></i>
+                                                                                                                </label>
+                                                                                                            </div>
+                                                                                                            <div class="radio mb-6">
+                                                                                                                <label class="radio-label">
+                                                                                                                    <input type="radio" onclick="checkBless()"
+                                                                                                                           id="sArT"
+                                                                                                                           name="arretTravail"  value="0"
+                                                                                                                    >Sans arrêt du travail<i
+                                                                                                                        class="input-frame"></i>
+                                                                                                                </label>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div id="avecAT" style="display: none">
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>N des jours
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <input type="number" class="form-control" name="joursArT" min="0" value="0">
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>De
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <input type="date" class="form-control" name="dateDebutArT">
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Jusqu'à
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <input type="date" class="form-control" name="dateFinArT">
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <br>
+                                                                                                <div class="row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Cause d'accident :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <textarea type="text" class="form-control" name="causeAT"
+                                                                                                                  required></textarea>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                        <!-- /.card-body -->
+                                                                                    </div>
+                                                                                    <!-- /.card -->
+                                                                                </div>
+                                                                                <!-- /.col -->
+                                                                            </div>
+                                                                            <!-- /.row -->
+
+                                                                        </section>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                                data-dismiss="modal">Fermer
+                                                                        </button>
+
+                                                                        <input type="submit" value="Valider"
+                                                                               class="btn btn-success"/>
+
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content viewport ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <!-- partial -->
+    </div>
+    <!-- page content ends -->
+</div>
+<script>
+    $(document).ready(function () {
+        $('#selectType').change(function () {
+            var exception = document.getElementById("exceptionnel");
+            var divException = document.getElementById("divException");
+
+            if (exception.selected){
+                divException.style.display="block";
+            }
+            if (!exception.selected){
+                divException.style.display="none";
+            }
+        })
+    })
+
+    function checkBless(){
+        var oui = document.getElementById("ArT");
+        var non = document.getElementById("sArT");
+        var container = document.getElementById("avecAT");
+
+        if (oui.checked){
+            container.style.display="block";
+        }
+        if (non.checked){
+            container.style.display="none";
+        }
+    }
+
+    $(document).ready(function () {
+        $('#selectLieu').change(function () {
+            var interieur = document.getElementById("interieur");
+            var mission = document.getElementById("mission");
+            var distance = document.getElementById("distance");
+
+            var addressDiv = document.getElementById("addresseacc");
+            var chantierDiv = document.getElementById("chantierAT");
+            var villeATDiv = document.getElementById("villeacc");
+
+            if (interieur.selected==true){
+                addressDiv.style.display="none";
+                villeATDiv.style.display="none";
+                chantierDiv.style.display="block";
+            }
+            if (mission.selected==true){
+                addressDiv.style.display="block";
+                villeATDiv.style.display="block";
+                chantierDiv.style.display="none";
+            }
+            if (distance.selected==true){
+                addressDiv.style.display="block";
+                villeATDiv.style.display="block";
+                chantierDiv.style.display="none";
+            }
+        })
+    });
+</script>
+
+</body>
+</html>

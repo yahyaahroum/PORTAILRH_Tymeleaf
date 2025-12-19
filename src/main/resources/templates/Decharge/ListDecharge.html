@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="fragments/layout :: head"/>
+<link rel="stylesheet" type="text/css"
+      th:href="@{https://www.virtuosoft.eu/code/bootstrap-duallistbox/bootstrap-duallistbox/v3.0.2/bootstrap-duallistbox.css}">
+<script th:src="@{https://www.virtuosoft.eu/code/bootstrap-duallistbox/bootstrap-duallistbox/v3.0.2/jquery.bootstrap-duallistbox.js}"></script>
+
+<style>
+    .autocomplete-suggestions {
+        border: 1px solid #999;
+        background: #FFF;
+        overflow: auto;
+    }
+
+    .autocomplete-suggestion {
+        padding: 2px 5px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .autocomplete-selected {
+        background: #F0F0F0;
+    }
+
+    .autocomplete-suggestions strong {
+        font-weight: normal;
+        color: #3399FF;
+    }
+
+    .autocomplete-group {
+        padding: 2px 5px;
+    }
+
+    .autocomplete-group strong {
+        display: block;
+        border-bottom: 1px solid #000;
+    }
+
+    .moveall,
+    .removeall {
+        border: 1px solid #ccc !important;
+    }
+
+    .moveall:hover {
+        background: #efefef;
+    }
+
+    .removeall:hover {
+        background: #efefef;
+    }
+
+    .moveall::after {
+        content: attr(title);
+    }
+
+    .removeall::after {
+        content: attr(title);
+    }
+
+    .form-control option {
+        padding: 10px;
+        border-bottom: 1px solid #efefef;
+    }
+
+    /* Style pour la recherche */
+    .search-container {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .search-active-indicator {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+    }
+</style>
+
+<body class="header-fixed">
+<!-- partial:../../partials/_header.html -->
+<nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+<!-- partial -->
+<div class="page-body">
+    <!-- partial:../../partials/_sidebar.html -->
+    <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+    <!-- partial -->
+    <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+            <div class="viewport-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb has-arrow">
+                        <li class="breadcrumb-item">
+                            <a href="#">Ajout et filtre des décharges</a>
+                        </li>
+                    </ol>
+                </nav>
+                <div class="alert-success">
+                    <p></p>
+                </div>
+            </div>
+            <div class="content-viewport">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <button class="btn btn-primary" data-target="#exampleModalCenterSimple" data-toggle="modal"
+                                    id="ajout">
+                                Ajouter
+                            </button>
+
+                            <!-- Conteneur pour filtre et recherche -->
+                            <!-- Recherche à gauche / Filtre statut à droite -->
+                            <div class="row mt-3 align-items-center">
+                                <!-- Recherche -->
+                                <div class="col-12 col-md-6">
+                                    <div class="d-flex align-items-center">
+                                        <label class="me-2 mb-0">Rechercher :</label>
+                                        <form method="get" th:action="@{/Decharge/Liste}" class="d-flex">
+                                            <input type="text"
+                                                   class="form-control form-control-sm me-2"
+                                                   name="search"
+                                                   th:value="${search}"
+                                                   placeholder="Nom, chantier, matériel..."
+                                                   style="max-width: 200px;">
+                                            <input type="hidden" name="statut" th:value="${statut}">
+                                            <input type="hidden" name="size" th:value="${dechargeList.size}">
+                                            <input type="hidden" name="page" value="1">
+                                            <button type="submit"   class="btn btn-dark btn-sm py-0 px-1 me-1 "
+                                                    style="font-size: 0.7rem; height: 30px;width: 50px">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                            <a th:href="@{/Decharge/Liste(statut=${statut})}"
+                                               class="btn btn-dark btn-sm py-0 px-1 ms-2"
+                                               style="font-size: 0.7rem; height: 30px; width: 50px;"
+                                               title="Effacer la recherche">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <!-- Filtre statut, aligné à droite -->
+                                <div class="col-12 col-md-6">
+                                    <div class="d-flex align-items-center justify-content-md-end mt-2 mt-md-0">
+                                        <label class="mb-0 me-2">Filtrer par état :</label>
+
+                                        <div class="dropdown">
+                                            <a class="btn btn-sm btn-dark dropdown-toggle"
+                                               href="#"
+                                               role="button"
+                                               id="dropdownMenuLink"
+                                               data-toggle="dropdown" aria-haspopup="true"
+                                               aria-expanded="false">
+                                                Choisir une option
+                                            </a>
+
+                                            <!-- Menu aligné à droite -->
+                                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item"
+                                                   th:href="@{/Decharge/Liste(statut=${'All'}, search=${search})}">Toutes</a>
+                                                <a class="dropdown-item"
+                                                   th:href="@{/Decharge/Liste(statut=${'BROUILLON'}, search=${search})}">BROUILLON</a>
+                                                <a class="dropdown-item"
+                                                   th:href="@{/Decharge/Liste(statut=${'IMPRIMEE'}, search=${search})}">IMPRIMEE</a>
+                                                <a class="dropdown-item"
+                                                   th:href="@{/Decharge/Liste(statut=${'SIGNEE'}, search=${search})}">SIGNEE</a>
+                                                <a class="dropdown-item"
+                                                   th:href="@{/Decharge/Liste(statut=${'ANNULEE'}, search=${search})}">ANNULEE</a>
+                                                <a class="dropdown-item"
+                                                   th:href="@{/Decharge/Liste(statut=${'LIBEREE'}, search=${search})}">LIBEREE</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Indicateur de recherche active -->
+                            <div th:if="${!#strings.isEmpty(search)}" class="alert alert-info alert-dismissible fade show mt-3 search-active-indicator">
+                                <strong>Recherche active :</strong> "<span th:text="${search}"></span>"
+                                <span th:text="' (' + ${dechargeList.totalElements} + ' résultat(s) trouvé(s))'"></span>
+                                <a th:href="@{/Decharge/Liste(statut=${statut})}" class="btn btn-sm btn-outline-primary ms-2">
+                                    Effacer la recherche
+                                </a>
+                            </div>
+
+                            <!-- Modal d'ajout -->
+                            <div class="modal fade" id="exampleModalCenterSimple" tabindex="-1"
+                                 role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <form id="formSubmit">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitleSimple">
+                                                    Ajouter une décharge</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="content-viewport">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="grid">
+                                                                <p class="grid-header">Choisir l'employé</p>
+                                                                <div class="grid-body">
+                                                                    <div class="item-wrapper">
+                                                                        <div class="row">
+                                                                            <div class="col-md-8 mx-auto">
+                                                                                <div class="row showcase_row_area">
+                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                        <label>Individu :</label>
+                                                                                    </div>
+                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                        <select class="IndividuSelect"
+                                                                                                id="IndividuSelect"
+                                                                                                name="individu"
+                                                                                                style="width: 100%"
+                                                                                                required>
+                                                                                            <option value="" selected disabled>Choisir un employé</option>
+                                                                                            <option th:each="emp : ${emps}"
+                                                                                                    th:id="${emp.individu}"
+                                                                                                    th:value="${emp.id}"
+                                                                                                    th:text="${emp.individu +' '+emp.nom.trim()+' '+emp.prenom.trim()}">
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row showcase_row_area">
+                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                        <label>Chantier :</label>
+                                                                                    </div>
+                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                        <select class="custom-select"
+                                                                                                id="AffaireSelect"
+                                                                                                name="chantier"
+                                                                                                style="width: 100%"
+                                                                                                required>
+                                                                                            <option value="" selected disabled>Choisir un chantier</option>
+                                                                                            <option th:each="chantier : ${chantiers}"
+                                                                                                    th:id="${chantier.code}"
+                                                                                                    th:value="${chantier.id}"
+                                                                                                    th:text="${chantier.code.trim() +' '+chantier.designation.trim()}">
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row showcase_row_area">
+                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                        <label>Date :</label>
+                                                                                    </div>
+                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                        <div class="custom-file">
+                                                                                            <input type="date"
+                                                                                                   name="dateDecharge"
+                                                                                                   id="dateDecharge"
+                                                                                                   class="form-control"
+                                                                                                   required>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="grid">
+                                                                <p class="grid-header">Matériel et Quantité</p>
+                                                                <div class="grid-body">
+                                                                    <div class="item-wrapper">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12" id="divAppend">
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-3">
+                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                            <label>Type</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                            <select class="custom-select"
+                                                                                                    name="materiel"
+                                                                                                    required>
+                                                                                                <option selected disabled value="">
+                                                                                                    Choisir le type de matériel
+                                                                                                </option>
+                                                                                                <option th:each="materiel : ${materielList}"
+                                                                                                        th:id="${materiel.type}"
+                                                                                                        th:value="${materiel.id}"
+                                                                                                        th:text="${materiel.type}"></option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-3">
+                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                            <label>Marque</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                            <div class="custom-file">
+                                                                                                <input type="text"
+                                                                                                       name="marque"
+                                                                                                       id="marque"
+                                                                                                       class="form-control"
+                                                                                                       required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-3">
+                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                            <label>Modèle</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                            <div class="custom-file">
+                                                                                                <input type="text"
+                                                                                                       name="modele"
+                                                                                                       id="modele"
+                                                                                                       class="form-control"
+                                                                                                       required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-3">
+                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                            <label>Quantité</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                            <div class="custom-file">
+                                                                                                <input type="number"
+                                                                                                       name="quantite"
+                                                                                                       class="form-control"
+                                                                                                       min="1"
+                                                                                                       required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <br>
+                                                                            </div>
+                                                                            <div class="col-lg-12" id="addLine">
+                                                                                <a type="button" class="float-right"
+                                                                                   onclick="addinputs()">
+                                                                                    <i class="fa fa-plus"></i>
+                                                                                    ajouter une ligne
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light"
+                                                        data-dismiss="modal">fermer
+                                                </button>
+                                                <button type="submit" class="btn btn-primary" id="ajoutPointageSimple">
+                                                    Ajouter
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="grid">
+                                    <p class="grid-header">Liste des décharges</p>
+                                    <div class="item-wrapper">
+                                        <div class="table-responsive" style="height: 700px;">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Date</th>
+                                                    <th>Individu</th>
+                                                    <th>Chantier</th>
+                                                    <th>Matériel</th>
+                                                    <th>Statut</th>
+                                                    <th>----</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:if="${dechargeList.isEmpty()}">
+                                                    <td class="text-lg-center" colspan="7"><strong
+                                                            th:text="${'Aucune décharge trouvée'}"></strong></td>
+                                                </tr>
+                                                <tr th:each="decharge : ${dechargeList}">
+                                                    <td><a><i class="fa fa-folder"></i></a></td>
+                                                    <td th:text="${#dates.format(decharge.dateDecharge,'dd-MM-yyyy')}"></td>
+                                                    <td>
+                                                        <a th:href="@{/Decharge/generer/{id}(id=${decharge.id})}"
+                                                           th:text="${decharge.individu.nom.trim()+' '+decharge.individu.prenom.trim()}"
+                                                           target="_blank"></a>
+                                                    </td>
+                                                    <td th:title="${decharge.chantier.designation.trim()}"
+                                                        th:text="${decharge.chantier.code.trim()}"></td>
+                                                    <td>
+                                                        <li th:each="materiel : ${decharge.dechargeDetList}"
+                                                            th:text="${#strings.abbreviate(''+materiel.quantite+ ' - '+ materiel.materiel.type+' '+materiel.marque+' '+materiel.model,50)}"></li>
+                                                    </td>
+                                                    <td th:text="${decharge.statut}"></td>
+                                                    <td>
+                                                        <div sec:authorize="hasAnyAuthority('admin','Tech')">
+                                                            <div class="dropdown show">
+                                                                <a class="btn btn-xs btn-dark dropdown-toggle"
+                                                                   href="#"
+                                                                   role="button"
+                                                                   th:id="${'dropdownMenuLink'+decharge.id}"
+                                                                   data-toggle="dropdown" aria-haspopup="true"
+                                                                   aria-expanded="false">
+                                                                    Action
+                                                                </a>
+
+                                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                                    <a type="button" class="dropdown-item"
+                                                                       data-target="#cancelModal"
+                                                                       data-toggle="modal"
+                                                                       th:attrappend="data-target=${decharge.id}">Annuler</a>
+                                                                    <a type="button" class="dropdown-item"
+                                                                       data-target="#SignerModal" data-toggle="modal"
+                                                                       th:hidden="${!decharge.statut.equals('IMPRIMEE')}"
+                                                                       th:attrappend="data-target=${decharge.id}">Signer</a>
+                                                                    <a type="button" class="dropdown-item"
+                                                                       data-target="#libererModal" data-toggle="modal"
+                                                                       th:hidden="${!decharge.statut.equals('SIGNEE')}"
+                                                                       th:attrappend="data-target=${decharge.id}">Libérer</a>
+                                                                </div>
+
+                                                                <!-- Modal Annuler -->
+                                                                <div class="modal fade" id="cancelModal"
+                                                                     tabindex="-1"
+                                                                     th:attrappend="id=${decharge.id}"
+                                                                     role="dialog">
+                                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                        <div class="modal-content">
+                                                                            <form th:action="@{/Decharge/Annuler/{id}(id=${decharge.id})}" method="get">
+                                                                                <input type="hidden" name="statut" th:value="${statut}">
+                                                                                <input type="hidden" name="search" th:value="${search}">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title">Annuler le décharge</h5>
+                                                                                    <button type="button" class="close" data-dismiss="modal">
+                                                                                        <span aria-hidden="true">&times;</span>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <p>Voulez vous annuler le decharge de <br>
+                                                                                        <strong th:text="${decharge.individu.nom + ' ' +decharge.individu.prenom}"></strong>
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                                        Fermer
+                                                                                    </button>
+                                                                                    <input type="submit" class="btn btn-danger" value="Annuler"/>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Modal Libérer -->
+                                                                <div class="modal fade" id="libererModal"
+                                                                     tabindex="-1"
+                                                                     th:attrappend="id=${decharge.id}"
+                                                                     role="dialog">
+                                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                        <div class="modal-content">
+                                                                            <form th:action="@{/Decharge/liberer/{id}(id=${decharge.id})}" method="get">
+                                                                                <input type="hidden" name="statut" th:value="${statut}">
+                                                                                <input type="hidden" name="search" th:value="${search}">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title">décharge à Libérer</h5>
+                                                                                    <button type="button" class="close" data-dismiss="modal">
+                                                                                        <span aria-hidden="true">&times;</span>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <p>Voulez vous Libérer le decharge de <br>
+                                                                                        <strong th:text="${decharge.individu.nom + ' ' +decharge.individu.prenom}"></strong>
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                                        Fermer
+                                                                                    </button>
+                                                                                    <input type="submit" class="btn btn-danger" value="liberer"/>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Modal Signer -->
+                                                                <div class="modal fade" id="SignerModal"
+                                                                     tabindex="-1"
+                                                                     th:attrappend="id=${decharge.id}"
+                                                                     role="dialog">
+                                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                        <div class="modal-content">
+                                                                            <form th:action="@{/Decharge/Signer/{id}(id=${decharge.id})}" method="post" enctype="multipart/form-data">
+                                                                                <input type="hidden" name="statut" th:value="${statut}">
+                                                                                <input type="hidden" name="search" th:value="${search}">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title">décharge à Signer</h5>
+                                                                                    <button type="button" class="close" data-dismiss="modal">
+                                                                                        <span aria-hidden="true">&times;</span>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <p>Voulez vous Déposer le decharge signée de <br>
+                                                                                        <strong th:text="${decharge.individu.nom + ' ' +decharge.individu.prenom}"></strong>
+                                                                                    </p>
+                                                                                    <hr>
+                                                                                    <div class="col-sm-12">
+                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                            <label>Fichier :</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                            <div class="custom-file">
+                                                                                                <input type="file"
+                                                                                                       name="file" accept="application/pdf"
+                                                                                                       class="form-control"
+                                                                                                       required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                                        Fermer
+                                                                                    </button>
+                                                                                    <input type="submit" class="btn btn-danger" value="Signer"/>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div th:if="${!#lists.isEmpty(dechargeList)}" class="fc-footer-toolbar text-center mt-4">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                            <!-- Sélecteur d'éléments par page -->
+                            <div class="d-flex align-items-center mb-2 me-3">
+                                <label for="pageSize" class="form-label me-2 mb-0">Éléments par page :</label>
+                                <select id="pageSize" class="form-select form-select-sm" style="width: auto;"
+                                        onchange="changePageSize(this.value)">
+                                    <option value="10" th:selected="${dechargeList.size == 10}">10</option>
+                                    <option value="30" th:selected="${dechargeList.size == 30}">30</option>
+                                    <option value="50" th:selected="${dechargeList.size == 50}">50</option>
+                                    <option value="100" th:selected="${dechargeList.size == 100}">100</option>
+                                </select>
+                            </div>
+
+                            <!-- Pagination -->
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-center flex-wrap mb-0">
+                                    <!-- Première -->
+                                    <li class="page-item" th:classappend="${dechargeList.first} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{/Decharge/Liste(statut=${statut}, size=${dechargeList.size}, page=1, search=${search})}">&laquo;</a>
+                                    </li>
+
+                                    <!-- Précédente -->
+                                    <li class="page-item" th:classappend="${dechargeList.first} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{/Decharge/Liste(statut=${statut}, size=${dechargeList.size}, page=${dechargeList.number}, search=${search})}">&#8249;</a>
+                                    </li>
+
+                                    <!-- Numéros -->
+                                    <li class="page-item"
+                                        th:each="pageNumber : ${pageNumbers}"
+                                        th:classappend="${pageNumber == dechargeList.number + 1} ? 'active'">
+                                        <a class="page-link"
+                                           th:href="@{/Decharge/Liste(statut=${statut}, size=${dechargeList.size}, page=${pageNumber}, search=${search})}"
+                                           th:text="${pageNumber}"></a>
+                                    </li>
+
+                                    <!-- Suivante -->
+                                    <li class="page-item" th:classappend="${dechargeList.last} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{/Decharge/Liste(statut=${statut}, size=${dechargeList.size}, page=${dechargeList.number + 2}, search=${search})}">&#8250;</a>
+                                    </li>
+
+                                    <!-- Dernière -->
+                                    <li class="page-item" th:classappend="${dechargeList.last} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{/Decharge/Liste(statut=${statut}, size=${dechargeList.size}, page=${dechargeList.totalPages}, search=${search})}">&raquo;</a>
+                                    </li>
+                                </ul>
+                            </nav>
+
+                            <!-- Informations sur les éléments affichés -->
+                            <div class="text-muted mb-2 me-3">
+                                <small>
+                                    Affichage de <span th:text="${(dechargeList.number * dechargeList.size) + 1}">1</span>
+                                    à <span th:text="${(dechargeList.number + 1) * dechargeList.size > dechargeList.totalElements ? dechargeList.totalElements : (dechargeList.number + 1) * dechargeList.size}">30</span>
+                                    sur <span th:text="${dechargeList.totalElements}">100</span> éléments
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    $(document).ready(function () {
+        $('.IndividuSelect').select2({
+            width: 'resolve',
+            dropdownParent: $("#exampleModalCenterSimple")
+        });
+        $('#AffaireSelect').select2({
+            width: 'resolve',
+            dropdownParent: $("#exampleModalCenterSimple")
+        });
+
+        // Définir le context path une seule fois
+        window.contextPath = /*[[@{/}]]*/ '';
+        console.log('Context path défini:', window.contextPath);
+    });
+
+    function addinputs() {
+        let materiel = document.getElementsByName("materiel");
+        $('#divAppend').append(' <div class="row">\n' +
+            '<div class="col-sm-3">\n' +
+            '   <div class="col-md-3 showcase_text_area">\n' +
+            '       <label>Type</label>\n' +
+            '   </div>\n' +
+            '   <div class="col-md-9 showcase_content_area">\n' +
+            '       <select class="custom-select" name="materiel" id="materiel' + materiel.length + '" required>\n' +
+            '           <option value="">Choisir le type de matériel</option>\n' +
+            '       </select>\n' +
+            '   </div>\n' +
+            '</div>\n' +
+            '<div class="col-sm-3">\n' +
+            '   <div class="col-md-3 showcase_text_area">\n' +
+            '       <label>Marque</label>\n' +
+            '   </div>\n' +
+            '   <div class="col-md-9 showcase_content_area">\n' +
+            '       <div class="custom-file">\n' +
+            '           <input type="text" name="marque" class="form-control" required>\n' +
+            '       </div>\n' +
+            '   </div>\n' +
+            '</div>\n' +
+            '<div class="col-sm-3">\n' +
+            '   <div class="col-md-3 showcase_text_area">\n' +
+            '       <label>Modèle</label>\n' +
+            '   </div>\n' +
+            '   <div class="col-md-9 showcase_content_area">\n' +
+            '       <div class="custom-file">\n' +
+            '           <input type="text" name="modele" class="form-control" required>\n' +
+            '       </div>\n' +
+            '   </div>\n' +
+            '</div>' +
+            '<div class="col-sm-3">\n' +
+            '   <div class="col-md-3 showcase_text_area">\n' +
+            '       <label>Quantité</label>\n' +
+            '   </div>\n' +
+            '   <div class="col-md-9 showcase_content_area">\n' +
+            '       <div class="custom-file">\n' +
+            '           <input type="number" name="quantite" class="form-control" min="1" required>\n' +
+            '       </div>\n' +
+            '   </div>\n' +
+            '</div>' +
+            '</div><br>');
+        loadMaterielOptions();
+    }
+
+    $('#formSubmit').on('submit', function (e) {
+        e.preventDefault();
+
+        var dechargeDetList = [];
+        var decharge = {};
+
+        // Récupérer tous les éléments
+        let materiel = document.getElementsByName("materiel");
+        let quantite = document.getElementsByName("quantite");
+        let modele = document.getElementsByName("modele");
+        let marque = document.getElementsByName("marque");
+
+        // Validation de base
+        var individu = parseInt($('#IndividuSelect').val());
+        var chantier = parseInt($('#AffaireSelect').val());
+        var dateDecharge = $('#dateDecharge').val();
+
+        if (!individu || isNaN(individu) || !chantier || isNaN(chantier) || !dateDecharge) {
+            alert('Veuillez remplir tous les champs obligatoires');
+            return;
+        }
+
+        if (materiel.length === 0) {
+            alert('Veuillez ajouter au moins un matériel');
+            return;
+        }
+
+        // Construire la liste des détails
+        for (let i = 0; i < materiel.length; i++) {
+            if (!materiel[i].value || !quantite[i].value || !modele[i].value || !marque[i].value) {
+                alert('Veuillez remplir tous les champs pour chaque matériel');
+                return;
+            }
+
+            var dechargeDet = {
+                quantite: parseInt(quantite[i].value),
+                materiel: parseInt(materiel[i].value),
+                model: modele[i].value.trim(),
+                marque: marque[i].value.trim()
+            };
+            dechargeDetList.push(dechargeDet);
+        }
+
+        // Construire l'objet principal
+        decharge = {
+            individu: individu,
+            chantier: chantier,
+            dateDecharge: dateDecharge,
+            dechargeDetList: dechargeDetList
+        };
+
+        console.log('Données à envoyer:', JSON.stringify(decharge, null, 2));
+
+        // Désactiver le bouton pendant l'envoi
+        $('#ajoutPointageSimple').prop('disabled', true).text('Ajout en cours...');
+
+        // Envoyer les données avec URL cohérente
+        $.ajax({
+            url: window.contextPath + 'Decharge/save',
+            method: 'POST',
+            data: JSON.stringify(decharge),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log('Succès:', data);
+                alert('Décharge ajoutée avec succès !');
+                $('#exampleModalCenterSimple').modal('hide');
+                // Recharger la page pour voir la nouvelle décharge
+                window.location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.error('Erreur complète:', {
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    responseText: xhr.responseText,
+                    error: error
+                });
+
+                let errorMessage = 'Erreur lors de l\'ajout';
+                if (xhr.status === 404) {
+                    errorMessage = 'URL non trouvée. Vérifiez la configuration du serveur.';
+                } else if (xhr.status === 500) {
+                    errorMessage = 'Erreur serveur. Vérifiez les données envoyées.';
+                } else if (xhr.responseText) {
+                    try {
+                        let errorData = JSON.parse(xhr.responseText);
+                        errorMessage = errorData.message || errorData.error || xhr.responseText;
+                    } catch (e) {
+                        errorMessage = xhr.responseText.substring(0, 200) + '...';
+                    }
+                }
+
+                alert(errorMessage);
+            },
+            complete: function() {
+                $('#ajoutPointageSimple').prop('disabled', false).text('Ajouter');
+            }
+        });
+    });
+
+    function loadMaterielOptions() {
+        let chantier = document.getElementsByName("materiel");
+
+        $.ajax({
+            url: window.contextPath + 'Decharge/Materiel/All',
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log('Matériels récupérés:', data);
+                var selectChantier = $('#materiel' + (chantier.length - 1));
+                $(data).each(function (index, element) {
+                    selectChantier.append('<option value="' + element.id + '">' + element.type + '</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Erreur lors du chargement des matériels:', {
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    responseText: xhr.responseText,
+                    error: error
+                });
+                alert('Erreur lors du chargement des matériels. Vérifiez la configuration du serveur.');
+            }
+        });
+    }
+
+    function changePageSize(newSize) {
+        var currentStatut = /*[[${statut}]]*/ 'All';
+        var currentSearch = /*[[${search}]]*/ '';
+
+        var url = window.contextPath + 'Decharge/Liste?statut=' + encodeURIComponent(currentStatut) +
+            '&size=' + newSize +
+            '&page=1' +
+            '&search=' + encodeURIComponent(currentSearch);
+
+        window.location.href = url;
+    }
+</script>
+
+</body>
+</html>

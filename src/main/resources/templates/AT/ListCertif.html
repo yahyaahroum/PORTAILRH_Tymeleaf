@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"/>
+  <body class="header-fixed">
+    <!-- partial:../../partials/_header.html -->
+    <nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+    <!-- partial -->
+    <div class="page-body">
+      <!-- partial:../../partials/_sidebar.html -->
+      <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+      <!-- partial -->
+      <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+          <div class="viewport-header">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb has-arrow">
+                <li class="breadcrumb-item">
+                  <a href="#">Liste des Certificats</a>
+                </li>
+              </ol>
+            </nav>
+            <div >
+              <strong th:text="${'Liste des Certificats pour  :'+person.nom.toUpperCase()+' '+person.prenom.toUpperCase()}"></strong>
+              <br><br>
+            </div>
+          </div>
+          <div class="content-viewport">
+            <div class="row">
+              <div class="col-lg-10">
+                <div class="grid">
+                  <div class="item-wrapper">
+                    <div class="table-responsive" >
+                      <table id="myTable" class="table table-hover">
+                        <thead>
+                        <tr>
+                          <th>Type Certificat</th>
+                          <th>Designation certificat</th>
+                          <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${files.isEmpty()}">
+                          <td class="text-lg-center" colspan="3"><strong
+                                  th:text="${'Aucune certificat déposée'}"></strong></td>
+                        </tr>
+                        <tr th:if="${!files.isEmpty()}" th:each="file : ${files}">
+                          <td  th:text="${file.typeCertif}"></td>
+                          <td  th:text="${file.nameCertificat}"></td>
+                          <td>
+                            <a type="button" class="btn-sm btn-light" title="Télécharger"
+                               th:href="@{'/Certificat/'+${at.id}+'/'+${file.nameCertificat}}">
+                              <i class="fas fa-download"></i>
+                            </a>
+                          </td>
+
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- page content ends -->
+    </div>
+  </body>
+</html>

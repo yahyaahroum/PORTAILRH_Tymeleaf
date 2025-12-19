@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title></title>
+</head>
+<body class="header-fixed">
+<!-- partial:../../partials/_header.html -->
+<nav class="t-header" th:fragment="navbar">
+    <div class="t-header-brand-wrapper">
+        <a th:href="@{/Acceuil}">
+            <img class="logo" style="width: 150px" th:src="@{/images/riche_bois.png}" >
+            <img class="logo-mini" style="width: 150px" th:src="@{/images/riche_bois.png}" >
+        </a>
+    </div>
+    <div class="t-header-content-wrapper">
+        <div class="t-header-content">
+            <button class="t-header-toggler t-header-mobile-toggler d-block d-lg-none">
+                <i class="mdi mdi-menu"></i>
+            </button>
+            <form th:action="@{/Recherche}" class="t-header-search-box">
+                <div class="input-group">
+
+                    <input type="text" name="key" th:value="${key}" class="form-control"
+                           id="inlineFormInputGroup" placeholder="Rechercher"
+                           autocomplete="off" required onkeyup="this.value = this.value.toUpperCase();"/>
+                    <input class="btn btn-primary btn-xs" value="rechercher" type="submit"/>
+
+                </div>
+            </form>
+            <ul class="nav ml-auto">
+                <li class="nav-item dropdown">
+                    <form th:action="@{/logout}" method="get">
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-log-out"></span> se déconnecter
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- partial -->
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"/>
+  <body class="header-fixed">
+    <!-- partial:../../partials/_header.html -->
+    <nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+    <!-- partial -->
+    <div class="page-body">
+      <!-- partial:../../partials/_sidebar.html -->
+      <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+      <!-- partial -->
+      <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+          <div class="viewport-header">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb has-arrow">
+                <li class="breadcrumb-item">
+                  <a href="#">Liste des Erreurs</a>
+                </li>
+              </ol>
+            </nav>
+            <div class="alert-danger" th:if="${errorImport}">
+              <p th:text="${errorImport}"></p>
+            </div>
+          </div>
+          <div class="content-viewport">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="grid">
+                  <p class="grid-header">Table des erreurs</p>
+                  <div class="item-wrapper">
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th>Id</th>
+                            <th>Erreur</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="error : ${errorMessages}">
+                              <td th:text="${error.id}"></td>
+                              <td th:text="${error.message}"></td>
+                            </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- page content ends -->
+    </div>
+  </body>
+</html>

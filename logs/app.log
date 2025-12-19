@@ -1,0 +1,505 @@
+2025-04-05 00:07:01.928  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : Starting GestionInterpApplication using Java 11.0.25 on INF0003 with PID 32604 (G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main\target\classes started by a.yahya in G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main)
+2025-04-05 00:07:01.933  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : The following profiles are active: prod
+2025-04-05 00:07:02.433  INFO 32604 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-05 00:07:02.583  INFO 32604 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 148 ms. Found 31 JPA repository interfaces.
+2025-04-05 00:07:02.772  INFO 32604 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@399b2f85' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-04-05 00:07:02.775  INFO 32604 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-04-05 00:07:03.095  INFO 32604 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8083 (http)
+2025-04-05 00:07:03.097  INFO 32604 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-05 00:07:03.098  INFO 32604 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.46]
+2025-04-05 00:07:03.161  INFO 32604 --- [restartedMain] o.a.c.c.C.[.[.[/PortailRH-BETA]          : Initializing Spring embedded WebApplicationContext
+2025-04-05 00:07:03.161  INFO 32604 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1218 ms
+2025-04-05 00:07:03.345  INFO 32604 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-05 00:07:03.361  INFO 32604 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
+2025-04-05 00:07:03.437  INFO 32604 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
+2025-04-05 00:07:03.437  INFO 32604 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.SQLServer2012Dialect
+2025-04-05 00:07:06.103  INFO 32604 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-04-05 00:07:06.103  INFO 32604 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-05 00:07:07.939  WARN 32604 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-04-05 00:07:08.055  INFO 32604 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@553a1608, org.springframework.security.web.context.SecurityContextPersistenceFilter@72ee7d75, org.springframework.security.web.header.HeaderWriterFilter@752ccbf7, org.springframework.security.web.authentication.logout.LogoutFilter@4e3ae0bd, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@4a8c8fec, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4ce717c5, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@786ddd06, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7e3954d3, org.springframework.security.web.session.SessionManagementFilter@1b8ab71b, org.springframework.security.web.access.ExceptionTranslationFilter@6faa33ae, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7eb45db1]
+2025-04-05 00:07:08.207 DEBUG 32604 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-04-05 00:07:08.243 DEBUG 32604 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 131 mappings in 'requestMappingHandlerMapping'
+2025-04-05 00:07:08.304 DEBUG 32604 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-04-05 00:07:08.327 DEBUG 32604 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-04-05 00:07:08.566  INFO 32604 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-04-05 00:07:08.625  INFO 32604 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8083 (http) with context path '/PortailRH-BETA'
+2025-04-05 00:07:08.634  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : Started GestionInterpApplication in 6.808 seconds (JVM running for 840.111)
+2025-04-05 00:07:08.637  INFO 32604 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-04-05 00:07:16.830  INFO 32604 --- [Thread-30] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-05 00:07:16.833  INFO 32604 --- [Thread-30] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
+2025-04-05 00:07:16.843  INFO 32604 --- [Thread-30] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
+2025-04-05 00:07:16.984  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : Starting GestionInterpApplication using Java 11.0.25 on INF0003 with PID 32604 (G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main\target\classes started by a.yahya in G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main)
+2025-04-05 00:07:16.984  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : The following profiles are active: prod
+2025-04-05 00:07:16.990  WARN 32604 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [ma.richebois.gestioninterp.GestionInterpApplication]; nested exception is java.io.FileNotFoundException: class path resource [ma/richebois/gestioninterp/GestionInterpApplication.class] cannot be opened because it does not exist
+2025-04-05 00:07:16.995 ERROR 32604 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [ma.richebois.gestioninterp.GestionInterpApplication]; nested exception is java.io.FileNotFoundException: class path resource [ma/richebois/gestioninterp/GestionInterpApplication.class] cannot be opened because it does not exist
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:189) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:331) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:247) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:311) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:112) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:746) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:564) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:145) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:434) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:338) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1332) ~[spring-boot-2.5.1.jar:2.5.1]
+	at ma.richebois.gestioninterp.GestionInterpApplication.main(GestionInterpApplication.java:33) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) ~[spring-boot-devtools-2.5.1.jar:2.5.1]
+Caused by: java.io.FileNotFoundException: class path resource [ma/richebois/gestioninterp/GestionInterpApplication.class] cannot be opened because it does not exist
+	at org.springframework.core.io.ClassPathResource.getInputStream(ClassPathResource.java:187) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.core.type.classreading.SimpleMetadataReader.getClassReader(SimpleMetadataReader.java:55) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.core.type.classreading.SimpleMetadataReader.<init>(SimpleMetadataReader.java:49) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:103) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.boot.type.classreading.ConcurrentReferenceCachingMetadataReaderFactory.createMetadataReader(ConcurrentReferenceCachingMetadataReaderFactory.java:86) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.type.classreading.ConcurrentReferenceCachingMetadataReaderFactory.getMetadataReader(ConcurrentReferenceCachingMetadataReaderFactory.java:73) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:81) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.asSourceClass(ConfigurationClassParser.java:696) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.asSourceClass(ConfigurationClassParser.java:665) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.asSourceClass(ConfigurationClassParser.java:643) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:248) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:207) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:175) ~[spring-context-5.3.8.jar:5.3.8]
+	... 18 common frames omitted
+
+2025-04-05 00:07:24.039  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : Starting GestionInterpApplication using Java 11.0.25 on INF0003 with PID 32604 (G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main\target\classes started by a.yahya in G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main)
+2025-04-05 00:07:24.039  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : The following profiles are active: prod
+2025-04-05 00:07:24.050  WARN 32604 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [ma.richebois.gestioninterp.GestionInterpApplication]; nested exception is java.io.FileNotFoundException: class path resource [ma/richebois/gestioninterp/GestionInterpApplication.class] cannot be opened because it does not exist
+2025-04-05 00:07:24.056 ERROR 32604 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [ma.richebois.gestioninterp.GestionInterpApplication]; nested exception is java.io.FileNotFoundException: class path resource [ma/richebois/gestioninterp/GestionInterpApplication.class] cannot be opened because it does not exist
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:189) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:331) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:247) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:311) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:112) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:746) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:564) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:145) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:434) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:338) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1332) ~[spring-boot-2.5.1.jar:2.5.1]
+	at ma.richebois.gestioninterp.GestionInterpApplication.main(GestionInterpApplication.java:33) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) ~[spring-boot-devtools-2.5.1.jar:2.5.1]
+Caused by: java.io.FileNotFoundException: class path resource [ma/richebois/gestioninterp/GestionInterpApplication.class] cannot be opened because it does not exist
+	at org.springframework.core.io.ClassPathResource.getInputStream(ClassPathResource.java:187) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.core.type.classreading.SimpleMetadataReader.getClassReader(SimpleMetadataReader.java:55) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.core.type.classreading.SimpleMetadataReader.<init>(SimpleMetadataReader.java:49) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:103) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.boot.type.classreading.ConcurrentReferenceCachingMetadataReaderFactory.createMetadataReader(ConcurrentReferenceCachingMetadataReaderFactory.java:86) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.type.classreading.ConcurrentReferenceCachingMetadataReaderFactory.getMetadataReader(ConcurrentReferenceCachingMetadataReaderFactory.java:73) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:81) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.asSourceClass(ConfigurationClassParser.java:696) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.asSourceClass(ConfigurationClassParser.java:665) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.asSourceClass(ConfigurationClassParser.java:643) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:248) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:207) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:175) ~[spring-context-5.3.8.jar:5.3.8]
+	... 18 common frames omitted
+
+2025-04-05 00:07:34.007  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : Starting GestionInterpApplication using Java 11.0.25 on INF0003 with PID 32604 (G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main\target\classes started by a.yahya in G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main)
+2025-04-05 00:07:34.008  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : The following profiles are active: prod
+2025-04-05 00:07:35.570  INFO 32604 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-05 00:07:35.700  INFO 32604 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 129 ms. Found 31 JPA repository interfaces.
+2025-04-05 00:07:35.833  INFO 32604 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@5a301756' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-04-05 00:07:35.836  INFO 32604 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-04-05 00:07:35.937  INFO 32604 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8083 (http)
+2025-04-05 00:07:35.938  INFO 32604 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-05 00:07:35.939  INFO 32604 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.46]
+2025-04-05 00:07:35.990  INFO 32604 --- [restartedMain] o.a.c.c.C.[.[.[/PortailRH-BETA]          : Initializing Spring embedded WebApplicationContext
+2025-04-05 00:07:35.990  INFO 32604 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1965 ms
+2025-04-05 00:07:36.231  INFO 32604 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-05 00:07:36.241  INFO 32604 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
+2025-04-05 00:07:36.339  INFO 32604 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
+2025-04-05 00:07:36.339  INFO 32604 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.SQLServer2012Dialect
+2025-04-05 00:07:38.459  INFO 25612 --- [main] m.r.g.GestionInterpApplicationTests      : Starting GestionInterpApplicationTests using Java 1.8.0_391 on INF0003 with PID 25612 (started by a.yahya in G:\Projets_RicheBois\Applications_Deploy�s\PORTAILRH-main)
+2025-04-05 00:07:38.461  INFO 25612 --- [main] m.r.g.GestionInterpApplicationTests      : The following profiles are active: prod
+2025-04-05 00:07:38.591 DEBUG 25612 --- [main] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@70ab2d48
+2025-04-05 00:07:39.279  INFO 32604 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-04-05 00:07:39.279  INFO 32604 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-05 00:07:40.332  INFO 25612 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-05 00:07:40.679  INFO 25612 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 330 ms. Found 31 JPA repository interfaces.
+2025-04-05 00:07:41.386  WARN 32604 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-04-05 00:07:41.493  INFO 32604 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3ad129c2, org.springframework.security.web.context.SecurityContextPersistenceFilter@7184393, org.springframework.security.web.header.HeaderWriterFilter@1a07c12f, org.springframework.security.web.authentication.logout.LogoutFilter@1f9a351c, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@ec133fa, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@497da5bd, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2c29413e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@68313517, org.springframework.security.web.session.SessionManagementFilter@32cb10c1, org.springframework.security.web.access.ExceptionTranslationFilter@54c35d10, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1f8a8830]
+2025-04-05 00:07:41.647 DEBUG 32604 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-04-05 00:07:41.694 DEBUG 32604 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 131 mappings in 'requestMappingHandlerMapping'
+2025-04-05 00:07:41.762 DEBUG 32604 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-04-05 00:07:41.787 DEBUG 32604 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-04-05 00:07:41.829  INFO 25612 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@7e7f0216' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-04-05 00:07:41.854  INFO 25612 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-04-05 00:07:42.020  INFO 32604 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-04-05 00:07:42.071  INFO 32604 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8083 (http) with context path '/PortailRH-BETA'
+2025-04-05 00:07:42.082  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : Started GestionInterpApplication in 8.12 seconds (JVM running for 873.558)
+2025-04-05 00:07:42.085  INFO 32604 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-04-05 00:07:42.574  INFO 25612 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-05 00:07:42.742  INFO 25612 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2025-04-05 00:07:43.179  INFO 25612 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2025-04-05 00:07:45.647  INFO 25612 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-05 00:07:48.040  INFO 25612 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-05 00:07:48.110  INFO 25612 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.SQLServer2012Dialect
+2025-04-05 00:07:54.525  INFO 25612 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-04-05 00:07:54.545  INFO 25612 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-05 00:07:57.826  WARN 25612 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-04-05 00:07:58.456  INFO 25612 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3962b216, org.springframework.security.web.context.SecurityContextPersistenceFilter@608c7b5b, org.springframework.security.web.header.HeaderWriterFilter@3b11deb6, org.springframework.security.web.authentication.logout.LogoutFilter@47fce2c4, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@72d7afff, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@17d45cfb, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@10f192d8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3183a37c, org.springframework.security.web.session.SessionManagementFilter@5c13534a, org.springframework.security.web.access.ExceptionTranslationFilter@1d686622, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@c7a1db6]
+2025-04-05 00:07:59.666 DEBUG 25612 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-04-05 00:07:59.922 DEBUG 25612 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : 131 mappings in 'requestMappingHandlerMapping'
+2025-04-05 00:08:00.090 DEBUG 25612 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-04-05 00:08:00.121 DEBUG 25612 --- [main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-04-05 00:08:00.989  INFO 25612 --- [main] m.r.g.GestionInterpApplicationTests      : Started GestionInterpApplicationTests in 23.13 seconds (JVM running for 25.289)
+2025-04-05 00:08:01.387 DEBUG 25612 --- [SpringApplicationShutdownHook] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@70ab2d48, started on Sat Apr 05 00:07:38 GMT 2025
+2025-04-05 00:08:01.417  INFO 25612 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-05 00:08:01.420  INFO 25612 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-05 00:08:01.471  INFO 25612 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-04-05 00:08:19.230  INFO 32604 --- [Thread-35] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-05 00:08:19.231  INFO 32604 --- [Thread-35] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown initiated...
+2025-04-05 00:08:19.244  INFO 32604 --- [Thread-35] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown completed.
+2025-04-05 00:08:35.030  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : Starting GestionInterpApplication using Java 11.0.25 on INF0003 with PID 32604 (G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main\target\classes started by a.yahya in G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main)
+2025-04-05 00:08:35.031  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : The following profiles are active: prod
+2025-04-05 00:08:35.549  INFO 32604 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-05 00:08:35.734  INFO 32604 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 184 ms. Found 31 JPA repository interfaces.
+2025-04-05 00:08:35.920  INFO 32604 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@aefdb36' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-04-05 00:08:35.922  INFO 32604 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-04-05 00:08:36.079  INFO 32604 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8083 (http)
+2025-04-05 00:08:36.081  INFO 32604 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-05 00:08:36.082  INFO 32604 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.46]
+2025-04-05 00:08:36.151  INFO 32604 --- [restartedMain] o.a.c.c.C.[.[.[/PortailRH-BETA]          : Initializing Spring embedded WebApplicationContext
+2025-04-05 00:08:36.152  INFO 32604 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1117 ms
+2025-04-05 00:08:36.361  INFO 32604 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-05 00:08:36.376  INFO 32604 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Starting...
+2025-04-05 00:08:36.514  INFO 32604 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Start completed.
+2025-04-05 00:08:36.515  INFO 32604 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.SQLServer2012Dialect
+2025-04-05 00:08:38.873  INFO 32604 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-04-05 00:08:38.874  INFO 32604 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-05 00:08:40.261  WARN 32604 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dechargeController' defined in file [G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main\target\classes\ma\richebois\gestioninterp\Controller\DechargeController.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dechargeImpService': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [ma.richebois.gestioninterp.Service.DechargeImpService] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@2093b845]
+2025-04-05 00:08:40.268  INFO 32604 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-05 00:08:40.268  INFO 32604 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Shutdown initiated...
+2025-04-05 00:08:40.285  INFO 32604 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Shutdown completed.
+2025-04-05 00:08:40.286  INFO 32604 --- [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2025-04-05 00:08:40.326  INFO 32604 --- [restartedMain] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2025-04-05 00:08:40.336 ERROR 32604 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dechargeController' defined in file [G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main\target\classes\ma\richebois\gestioninterp\Controller\DechargeController.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dechargeImpService': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [ma.richebois.gestioninterp.Service.DechargeImpService] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@2093b845]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:800) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:229) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1354) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1204) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:564) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:944) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:145) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:434) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:338) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1332) ~[spring-boot-2.5.1.jar:2.5.1]
+	at ma.richebois.gestioninterp.GestionInterpApplication.main(GestionInterpApplication.java:33) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) ~[spring-boot-devtools-2.5.1.jar:2.5.1]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dechargeImpService': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [ma.richebois.gestioninterp.Service.DechargeImpService] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@2093b845]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.determineCandidateConstructors(AutowiredAnnotationBeanPostProcessor.java:289) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.determineConstructorsFromBeanPostProcessors(AbstractAutowireCapableBeanFactory.java:1284) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1201) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:564) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1380) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1300) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:887) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-5.3.8.jar:5.3.8]
+	... 24 common frames omitted
+Caused by: java.lang.IllegalStateException: Failed to introspect Class [ma.richebois.gestioninterp.Service.DechargeImpService] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@2093b845]
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:481) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.util.ReflectionUtils.doWithLocalMethods(ReflectionUtils.java:321) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.determineCandidateConstructors(AutowiredAnnotationBeanPostProcessor.java:267) ~[spring-beans-5.3.8.jar:5.3.8]
+	... 37 common frames omitted
+Caused by: java.lang.NoClassDefFoundError: ma/richebois/gestioninterp/DTO/DechargeDto
+	at java.base/java.lang.Class.getDeclaredMethods0(Native Method) ~[na:na]
+	at java.base/java.lang.Class.privateGetDeclaredMethods(Class.java:3166) ~[na:na]
+	at java.base/java.lang.Class.getDeclaredMethods(Class.java:2309) ~[na:na]
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:463) ~[spring-core-5.3.8.jar:5.3.8]
+	... 39 common frames omitted
+Caused by: java.lang.ClassNotFoundException: ma.richebois.gestioninterp.DTO.DechargeDto
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581) ~[na:na]
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178) ~[na:na]
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526) ~[na:na]
+	at java.base/java.lang.Class.forName0(Native Method) ~[na:na]
+	at java.base/java.lang.Class.forName(Class.java:398) ~[na:na]
+	at org.springframework.boot.devtools.restart.classloader.RestartClassLoader.loadClass(RestartClassLoader.java:145) ~[spring-boot-devtools-2.5.1.jar:2.5.1]
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526) ~[na:na]
+	... 43 common frames omitted
+
+2025-04-05 00:08:42.864  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : Starting GestionInterpApplication using Java 11.0.25 on INF0003 with PID 32604 (G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main\target\classes started by a.yahya in G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main)
+2025-04-05 00:08:42.865  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : The following profiles are active: prod
+2025-04-05 00:08:42.873  WARN 32604 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [ma.richebois.gestioninterp.GestionInterpApplication]; nested exception is java.io.FileNotFoundException: class path resource [ma/richebois/gestioninterp/GestionInterpApplication.class] cannot be opened because it does not exist
+2025-04-05 00:08:42.881 ERROR 32604 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [ma.richebois.gestioninterp.GestionInterpApplication]; nested exception is java.io.FileNotFoundException: class path resource [ma/richebois/gestioninterp/GestionInterpApplication.class] cannot be opened because it does not exist
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:189) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:331) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:247) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:311) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:112) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:746) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:564) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:145) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:434) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:338) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1332) ~[spring-boot-2.5.1.jar:2.5.1]
+	at ma.richebois.gestioninterp.GestionInterpApplication.main(GestionInterpApplication.java:33) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) ~[spring-boot-devtools-2.5.1.jar:2.5.1]
+Caused by: java.io.FileNotFoundException: class path resource [ma/richebois/gestioninterp/GestionInterpApplication.class] cannot be opened because it does not exist
+	at org.springframework.core.io.ClassPathResource.getInputStream(ClassPathResource.java:187) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.core.type.classreading.SimpleMetadataReader.getClassReader(SimpleMetadataReader.java:55) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.core.type.classreading.SimpleMetadataReader.<init>(SimpleMetadataReader.java:49) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:103) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.boot.type.classreading.ConcurrentReferenceCachingMetadataReaderFactory.createMetadataReader(ConcurrentReferenceCachingMetadataReaderFactory.java:86) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.boot.type.classreading.ConcurrentReferenceCachingMetadataReaderFactory.getMetadataReader(ConcurrentReferenceCachingMetadataReaderFactory.java:73) ~[spring-boot-2.5.1.jar:2.5.1]
+	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:81) ~[spring-core-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.asSourceClass(ConfigurationClassParser.java:696) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.asSourceClass(ConfigurationClassParser.java:665) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.asSourceClass(ConfigurationClassParser.java:643) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:248) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:207) ~[spring-context-5.3.8.jar:5.3.8]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:175) ~[spring-context-5.3.8.jar:5.3.8]
+	... 18 common frames omitted
+
+2025-04-05 00:08:49.392  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : Starting GestionInterpApplication using Java 11.0.25 on INF0003 with PID 32604 (G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main\target\classes started by a.yahya in G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main)
+2025-04-05 00:08:49.392  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : The following profiles are active: prod
+2025-04-05 00:08:49.867  INFO 32604 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-05 00:08:50.037  INFO 32604 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 168 ms. Found 31 JPA repository interfaces.
+2025-04-05 00:08:50.220  INFO 32604 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@6986ff02' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-04-05 00:08:50.222  INFO 32604 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-04-05 00:08:50.387  INFO 32604 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8083 (http)
+2025-04-05 00:08:50.388  INFO 32604 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-05 00:08:50.389  INFO 32604 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.46]
+2025-04-05 00:08:50.458  INFO 32604 --- [restartedMain] o.a.c.c.C.[.[.[/PortailRH-BETA]          : Initializing Spring embedded WebApplicationContext
+2025-04-05 00:08:50.458  INFO 32604 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1062 ms
+2025-04-05 00:08:50.641  INFO 32604 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-05 00:08:50.650  INFO 32604 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Starting...
+2025-04-05 00:08:50.757  INFO 32604 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Start completed.
+2025-04-05 00:08:50.757  INFO 32604 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.SQLServer2012Dialect
+2025-04-05 00:08:53.029  INFO 32604 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-04-05 00:08:53.029  INFO 32604 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-05 00:08:55.700  WARN 32604 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-04-05 00:08:55.854  INFO 32604 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@502bae1d, org.springframework.security.web.context.SecurityContextPersistenceFilter@1c94991c, org.springframework.security.web.header.HeaderWriterFilter@50bf1be, org.springframework.security.web.authentication.logout.LogoutFilter@40d73a94, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@609cafd5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7aa92497, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3952ff24, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@49a44950, org.springframework.security.web.session.SessionManagementFilter@1b26bbe, org.springframework.security.web.access.ExceptionTranslationFilter@13228d8d, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@166117ce]
+2025-04-05 00:08:56.044 DEBUG 32604 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-04-05 00:08:56.079 DEBUG 32604 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 131 mappings in 'requestMappingHandlerMapping'
+2025-04-05 00:08:56.135 DEBUG 32604 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-04-05 00:08:56.155 DEBUG 32604 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-04-05 00:08:56.427  INFO 32604 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-04-05 00:08:56.473  INFO 32604 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8083 (http) with context path '/PortailRH-BETA'
+2025-04-05 00:08:56.488  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : Started GestionInterpApplication in 7.152 seconds (JVM running for 947.964)
+2025-04-05 00:08:56.491  INFO 32604 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-04-05 00:11:48.624  INFO 32604 --- [Thread-44] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-05 00:11:48.626  INFO 32604 --- [Thread-44] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Shutdown initiated...
+2025-04-05 00:11:48.633  INFO 32604 --- [Thread-44] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Shutdown completed.
+2025-04-05 00:12:00.163  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : Starting GestionInterpApplication using Java 11.0.25 on INF0003 with PID 32604 (G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main\target\classes started by a.yahya in G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main)
+2025-04-05 00:12:00.165  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : The following profiles are active: prod
+2025-04-05 00:12:00.824  INFO 32604 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-05 00:12:01.073  INFO 32604 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 248 ms. Found 31 JPA repository interfaces.
+2025-04-05 00:12:01.365  INFO 32604 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@539014e' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-04-05 00:12:01.368  INFO 32604 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-04-05 00:12:01.541  INFO 32604 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8083 (http)
+2025-04-05 00:12:01.542  INFO 32604 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-05 00:12:01.543  INFO 32604 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.46]
+2025-04-05 00:12:01.619  INFO 32604 --- [restartedMain] o.a.c.c.C.[.[.[/PortailRH-BETA]          : Initializing Spring embedded WebApplicationContext
+2025-04-05 00:12:01.619  INFO 32604 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1441 ms
+2025-04-05 00:12:01.773  INFO 32604 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-05 00:12:01.788  INFO 32604 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Starting...
+2025-04-05 00:12:01.864  INFO 32604 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Start completed.
+2025-04-05 00:12:01.865  INFO 32604 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.SQLServer2012Dialect
+2025-04-05 00:12:04.599  INFO 32604 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-04-05 00:12:04.600  INFO 32604 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-05 00:12:06.552  WARN 32604 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-04-05 00:12:06.677  INFO 32604 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@e5d7f07, org.springframework.security.web.context.SecurityContextPersistenceFilter@5fa19882, org.springframework.security.web.header.HeaderWriterFilter@3d5a99e4, org.springframework.security.web.authentication.logout.LogoutFilter@39eb98bc, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@4dbaf5a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6014656, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6e7fbb70, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@66604efb, org.springframework.security.web.session.SessionManagementFilter@e604056, org.springframework.security.web.access.ExceptionTranslationFilter@371dcc8c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@68193732]
+2025-04-05 00:12:06.823 DEBUG 32604 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-04-05 00:12:06.856 DEBUG 32604 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 131 mappings in 'requestMappingHandlerMapping'
+2025-04-05 00:12:06.917 DEBUG 32604 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-04-05 00:12:06.936 DEBUG 32604 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-04-05 00:12:07.092  INFO 32604 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-04-05 00:12:07.123  INFO 32604 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8083 (http) with context path '/PortailRH-BETA'
+2025-04-05 00:12:07.131  INFO 32604 --- [restartedMain] m.r.g.GestionInterpApplication           : Started GestionInterpApplication in 7.016 seconds (JVM running for 1138.608)
+2025-04-05 00:12:07.134  INFO 32604 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-04-05 00:13:00.576  INFO 32604 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-05 00:13:00.578  INFO 32604 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Shutdown initiated...
+2025-04-05 00:13:00.586  INFO 32604 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Shutdown completed.
+2025-04-05 00:13:14.477  INFO 12928 --- [restartedMain] m.r.g.GestionInterpApplication           : Starting GestionInterpApplication using Java 11.0.25 on INF0003 with PID 12928 (G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main\target\classes started by a.yahya in G:\Projets_RicheBois\Applications_Deployés\PORTAILRH-main)
+2025-04-05 00:13:14.504  INFO 12928 --- [restartedMain] m.r.g.GestionInterpApplication           : The following profiles are active: prod
+2025-04-05 00:13:14.562  INFO 12928 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-04-05 00:13:14.562  INFO 12928 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-04-05 00:13:15.478  INFO 12928 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-05 00:13:15.622  INFO 12928 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 139 ms. Found 31 JPA repository interfaces.
+2025-04-05 00:13:16.069  INFO 12928 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@3715bed0' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-04-05 00:13:16.073  INFO 12928 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-04-05 00:13:16.534  INFO 12928 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8083 (http)
+2025-04-05 00:13:16.542  INFO 12928 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-05 00:13:16.543  INFO 12928 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.46]
+2025-04-05 00:13:16.653  INFO 12928 --- [restartedMain] o.a.c.c.C.[.[.[/PortailRH-BETA]          : Initializing Spring embedded WebApplicationContext
+2025-04-05 00:13:16.654  INFO 12928 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2091 ms
+2025-04-05 00:13:16.903  INFO 12928 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-05 00:13:16.945  INFO 12928 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2025-04-05 00:13:17.066  INFO 12928 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2025-04-05 00:13:17.165  INFO 12928 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-05 00:13:17.538  INFO 12928 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-05 00:13:17.550  INFO 12928 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.SQLServer2012Dialect
+2025-04-05 00:13:20.630  INFO 12928 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-04-05 00:13:20.643  INFO 12928 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-05 00:13:22.106  WARN 12928 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-04-05 00:13:22.255  INFO 12928 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@62c39378, org.springframework.security.web.context.SecurityContextPersistenceFilter@312a0aad, org.springframework.security.web.header.HeaderWriterFilter@2931933b, org.springframework.security.web.authentication.logout.LogoutFilter@411736c, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@1ffc5d12, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3f60f6de, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1aedf1c6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4b51093e, org.springframework.security.web.session.SessionManagementFilter@3f8e0af1, org.springframework.security.web.access.ExceptionTranslationFilter@33a5ad2f, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4ee45716]
+2025-04-05 00:13:22.441 DEBUG 12928 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-04-05 00:13:22.506 DEBUG 12928 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 131 mappings in 'requestMappingHandlerMapping'
+2025-04-05 00:13:22.550 DEBUG 12928 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-04-05 00:13:22.562 DEBUG 12928 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-04-05 00:13:22.972  INFO 12928 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-04-05 00:13:23.045  INFO 12928 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8083 (http) with context path '/PortailRH-BETA'
+2025-04-05 00:13:23.059  INFO 12928 --- [restartedMain] m.r.g.GestionInterpApplication           : Started GestionInterpApplication in 9.23 seconds (JVM running for 11.301)
+2025-04-05 00:13:55.738  INFO 12928 --- [http-nio-8083-exec-1] o.a.c.c.C.[.[.[/PortailRH-BETA]          : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-05 00:13:55.740  INFO 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-05 00:13:55.741 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2025-04-05 00:13:55.741 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2025-04-05 00:13:55.741 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2025-04-05 00:13:55.745 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@2b23f2c4
+2025-04-05 00:13:55.746 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@3c8fb2a5
+2025-04-05 00:13:55.747 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2025-04-05 00:13:55.747  INFO 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2025-04-05 00:13:55.792 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/Acceuil", parameters={}
+2025-04-05 00:13:55.801 DEBUG 12928 --- [http-nio-8083-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to ma.richebois.gestioninterp.Controller.AcceuilController#getHome(Model)
+2025-04-05 00:13:57.571 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, application/signed-exchange;v=b3;q=0.7, */*;q=0.8]
+2025-04-05 00:13:58.274 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:58.352 DEBUG 12928 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/css/vendor.addons.css", parameters={}
+2025-04-05 00:13:58.357 DEBUG 12928 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/js/vendor.addons.js", parameters={}
+2025-04-05 00:13:58.357 DEBUG 12928 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/css/shared/style.css", parameters={}
+2025-04-05 00:13:58.358 DEBUG 12928 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/js/core.js", parameters={}
+2025-04-05 00:13:58.358 DEBUG 12928 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/iconfonts/mdi/css/materialdesignicons.css", parameters={}
+2025-04-05 00:13:58.364 DEBUG 12928 --- [http-nio-8083-exec-9] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:58.364 DEBUG 12928 --- [http-nio-8083-exec-5] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:58.364 DEBUG 12928 --- [http-nio-8083-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:58.364 DEBUG 12928 --- [http-nio-8083-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:58.364 DEBUG 12928 --- [http-nio-8083-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:58.371 DEBUG 12928 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/css/demo_1/style.css", parameters={}
+2025-04-05 00:13:58.373 DEBUG 12928 --- [http-nio-8083-exec-10] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:58.398 DEBUG 12928 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:58.400 DEBUG 12928 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:58.411 DEBUG 12928 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:58.412 DEBUG 12928 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:58.425 DEBUG 12928 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:58.434 DEBUG 12928 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/images/riche_bois.png", parameters={}
+2025-04-05 00:13:58.435 DEBUG 12928 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/apexcharts/apexcharts.min.js", parameters={}
+2025-04-05 00:13:58.436 DEBUG 12928 --- [http-nio-8083-exec-8] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:58.436 DEBUG 12928 --- [http-nio-8083-exec-6] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:58.436 DEBUG 12928 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/js/template.js", parameters={}
+2025-04-05 00:13:58.438 DEBUG 12928 --- [http-nio-8083-exec-7] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:58.452 DEBUG 12928 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:58.475 DEBUG 12928 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:58.482 DEBUG 12928 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:58.508 DEBUG 12928 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:58.523 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/chartjs/Chart.min.js", parameters={}
+2025-04-05 00:13:58.525 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:58.565 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:58.651 DEBUG 12928 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/js/charts/chartjs.addon.js", parameters={}
+2025-04-05 00:13:58.652 DEBUG 12928 --- [http-nio-8083-exec-9] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:58.663 DEBUG 12928 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:58.683 DEBUG 12928 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/js/dashboard.js", parameters={}
+2025-04-05 00:13:58.684 DEBUG 12928 --- [http-nio-8083-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:58.688 DEBUG 12928 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:58.851 DEBUG 12928 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/images/riche_bois.png", parameters={}
+2025-04-05 00:13:58.852 DEBUG 12928 --- [http-nio-8083-exec-5] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:58.854 DEBUG 12928 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/js/core.js", parameters={}
+2025-04-05 00:13:58.855 DEBUG 12928 --- [http-nio-8083-exec-10] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:58.855 DEBUG 12928 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:58.866 DEBUG 12928 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:58.978 DEBUG 12928 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/iconfonts/mdi/fonts/materialdesignicons-webfont.woff2?v=3.5.95", parameters={masked}
+2025-04-05 00:13:58.980 DEBUG 12928 --- [http-nio-8083-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:59.005 DEBUG 12928 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:13:59.044 DEBUG 12928 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/js/template.js", parameters={}
+2025-04-05 00:13:59.045 DEBUG 12928 --- [http-nio-8083-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:13:59.048 DEBUG 12928 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:04.343 DEBUG 12928 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/Acceuil", parameters={}
+2025-04-05 00:14:04.343 DEBUG 12928 --- [http-nio-8083-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to ma.richebois.gestioninterp.Controller.AcceuilController#getHome(Model)
+2025-04-05 00:14:06.996 DEBUG 12928 --- [http-nio-8083-exec-7] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, application/signed-exchange;v=b3;q=0.7, */*;q=0.8]
+2025-04-05 00:14:07.072 DEBUG 12928 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.099 DEBUG 12928 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/iconfonts/mdi/css/materialdesignicons.css", parameters={}
+2025-04-05 00:14:07.100 DEBUG 12928 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/css/vendor.addons.css", parameters={}
+2025-04-05 00:14:07.100 DEBUG 12928 --- [http-nio-8083-exec-8] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.101 DEBUG 12928 --- [http-nio-8083-exec-6] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.110 DEBUG 12928 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.111 DEBUG 12928 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.199 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/css/shared/style.css", parameters={}
+2025-04-05 00:14:07.200 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.207 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.214 DEBUG 12928 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/css/demo_1/style.css", parameters={}
+2025-04-05 00:14:07.216 DEBUG 12928 --- [http-nio-8083-exec-9] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.219 DEBUG 12928 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/js/core.js", parameters={}
+2025-04-05 00:14:07.220 DEBUG 12928 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.221 DEBUG 12928 --- [http-nio-8083-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.230 DEBUG 12928 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/js/vendor.addons.js", parameters={}
+2025-04-05 00:14:07.232 DEBUG 12928 --- [http-nio-8083-exec-5] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.254 DEBUG 12928 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/apexcharts/apexcharts.min.js", parameters={}
+2025-04-05 00:14:07.256 DEBUG 12928 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/images/riche_bois.png", parameters={}
+2025-04-05 00:14:07.256 DEBUG 12928 --- [http-nio-8083-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.256 DEBUG 12928 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/js/template.js", parameters={}
+2025-04-05 00:14:07.257 DEBUG 12928 --- [http-nio-8083-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.257 DEBUG 12928 --- [http-nio-8083-exec-10] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.261 DEBUG 12928 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.261 DEBUG 12928 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.267 DEBUG 12928 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.277 DEBUG 12928 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/chartjs/Chart.min.js", parameters={}
+2025-04-05 00:14:07.278 DEBUG 12928 --- [http-nio-8083-exec-7] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.283 DEBUG 12928 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.295 DEBUG 12928 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.300 DEBUG 12928 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.333 DEBUG 12928 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/js/charts/chartjs.addon.js", parameters={}
+2025-04-05 00:14:07.335 DEBUG 12928 --- [http-nio-8083-exec-6] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.339 DEBUG 12928 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.350 DEBUG 12928 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/js/dashboard.js", parameters={}
+2025-04-05 00:14:07.353 DEBUG 12928 --- [http-nio-8083-exec-8] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.356 DEBUG 12928 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.397 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/images/riche_bois.png", parameters={}
+2025-04-05 00:14:07.399 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.402 DEBUG 12928 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.411 DEBUG 12928 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/js/core.js", parameters={}
+2025-04-05 00:14:07.412 DEBUG 12928 --- [http-nio-8083-exec-9] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.418 DEBUG 12928 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.463 DEBUG 12928 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/js/template.js", parameters={}
+2025-04-05 00:14:07.464 DEBUG 12928 --- [http-nio-8083-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.468 DEBUG 12928 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:14:07.505 DEBUG 12928 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/PortailRH-BETA/vendors/iconfonts/mdi/fonts/materialdesignicons-webfont.woff2?v=3.5.95", parameters={masked}
+2025-04-05 00:14:07.506 DEBUG 12928 --- [http-nio-8083-exec-10] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [Classpath [META-INF/resources/], Classpath [resources/], Classpath [static/], Classpath [public/], ServletContext [/]]
+2025-04-05 00:14:07.512 DEBUG 12928 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-04-05 00:15:12.795  INFO 12928 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-05 00:15:12.797  INFO 12928 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-05 00:15:12.814  INFO 12928 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

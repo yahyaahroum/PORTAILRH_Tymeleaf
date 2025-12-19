@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"/>
+<link href="../../../resources/select2/dist/css/select2.min.css" rel="stylesheet" />
+<script src="../../../resources/select2/dist/js/select2.min.js"></script>
+<script src="../../static/jquery/jquery.min.js"></script>
+
+  <body class="header-fixed" >
+    <!-- partial:../../partials/_header.html -->
+    <nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+    <!-- partial -->
+    <div class="page-body">
+      <!-- partial:../../partials/_sidebar.html -->
+      <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+      <!-- partial -->
+      <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+          <div class="viewport-header">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb has-arrow">
+                <li class="breadcrumb-item">
+                  <a href="#">Editer Un Ordre de Mission</a>
+                </li>
+              </ol>
+            </nav>
+          </div>
+          <form th:action="@{/OrdreMission/Modifier/{id}(id=${OrdreMission.id})}"  method="post">
+          <div class="content-viewport">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="grid">
+                  <p class="grid-header">Information sur l'ordre de mission</p>
+                  <div class="grid-body">
+                    <div class="item-wrapper">
+                      <div class="row mb-3">
+                        <div class="col-md-8 mx-auto">
+                            <!------------------------------------------------------->
+                          <div class="form-group row showcase_row_area">
+                            <div class="col-md-3 showcase_text_area">
+                              <label>Date Ordre de mission :</label>
+                            </div>
+                            <div class="col-md-9 showcase_content_area">
+                                <input type="date" th:value="${{OrdreMission.dateOrdreMission}}"  class="form-control" id="dateOrdreMission" name="dateOrdreMission"
+                                required >
+                            </div>
+                          </div>
+                          <!------------------------------------------------------->
+                          <div class="form-group row showcase_row_area">
+                            <div class="col-md-3 showcase_text_area">
+                              <label>Date Debut Mission :</label>
+                            </div>
+                            <div class="col-md-9 showcase_content_area">
+                                <input type="date" th:value="${{OrdreMission.dateDebutMission}}"  class="form-control" id="dateDebutMission" name="dateDebutMission"
+                                onchange="dateMinFinMission()"       required >
+                            </div>
+                          </div>
+                          <!------------------------------------------------------->
+                          <div class="form-group row showcase_row_area">
+                            <div class="col-md-3 showcase_text_area">
+                              <label>Date Fin Mission :</label>
+                            </div>
+                            <div class="col-md-9 showcase_content_area">
+                                <input type="date" th:value="${{OrdreMission.dateFinMission}}"  class="form-control" id="dateFinMission" name="dateFinMission"
+                               onchange="dateMaxDebutMission()" required >
+                            </div>
+                          </div>
+                          <!------------------------------------------------------->
+                          <div class="form-group row showcase_row_area">
+                            <div class="col-md-3 showcase_text_area">
+                                <label>Moyen de transport
+                                    :</label>
+                            </div>
+                            <div class="col-md-9 showcase_content_area">
+                              <select class="custom-select" name ="moyenTransport" required id="dropdownup" onChange="toggleTextBoxUpdate()">
+                                <option value="">Choisir une option</option>
+                                <option th:selected="${OrdreMission.moyenTransport=='Vehicule de letablissement'}" id="Vehicule de letablissement" value="Vehicule de letablissement">Vehicule de l'établissement </option>
+                                <option th:selected="${OrdreMission.moyenTransport=='Vehicule personnel'}" id="Vehicule personnel" value="Vehicule personnel">Vehicule personnel </option>
+                                <option th:selected="${OrdreMission.moyenTransport=='Vehicule personnel de Mr'}" id="Vehicule personnel de Mr" value="Vehicule personnel de Mr">Vehicule personnel de Mr </option>
+                                <option th:selected="${OrdreMission.moyenTransport=='Transport Commun'}" id="Transport Commun" value="Transport Commun">Transport Commun </option>
+                                <option  th:selected="${OrdreMission.moyenTransport=='Autre'}" id="Autre" value="Autre">Autre </option>
+                            </select>
+                            </div>
+                        </div>
+
+                                 <!------------------------------------------------------->
+                                 <div class="row showcase_row_area" >
+                                  <div class="col-md-3 showcase_text_area">
+                                      <label  id="myLabelBoxUp">Individu 
+                                          :</label>
+                                  </div>
+                                  <div class="col-md-9 showcase_content_area">
+                                      <select class="custom-select"
+                                              id="IndividuSelect"
+                                              style="width: 100%" name="individu"
+                                              required>
+                                              
+                                      <option th:each="emp : ${emps}"
+                                            th:id="${emp.id}"
+                                            th:value="${emp.id}"
+                                            th:selected="${emp.id==OrdreMission.individu.id}"
+                                            th:text="${emp.individu +' '+emp.nom.trim()+' '+emp.prenom.trim()}"
+
+                                    ></option>
+                                      </select>
+                                  </div>
+                              </div>
+                              
+                                 <!------------------------------------------------------->
+                                 <div class="form-group row showcase_row_area">
+                                    <div class="col-md-3 showcase_text_area">
+                                        <label>Libelle Mission
+                                            :</label>
+                                    </div>
+                                    <div class="col-md-9 showcase_content_area">
+                                        <input name ="libelleMission" type="text" th:value="${OrdreMission.libelleMission}"  class="form-control" required >
+                                    </div>
+                                </div>
+                                 <!------------------------------------------------------->
+                                 <div class="form-group row showcase_row_area">
+                                    <div class="col-md-3 showcase_text_area">
+                                        <label>Nombre de Jours
+                                            :</label>
+                                    </div>
+                                    <div class="col-md-9 showcase_content_area">
+                                        <input name ="nombreJours" id="nombreJours" readonly type="number" th:value="${OrdreMission.nombreJours}"  class="form-control">
+                                    </div>
+                                </div>
+                                 <!------------------------------------------------------->
+                                 <div class="row showcase_row_area">
+                                    <div class="col-md-3 showcase_text_area">
+                                        <label>Destination 
+                                            :</label>
+                                    </div>
+                                    <div class="col-md-9 showcase_content_area">
+                                        <select class="custom-select"
+                                                id="AffaireSelect"
+                                                style="width: 100%" name="affaire"
+                                                required>
+                                            <option th:each="aff : ${affaire}"
+                                                    th:id="${aff.id}"
+                                                    th:value="${aff.id}"
+                                                    th:selected="${aff.id==OrdreMission.affaire.id}"
+                                                    th:text="${aff.code +' '+aff.designation.trim()}"
+                                            ></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                 <!------------------------------------------------------->
+                                 <!------------------------------------------------------->
+
+
+
+
+
+
+
+                           </div>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              </div>
+
+               <div class="col-sm-6 text-center text-sm-right order-sm-1">
+                  <input type="submit" class="btn btn-primary" value="Enregistrer">
+                  <input type="button" value="Fermer" class="btn btn-primary" onClick="rtn()"/>
+                </div>
+                
+
+            </div>
+          </form>
+          </div>
+        </div>
+        <!-- content viewport ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <footer class="footer" th:replace="fragments/footer::footer"></footer>
+        <!-- partial -->
+      </div>
+      <!-- page content ends -->
+
+  <script>
+ function rtn() {
+    window.history.back();
+  }
+
+ 
+  function dateMinFinMission(){
+    
+    var date1=new Date(document.getElementById("dateFinMission").value) ;
+     var date2=new Date(document.getElementById("dateDebutMission").value);
+     var nbJours=document.getElementById("nombreJours").value;
+
+    if (date1!=='' && date2!==''){
+       document.getElementById("nombreJours").value=date1.getDate()-date2.getDate()+1;
+    }
+            document.getElementById("dateFinMission").setAttribute("min", document.getElementById("dateDebutMission").value);
+        }
+ function dateMaxDebutMission(){
+     var date1=new Date(document.getElementById("dateFinMission").value) ;
+     var date2=new Date(document.getElementById("dateDebutMission").value);
+     var nbJours=document.getElementById("nombreJours").value;
+
+    if (date1!=='' && date2!==''){
+       document.getElementById("nombreJours").value=date1.getDate()-date2.getDate()+1;
+    }
+            document.getElementById("dateDebutMission").setAttribute("max", document.getElementById("dateFinMission").value);
+        }
+
+
+     $(document).ready(function () {
+        $('#AffaireSelect').select2({
+            width: 'resolve',
+        });
+  
+    if(dropdownup=document.getElementById("dropdownup").value=== "Vehicule personnel de Mr"){
+      document.getElementById("IndividuSelect").style.display = "block";
+      document.getElementById("myLabelBoxUp").style.display = "block";
+      $('#IndividuSelect').select2({
+            width: '100%' 
+        });
+    }
+    else{
+      document.getElementById("IndividuSelect").style.display = "none";
+      document.getElementById("myLabelBoxUp").style.display = "none";
+    }
+  }); 
+  
+    function toggleTextBoxUpdate() {
+    
+        var dropdownup=document.getElementById("dropdownup");
+        var IndividuSelect=document.getElementById("IndividuSelect");
+        var myLabelBoxUp=document.getElementById("myLabelBoxUp");
+        if(dropdownup.value === "Vehicule personnel de Mr") {
+        myLabelBoxUp.style.display = "block";
+        IndividuSelect.style.display = "block";
+        $('#IndividuSelect').select2({
+            width: '100%' 
+        });
+      
+        } else {
+          $('#IndividuSelect').select2('destroy');
+          myLabelBoxUp.style.display = "none";
+          IndividuSelect.style.display = "none";
+         
+
+        }
+    }
+
+  </script>
+  </body>
+</html>

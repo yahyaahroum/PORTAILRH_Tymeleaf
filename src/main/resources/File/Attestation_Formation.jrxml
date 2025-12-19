@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Attestation_Formation" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d48eaf46-5e49-4206-a88d-fcb8668a6f3b">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+
+	<field name="codecin" class="java.lang.String">
+
+	</field>
+	<field name="libelle" class="java.lang.String">
+
+	</field>
+	<field name="nom" class="java.lang.String">
+
+	</field>
+	<field name="prenom" class="java.lang.String">
+
+	</field>
+	<field name="sexe" class="java.lang.String">
+
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="53" splitType="Stretch">
+			<image>
+				<reportElement x="10" y="10" width="140" height="30" uuid="13674bf2-11ca-4eca-acc1-b30fa790a97d"/>
+				<imageExpression><![CDATA[this.getClass().getResourceAsStream("/static/images/riche_bois.png")]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="540" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="30" width="555" height="30" uuid="e4e3b824-2c61-409c-89de-02adafe1ceae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["<b>Attestation de formation</b>"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="70" width="510" height="280" uuid="82f167ae-9224-423b-b508-825c6c692d19"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html">
+					<font fontName="Serif" size="14" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["En date du "+"<b>"+DATEFORMAT(TODAY(),"dd/MM/yyyy")+"</b>"+" , <br><br>"+
+
+(TRIM($F{sexe}).equals("1") ? "Monsieur ":"Madame ")+", "+"<b>"+UPPER(TRIM($F{nom}))+"</b>"+" "+"<b>"+UPPER(TRIM($F{prenom} ))+"</b>"+" titulaire de la CIN numéro : "+"<b>"+UPPER(TRIM($F{codecin}))+"</b>"+" a pris connaissance de toutes les mesures sécuritaires nécessaire pour l’exercice de sa fonction au sein de la société Riche Bois dans le poste de "+"<b>"+UPPER(TRIM($F{libelle}))+"</b>"+" et ce, via la formation interne en « sécurité de travail » effectué sur place par nos services des Ressources Humaines."
+]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="390" width="410" height="30" uuid="a113f50f-844a-4c33-bc71-7cb72f330be1"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fait en deux exemplaires à Casablanca le "+DATEFORMAT(TODAY(),"dd/MM/yyyy")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="460" width="149" height="30" uuid="4f6182d4-bcc1-41f4-942b-46714562a883"/>
+				<textElement textAlignment="Center" markup="html">
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["<b>Signature</br>"
+]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="83" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="20" width="555" height="50" uuid="9f58d2c9-3c2e-45a9-b530-109302e04b45"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["S.A.R.L au Capital de 35.000.000 Dirhams . Rue Abdelouahed El Marrakchi - Oukacha - 20580 Casablanca . \n "+
+"Tél  : 05 22 35 49 60 (L.G) - Fax  : 05 22 35 51 01 - Email  : contacts@richebois.net - Site web  : www.richebois.ma \n"+
+"Patente : 30703095 - R.c : Casablanca 35 .723 -I.F : 01640440 - CNSS : 175.91.93 - I.C.E : 000083823000080"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="10" width="555" height="1" uuid="86cb3235-195b-4e4d-a4d5-ba6ec252f228">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

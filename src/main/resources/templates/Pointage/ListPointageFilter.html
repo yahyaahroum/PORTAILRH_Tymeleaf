@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"/>
+<link rel="stylesheet" type="text/css"
+      th:href="@{https://www.virtuosoft.eu/code/bootstrap-duallistbox/bootstrap-duallistbox/v3.0.2/bootstrap-duallistbox.css}">
+<script th:src="@{https://www.virtuosoft.eu/code/bootstrap-duallistbox/bootstrap-duallistbox/v3.0.2/jquery.bootstrap-duallistbox.js}"></script>
+
+
+<style>
+    .autocomplete-suggestions {
+        border: 1px solid #999;
+        background: #FFF;
+        overflow: auto;
+    }
+
+    .autocomplete-suggestion {
+        padding: 2px 5px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .autocomplete-selected {
+        background: #F0F0F0;
+    }
+
+    .autocomplete-suggestions strong {
+        font-weight: normal;
+        color: #3399FF;
+    }
+
+    .autocomplete-group {
+        padding: 2px 5px;
+    }
+
+    .autocomplete-group strong {
+        display: block;
+        border-bottom: 1px solid #000;
+    }
+
+
+</style>
+<style>
+    .moveall,
+    .removeall {
+        border: 1px solid #ccc !important;
+    }
+
+    .moveall:hover {
+        background: #efefef;
+    }
+
+    .removeall:hover {
+        background: #efefef;
+    }
+
+    /*// Only included because button labels aren't showing */
+
+    .moveall::after {
+        content: attr(title);
+
+    }
+
+    .removeall::after {
+        content: attr(title);
+    }
+
+    /*// Custom styling form*/
+    .form-control option {
+        padding: 10px;
+        border-bottom: 1px solid #efefef;
+    }
+</style>
+<body class="header-fixed">
+<!-- partial:../../partials/_header.html -->
+
+<!-- partial -->
+
+    <!-- partial -->
+    <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+            <div class="viewport-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb has-arrow">
+                        <li class="breadcrumb-item">
+                            <a href="#">Liste du Pointage</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="content-viewport">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div class="content-viewport">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="grid">
+                                            <p class="grid-header">Filtrer</p>
+                                            <div class="grid-body">
+                                                <div class="item-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-md-8 mx-auto">
+                                                            <div class="row showcase_row_area">
+                                                                <div class="col-md-3 showcase_text_area">
+                                                                    <label>Chantier :</label>
+                                                                </div>
+                                                                <div class="col-md-9 showcase_content_area">
+                                                                    <select class="custom-select" id="filterChantier">
+                                                                        <option selected disabled>Choisir le chantier</option>
+                                                                        <option value="all">Tous les chantiers</option>
+                                                                        <option th:each="code : ${chantier}" th:id="${code.code}"
+                                                                                th:value="${code.code}"
+                                                                                th:text="${code.codedes}"></option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row showcase_row_area">
+                                                                <div class="col-md-3 showcase_text_area">
+                                                                    <label>Date début :</label>
+                                                                </div>
+                                                                <div class="col-md-9 showcase_content_area">
+                                                                    <div class="custom-file">
+                                                                        <input type="date" id="filterDateStart"
+                                                                               class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row showcase_row_area">
+                                                                <div class="col-md-3 showcase_text_area">
+                                                                    <label>Date fin :</label>
+                                                                </div>
+                                                                <div class="col-md-9 showcase_content_area">
+                                                                    <div class="custom-file">
+                                                                        <input type="date" id="filterDateEnd"
+                                                                               class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 text-center text-sm-center order-sm-1">
+                                                <input type="button" class="btn btn-primary" value="Filtrer" id="filtrer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="grid">
+                                    <p class="grid-header">Table du Pointage
+                                    </p>
+                                    <p id="totalpages" style="display: none"></p>
+                                    <div class="item-wrapper">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover" id="pointageTable">
+                                                <thead>
+                                                <tr>
+
+                                                    <th>Date</th>
+                                                    <th>Matricule</th>
+                                                    <th>Nom/Prénom</th>
+                                                    <th>Nombre d'heure</th>
+                                                    <th>Chantier</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <div class="modal fade" id="exampleModalCenter5" tabindex="-1"
+                                                     role="dialog" aria-labelledby="exampleModalCenterTitle5"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered"
+                                                         role="document">
+
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="exampleModalCenterTitle5">Supprimer le
+                                                                    Pointage <strong style="display: none"
+                                                                                     id="debudgetid"></strong>
+                                                                </h5>
+                                                                <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <strong id="idPointage" style="display: none"></strong>
+                                                                <p>Voulez vous supprimer le Pointage pour l'employé :
+                                                                    <strong
+                                                                            id="pointageEmp"></strong> pour la date :
+                                                                    <strong id="pointageDate"></strong> avec un nombre
+                                                                    d'heures = <strong id="nombreHeure"></strong></p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Fermer
+                                                                </button>
+                                                                <input type="button" class="btn btn-danger"
+                                                                       value="supprimer" id="deletePointage"/>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="modal fade" id="exampleModalCenter2" tabindex="-1"
+                                                     role="dialog" aria-labelledby="exampleModalCenterTitle2"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog modal-xl modal-dialog-centered"
+                                                         role="document">
+                                                        <div class="modal-content">
+                                                            <form id="editForm">
+                                                                <div class="modal-header btn-primary">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle2">
+                                                                        Modifer un pointage</h5>
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal"
+                                                                            aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="content-viewport">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12">
+                                                                                <div class="grid">
+                                                                                    <p class="grid-header">
+                                                                                        l'employé(s)</p>
+                                                                                    <div class="grid-body">
+                                                                                        <div class="item-wrapper">
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-12 mx-auto">
+                                                                                                    <div class="row showcase_row_area">
+                                                                                                        <div class="col-md-2 showcase_text_area">
+                                                                                                            <label>L'employé
+                                                                                                                :</label>
+                                                                                                            <strong id="editEmpId"
+                                                                                                                    style="display: none"></strong>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-4 showcase_content_area">
+                                                                                                            <div class="custom-file">
+                                                                                                                <input type="text"
+                                                                                                                       class="form-control"
+                                                                                                                       id="empSelet"
+                                                                                                                       disabled>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-2 showcase_text_area">
+                                                                                                            <label>Chantier
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-4 showcase_content_area">
+                                                                                                            <div class="custom-file">
+                                                                                                                <input type="text"
+                                                                                                                       class="form-control"
+                                                                                                                       id="chantier"
+                                                                                                                       disabled>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="grid">
+                                                                                    <p class="grid-header">Date et
+                                                                                        Nombre d'heures</p>
+                                                                                    <div class="grid-body">
+                                                                                        <div class="item-wrapper">
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-12 mx-auto">
+                                                                                                    <div class="row showcase_row_area">
+                                                                                                        <div class="col-md-2 showcase_text_area">
+                                                                                                            <label>Date
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-4 showcase_content_area">
+                                                                                                            <div class="custom-file">
+                                                                                                                <input type="date"
+                                                                                                                       class="form-control"
+                                                                                                                       id="dateEdit"
+                                                                                                                       required>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-2 showcase_text_area">
+                                                                                                            <label>Nombre
+                                                                                                                d'heures
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-4 showcase_content_area">
+                                                                                                            <div class="custom-file">
+                                                                                                                <input type="number"
+                                                                                                                       class="form-control"
+                                                                                                                       id="nbrHeureEdit"
+                                                                                                                       min="0"
+                                                                                                                       step="0.1">
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-light"
+                                                                            data-dismiss="modal">fermer
+                                                                    </button>
+
+                                                                    <button type="submit" class="btn btn-primary"
+                                                                            id="editPointage">Modifier
+                                                                    </button>
+
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination"></ul>
+                        </nav>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- content viewport ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <!-- partial -->
+    </div>
+    <!-- page content ends -->
+
+<script>
+
+    $(document).ready(function () {
+        $('#filtrer').click(function () {
+            var chantier = $('#filterChantier').val();
+            var dateStart = $('#filterDateStart').val();
+            var dateEnd = $('#filterDateEnd').val();
+            var url = '/PortailRH-BETA/Pointage/Filter?Chantier=' + chantier + '&start=' + dateStart+'&end='+dateEnd;
+            $.ajax({
+                url: url,
+                method: 'GET',
+                data: {
+                    page: 0,
+                    size: 15
+
+                },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    fetchNotes(0,url);
+                    buildPagination(data);
+                    $('#totalpages').text(data.totalPages);
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            })
+        })
+
+    })
+
+    function fetchNotes(startPage,url) {
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: {
+                page: startPage,
+                size: 15
+
+            },
+            success: function (response) {
+                $('#pointageTable tbody').empty();
+                if (!Object.keys(response.content).length) {
+                    let noteRow = '<tr>' +
+                        '<td colspan="6" align="center"><strong>Aucun Pointage Saisi</strong></td>' +
+                        '</tr>';
+                    $('#pointageTable tbody').append(noteRow);
+                } else
+                    // add table rows
+                    $.each(response.content, (i, pointage) => {
+                        let noteRow = '<tr>' +
+                            '<td>' + pointage.datePointage + '</td>' +
+                            '<td>' + pointage.emp.individu + '</td>' +
+                            '<td>' + pointage.emp.nom + ' ' + pointage.emp.prenom + '</td>' +
+                            '<td>' + pointage.nbrHeure + ' Heures' + '</td>' +
+                            '<td>' + pointage.affaire.code + '</td>' +
+                            '<td> <a type="button" class="btn-sm btn-danger" title="supprimer" onclick="deletePointageModal(' + pointage.id + ')"><i class="fas fa-trash-alt"></i></a>' +
+                            '<a type="button" class="btn-sm btn-success" title="Modifier" onclick="ModifierPointageModal(' + pointage.id + ')"><i class="fas fa-pen-square"></i></a>' +
+                            '</td>' +
+                            '</tr>';
+                        $('#pointageTable tbody').append(noteRow);
+                    });
+
+                if ($('ul.pagination li').length - 2 != response.totalPages) {
+                    // build pagination list at the first time loading
+                    $('ul.pagination').empty();
+                    buildPagination(response);
+                }
+            },
+            error: function (e) {
+                alert("ERROR: ", e);
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    function buildPagination(response) {
+        var totalPages = response.totalPages;
+
+        var pageNumber = response.pageable.pageNumber;
+
+        var numLinks = 10;
+
+        // print 'previous' link only if not on page one
+        var first = '';
+        var prev = '';
+        if (pageNumber > 0) {
+            if (pageNumber !== 0) {
+                first = '<li class="page-item"><a type="button" class="page-link">« PREMIERE</a></li>';
+            }
+            prev = '<li class="page-item"><a type="button" class="page-link">‹ PRECEDENT</a></li>';
+        } else {
+            prev = ''; // on the page one, don't show 'previous' link
+            first = ''; // nor 'first page' link
+        }
+
+        // print 'next' link only if not on the last page
+        var next = '';
+        var last = '';
+        if (pageNumber < totalPages) {
+            if (pageNumber !== totalPages - 1) {
+                next = '<li class="page-item"><a type="button" class="page-link">SUIVANT ›</a></li>';
+                last = '<li class="page-item"><a type="button" class="page-link">DERNIERE »</a></li>';
+            }
+        } else {
+            next = ''; // on the last page, don't show 'next' link
+            last = ''; // nor 'last page' link
+        }
+
+        var start = pageNumber - (pageNumber % numLinks) + 1;
+        var end = start + numLinks - 1;
+        end = Math.min(totalPages, end);
+        var pagingLink = '';
+
+        for (var i = start; i <= end; i++) {
+            if (i == pageNumber + 1) {
+                pagingLink += '<li class="page-item active"><a type="button" class="page-link"> ' + i + ' </a></li>'; // no need to create a link to current page
+            } else {
+                pagingLink += '<li class="page-item"><a type="button" class="page-link"> ' + i + ' </a></li>';
+            }
+        }
+
+        // return the page navigation link
+        pagingLink = first + prev + pagingLink + next + last;
+
+        $("ul.pagination").append(pagingLink);
+    }
+</script>
+<script>
+
+
+    $(document).ready(function () {
+
+        $(document).on("click", "ul.pagination li a", function () {
+            var chantier = $('#filterChantier').val();
+            var dateStart = $('#filterDateStart').val();
+            var dateEnd = $('#filterDateEnd').val();
+            var url = '/PortailRH-BETA/Pointage/Filter?Chantier=' + chantier + '&start=' + dateStart+'&end='+dateEnd;
+            var totalPages = parseInt($('#totalpages').text());
+            console.log(totalPages);
+            var data = $(this).attr('data');
+            let val = $(this).text();
+
+            // click on the NEXT tag
+            if (val.toUpperCase() === "« PREMIERE") {
+                let currentActive = $("li.active");
+                fetchNotes(0,url);
+                $("li.active").removeClass("active");
+                // add .active to next-pagination li
+                currentActive.next().addClass("active");
+            } else if (val.toUpperCase() === "DERNIERE »") {
+                fetchNotes(totalPages - 1,url);
+                $("li.active").removeClass("active");
+                // add .active to next-pagination li
+                currentActive.next().addClass("active");
+            } else if (val.toUpperCase() === "SUIVANT ›") {
+                let activeValue = parseInt($("ul.pagination li.active").text());
+                if (activeValue < totalPages) {
+                    let currentActive = $("li.active");
+                    startPage = activeValue;
+                    fetchNotes(startPage,url);
+                    // remove .active class for the old li tag
+                    $("li.active").removeClass("active");
+                    // add .active to next-pagination li
+                    currentActive.next().addClass("active");
+                }
+            } else if (val.toUpperCase() === "‹ PRECEDENT") {
+                let activeValue = parseInt($("ul.pagination li.active").text());
+                if (activeValue > 1) {
+                    // get the previous page
+                    startPage = activeValue - 2;
+                    fetchNotes(startPage,url);
+                    let currentActive = $("li.active");
+                    currentActive.removeClass("active");
+                    // add .active to previous-pagination li
+                    currentActive.prev().addClass("active");
+                }
+            } else {
+                startPage = parseInt(val - 1);
+                fetchNotes(startPage,url);
+                // add focus to the li tag
+                $("li.active").removeClass("active");
+                $(this).parent().addClass("active");
+                //$(this).addClass("active");
+            }
+        });
+
+        (function () {
+            let noteRow = '<tr>' +
+                '<td colspan="6" align="center"><strong>Aucun filtre était appliqué</strong></td>' +
+                '</tr>';
+            $('#pointageTable tbody').append(noteRow);
+        })();
+    });
+</script>
+<script>
+    function deletePointageModal(id) {
+        $.ajax({
+            url: '/PortailRH-BETA/Pointage/get/' + id,
+            method: 'GET',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#exampleModalCenter5').modal('show');
+                $('#pointageEmp').text(data.emp.individu + ' ' + data.emp.nom + ' ' + data.emp.prenom);
+                $('#pointageDate').text(data.datePointage);
+                $('#nombreHeure').text(data.nbrHeure);
+                $('#idPointage').text(data.id);
+            },
+            error: function (error) {
+                alert(error);
+            }
+        })
+    }
+
+    function ModifierPointageModal(id) {
+        $.ajax({
+            url: '/PortailRH-BETA/Pointage/get/' + id,
+            method: 'GET',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#exampleModalCenter2').modal('show');
+                $('#empSelet').val(data.emp.individu + ' ' + data.emp.nom.trim() + ' ' + data.emp.prenom.trim());
+                $('#chantier').val(data.affaire.designation.trim());
+                $('#dateEdit').val(data.datePointage);
+                $('#nbrHeureEdit').val(data.nbrHeure);
+                $('#editEmpId').text(data.id);
+
+            },
+            error: function (error) {
+                alert(error);
+            }
+        })
+    }
+
+    $('#deletePointage').click(function () {
+        var id = parseInt($('#idPointage').text());
+        $.ajax({
+            url: '/PortailRH-BETA/Pointage/delete/' + id,
+            method: 'GET',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#exampleModalCenter5').modal('hide');
+                window.location.reload();
+
+            },
+            error: function (error) {
+                alert(error);
+            }
+        })
+    })
+
+    $('#editForm').submit(function () {
+        var id = parseInt($('#editEmpId').text());
+        var pointage = {};
+        pointage.nbrHeure = $('#nbrHeureEdit').val();
+        pointage.datePointage = $('#dateEdit').val();
+        var pointageJSON = JSON.stringify(pointage);
+        $.ajax({
+            url: '/PortailRH-BETA/Pointage/edit/' + id,
+            method: 'POST',
+            data: pointageJSON,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+            },
+            error: function (error) {
+                alert(error);
+            }
+        })
+    })
+
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.2.27/jquery.autocomplete.min.js}"></script>
+
+
+</body>
+</html>

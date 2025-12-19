@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments/layout :: head"/>
+
+<body class="header-fixed">
+<!-- partial:../../partials/_header.html -->
+<nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+<!-- partial -->
+<div class="page-body">
+    <!-- partial:../../partials/_sidebar.html -->
+    <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+    <!-- partial -->
+    <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+            <div class="viewport-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb has-arrow">
+                        <li class="breadcrumb-item">
+                            <a href="#">Liste Des Opérations Caisse</a>
+                        </li>
+
+                    </ol>
+
+                </nav>
+
+            </div>
+            <div class="content-viewport">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div>
+
+                            <div class="grid-header">
+                                <div class="grid-title">
+                                    <div class="input-group input-group-sm float-lg-left" style="width: 200px;">
+                                        <input type="text" name="myInput" id="myInput" onkeyup="myFunction()"
+                                               class="form-control " placeholder="Rechercher">
+
+                                    </div>
+                                    <div  class="btn btn-light btn-xs float-lg-right">
+                                        <h3>Total des Opérations  : </h3>
+                                        <h4 th:text="${#numbers.formatDecimal(#aggregates.sum(operationCaisse.![montant]),3,'POINT',2,'COMMA') + '  MAD'}"></h4>
+                                    </div>
+                                </div>
+                                </br>
+                                <a type="button" class="btn btn-primary btn-xs float-lg-right" data-toggle="modal"
+                                   data-target="#modal-lg">Ajouter nouvelle opération de caisse
+                                    <i class="mdi mdi-plus-circle"></i>
+                                </a>
+                            </div>
+
+                            <div class="modal fade" id="modal-lg" tabindex="-1"
+                                 role="dialog" aria-labelledby="exampleModalLongTitle"
+                                 aria-hidden="true" >
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5>
+                                                Opération Caisse
+                                            </h5>
+                                            <button type="button" class="close"
+                                                    data-dismiss="modal" aria-label="Fermer">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form th:action="@{/OperationCaisse/Ajouter}"  method="post" target="_blank" onsubmit="setTimeout(function(){window.location.reload();},60);">
+                                            <div class="modal-body">
+                                                <section class="content">
+                                                    <div class="container-fluid">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <!-- About Me Box -->
+                                                                <div class="card card-primary">
+                                                                    <!-- /.card-header -->
+                                                                    <div class="card-body">
+                                                                        <p>Veuillez <strong>remplir</strong> le formulaire suivant :<br>
+                                                                        <hr>
+                                                                        </p>
+                                                                    </div>
+
+                                                                    <div class="form-group row showcase_row_area">
+                                                                        <div class="col-md-3 showcase_text_area">
+                                                                            <label>Date d'opération
+                                                                                :</label>
+                                                                        </div>
+                                                                        <div class="col-md-9 showcase_content_area">
+                                                                            <input type="date" class="form-control" name="dateOper"
+                                                                                   placeholder="Saisir la date d'opération" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row showcase_row_area">
+                                                                        <div class="col-md-3 showcase_text_area">
+                                                                            <label>Demandeur
+                                                                                :</label>
+                                                                        </div>
+                                                                        <div class="col-md-9 showcase_content_area" >
+
+                                                                            <select class="custom-select" style="width: 100%" id="customselect" name="individu" required>
+                                                                                <option value=""></option>
+                                                                                <option th:each="ind : ${Individu}" th:id="${ind.codecin}"
+                                                                                        th:value="${ind.id}"
+                                                                                        th:text="${ind.nom+' '+ind.prenom}"></option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row showcase_row_area">
+                                                                        <div class="col-md-3 showcase_text_area">
+                                                                            <label>Motif
+                                                                                :</label>
+                                                                        </div>
+                                                                        <div class="col-md-9 showcase_content_area">
+                                                                            <select class="custom-select" name="motif" onchange="check(this)" required>
+                                                                                <option value="">Choisir le motif</option>
+                                                                                <option th:each="motif : ${Motifs}" th:id="${motif.id}"
+                                                                                        th:value="${motif.id}"
+                                                                                        th:text="${motif.desc_motif}"></option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row showcase_row_area" >
+                                                                        <div class="col-md-3 showcase_text_area" style="display: none;" id="container1">
+                                                                            <label>Nombre des jours
+                                                                                :</label>
+                                                                        </div>
+                                                                        <div class="col-md-9 showcase_content_area" style="display: none;" id="container2">
+                                                                            <input type="number" class="form-control" name="numJrs"
+                                                                                   placeholder="Saisir le Nombre des jours" >
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row showcase_row_area">
+                                                                        <div class="col-md-3 showcase_text_area">
+                                                                            <label>Affaire
+                                                                                :</label>
+                                                                        </div>
+                                                                        <div class="col-md-9 showcase_content_area" >
+                                                                            <select class="custom-select" id="customselect3" style="width: 100%" name="code" required>
+                                                                                <option value="">Choisir le chantier</option>
+                                                                                <option th:each="chantier : ${Affaire}" th:id="${chantier.code}"
+                                                                                        th:value="${chantier.code}"
+                                                                                        th:text="${chantier.codedes}"></option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row showcase_row_area">
+                                                                        <div class="col-md-3 showcase_text_area">
+                                                                            <label>Montant
+                                                                                :</label>
+                                                                        </div>
+                                                                        <div class="col-md-9 showcase_content_area">
+                                                                            <input type="text" class="form-control" name="montant"
+                                                                                   placeholder="Saisir le montant" required>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.card-body -->
+                                                            </div>
+                                                            <!-- /.card -->
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <!-- /.row -->
+
+                                                </section>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Fermer
+                                                </button>
+                                                <input type="submit" value="Valider"
+                                                       class="btn btn-success" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="item-wrapper">
+                                <div class="table-responsive">
+                                    <table id="myTable" class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>N° d'opération</th>
+                                            <th>Individu</th>
+                                            <th>Date</th>
+                                            <th>Motif</th>
+
+                                            <th>Montant</th>
+                                            <th>Chantier</th>
+                                            <th>Etat</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="op : ${operations}">
+                                            <td th:text="${op.id}"></td>
+                                            <td >
+                                                <a target="_blank" th:href="@{/Operation/Imprimer/{id}(id=${op.id})}" th:text="${op.individu.nom+' '+op.individu.prenom}"></a>
+                                            </td>
+
+                                            <td th:text="${#dates.format(op.dateOper,'dd-MM-yyyy')}"></td>
+                                            <td th:text="${op.motif.desc_motif}"></td>
+
+                                            <td th:text="${#numbers.arrayFormatDecimal(op.montant,3,'POINT',2,'COMMA') + ' DHS'}"></td>
+                                            <td th:if="${op.affaire!=null}" th:text="${op.affaire.designation}"></td>
+                                            <td th:if="${op.affaire==null}" th:text="${'NULL'}"></td>
+                                            <td th:text="${op.etat}"></td>
+
+
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                          <div th:if="${operations.totalElements>0}"  class="fc-footer-toolbar text-center mt-4">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                                <!-- Sélecteur d'éléments par page -->
+                                <div class="d-flex align-items-center mb-2 me-3">
+                                    <label for="pageSize" class="form-label me-2 mb-0">Éléments par page :</label>
+                                    <select id="pageSize" class="form-select form-select-sm" style="width: auto;"
+                                            onchange="changePageSize(this.value)">
+                                        <option value="10" th:selected="${operations.size == 10}">10</option>
+                                        <option value="30" th:selected="${operations.size == 30}">30</option>
+                                        <option value="50" th:selected="${operations.size == 50}">50</option>
+                                        <option value="100" th:selected="${operations.size == 100}">100</option>
+                                    </select>
+                                </div>
+
+                                <!-- Pagination -->
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center flex-wrap mb-0">
+                                        <!-- Première -->
+                                        <li class="page-item" th:classappend="${operations.first} ? 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{/OperationCaisse(statut=${statut}, size=${operations.size}, page=1)}">&laquo;</a>
+                                        </li>
+
+                                        <!-- Précédente -->
+                                        <li class="page-item" th:classappend="${operations.first} ? 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{/OperationCaisse(statut=${statut}, size=${operations.size}, page=${operations.number})}">&#8249;</a>
+                                        </li>
+
+                                        <!-- Numéros -->
+                                        <li class="page-item"
+                                            th:each="pageNumber : ${pageNumbers}"
+                                            th:classappend="${pageNumber == operations.number + 1} ? 'active'">
+                                            <a class="page-link"
+                                               th:href="@{/OperationCaisse(statut=${statut}, size=${operations.size}, page=${pageNumber})}"
+                                               th:text="${pageNumber}"></a>
+                                        </li>
+
+                                        <!-- Suivante -->
+                                        <li class="page-item" th:classappend="${operations.last} ? 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{/OperationCaisse(statut=${statut}, size=${operations.size}, page=${operations.number + 2})}">&#8250;</a>
+                                        </li>
+
+                                        <!-- Dernière -->
+                                        <li class="page-item" th:classappend="${operations.last} ? 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{/OperationCaisse(statut=${statut}, size=${operations.size}, page=${operations.totalPages})}">&raquo;</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- Informations sur les éléments affichés -->
+                                <div class="text-muted mb-2 me-3">
+                                    <small>
+                                        Affichage de <span th:text="${(operations.number * operations.size) + 1}">1</span>
+                                        à <span th:text="${(operations.number + 1) * operations.size > operations.totalElements ? operations.totalElements : (operations.number + 1) * operations.size}">30</span>
+                                        sur <span th:text="${operations.totalElements}">100</span> éléments
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content viewport ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <!-- partial -->
+    </div>
+    <!-- page content ends -->
+</div>
+</body>
+<script type="text/javascript">
+
+    function myFunction() {
+        var input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            let found = false;
+            td = tr[i].getElementsByTagName("td");
+            for (j = 0; j < td.length; j++) { // Parcourir toutes les colonnes
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            tr[i].style.display = found ? "" : "none";
+        }
+    }
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#customselect').select2({
+            dropdownParent: $('#modal-lg .modal-content'),
+            width: 'resolve',
+            placeholder: "Choisir l'individu",
+            allowClear: true,
+            required : true
+        });
+    });
+
+    $(document).ready(function() {
+        $('#customselect3').select2({
+            dropdownParent: $('#modal-lg .modal-content'),
+            width: 'resolve',
+            placeholder: "Choisir le chantier",
+            allowClear: true,
+            required : true
+        });
+    });
+
+    function check(that) {
+
+        var container1 = document.getElementById("container1");
+        var container2 = document.getElementById("container2");
+
+        if (that.value=="2") {
+            container1.style.display = "block";
+            container2.style.display = "block";
+            setRequired(true);
+        } else if (that.value=="1") {
+            container1.style.display = "none";
+            container2.style.display = "none";
+            setRequired(false);
+        }else if (that.value=="3") {
+            container1.style.display = "none";
+            container2.style.display = "none";
+            setRequired(false);
+        }else if (that.value=="4") {
+            container1.style.display = "none";
+            container2.style.display = "none";
+            setRequired(false);
+        }
+    }
+    function setRequired(val){
+        input = document.getElementById("container2").getElementsByTagName('input');
+        for(i = 0; i < input.length; i++){
+            input[i].required = val;
+        }
+    }
+</script>
+
+<script th:inline="javascript">
+    function changePageSize(newSize) {
+        /*<![CDATA[*/
+        var currentStatut = /*[[${statut}]]*/ 'All';
+        var contextPath = /*[[@{/}]]*/ ''; // récupère le contextPath automatiquement
+
+        var url = contextPath + 'OperationCaisse?statut=' + encodeURIComponent(currentStatut) +
+            '&size=' + newSize + '&page=1';
+
+        window.location.href = url;
+        /*]]>*/
+    }
+</script>
+</html>

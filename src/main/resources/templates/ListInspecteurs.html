@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments/layout :: head"/>
+<link href="../../resources/select2/dist/css/select2.min.css" rel="stylesheet" />
+<script src="../../resources/select2/dist/js/select2.min.js"></script>
+<script src="../static/jquery/jquery.min.js"></script>
+
+
+
+<body class="header-fixed">
+    
+<!-- partial:../../partials/_header.html -->
+<nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+<!-- partial -->
+<div class="page-body">
+    <!-- partial:../../partials/_sidebar.html -->
+    <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+    <!-- partial -->
+    <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+            <div class="viewport-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb has-arrow">
+                        <li class="breadcrumb-item">
+                            <select class="js-example-basic-single" name="state">
+                                <option value="AL">Alabama</option>
+                                  
+                                <option value="WY">Wyoming</option>
+                              </select>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="content-viewport">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="grid">
+                            <div class="grid-header">
+
+                            </div>
+                            <div class="item-wrapper">
+                                <div class="table-responsive" style="height: 500px;">
+                                    <table id="myTable" class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Individu</th>
+                                            <th>Date Naissance</th>
+                                            <th>Sexe</th>
+                                            <th>Adresse</th>
+                                            <th>Email</th>
+                                            <th>Telephone</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:if="${ats.isEmpty()}">
+                                            <td class="text-lg-center" colspan="6"><strong
+                                                    th:text="${'Aucun Inspecteur saisie'}"></strong></td>
+                                        </tr>
+                                        <tr th:each="at : ${ats}" >
+                                            <td  th:text="${at.id}"></td>
+                                            <td >
+
+                                                <a class="btn btn-secondary" type="button" data-toggle="modal"
+                                                   data-target="#modal-lg1"
+                                                   th:attrappend="data-target=${at.id}" th:text="${at.nom.trim()+' '+at.prenom.trim()}">
+                                                </a>
+                                            </td>
+                                            <td  th:text="${#dates.format(at.datenaissance,'dd-MM-yyyy')}"></td>
+                                            <td  th:text="${at.sexe}"></td>
+                                            <td  th:text="${at.adresse}"></td>
+                                            <td  th:text="${at.email}"></td>
+                                            <td  th:text="${at.tele}"></td>
+
+
+                           <!-- -------------------- Debut  Code 2 ------------------ -->
+                                            <td >
+                                                <div class="dropdown show">
+                                                    <a class="btn btn-xs btn-dark dropdown-toggle"
+                                                       href="#"
+                                                       role="button"
+                                                       th:id="${'dropdownMenuLink'+at.id}"
+                                                       data-toggle="dropdown" aria-haspopup="true"
+                                                       aria-expanded="false">
+                                                        Action
+                                                    </a>
+                                                    <div class="dropdown-menu"
+                                                         aria-labelledby="dropdownMenuLink">
+                                                        <a type="button" class="dropdown-item"
+                                                           data-target="#deleteModal"
+                                                           data-toggle="modal"
+                                                           th:attrappend="data-target=${at.id}">Supprimer</a>
+                                                        <a type="button" class="dropdown-item"
+                                                           data-target="#updateModal" data-toggle="modal"
+                                                           th:attrappend="data-target=${at.id}"
+                                                        >Modifier</a>
+                                                    </div>
+                                                    <!-- ---------------------------- Debut Code 1 ----------------------------- -->
+                                                    <div class="modal fade" tabindex="-1" id="modal-lg1"
+                                                         role="dialog" aria-labelledby="exampleModalLongTitle"
+                                                         aria-hidden="true" th:attrappend="id=${at.id}">
+                                                        <div class="modal-dialog modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle1">
+                                                                        Consultation d'Inspecteur : <strong
+                                                                            th:text="${at.nom+' '+at.prenom}"></strong>
+                                                                    </h5>
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Fermer">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <section class="content">
+                                                                        <div class="container-fluid">
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <!-- About Me Box -->
+                                                                                    <div class="card card-primary">
+                                                                                        <!-- /.card-header -->
+                                                                                        <!-- Nom Complet -->
+                                                                                        <div class="form-group row showcase_row_area">
+                                                                                            <div class="col-md-3 showcase_text_area">
+                                                                                                <label>Nom Complet
+                                                                                                    :</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-9 showcase_content_area">
+                                                                                                <li th:switch="${at.sexe}">
+                                                                                                    <strong th:case="'Homme'"
+                                                                                                            th:text="${'Mr. '+at.nom+' '+at.prenom}"></strong>
+                                                                                                    <strong th:case="'Femme'"
+                                                                                                            th:text="${'Mme. '+at.nom+' '+at.prenom}"></strong>
+                                                                                                </li>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!-- Date Naissance -->
+                                                                                        <div class="form-group row showcase_row_area">
+                                                                                            <div class="col-md-3 showcase_text_area">
+                                                                                                <label>Date de Naissance
+                                                                                                    :</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-9 showcase_content_area">
+                                                                                                <li><strong
+                                                                                                        th:text="${#dates.format(at.datenaissance,'dd-MM-yyyy')}"></strong>
+                                                                                                </li>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!-- Sexe -->
+                                                                                        <div class="form-group row showcase_row_area">
+                                                                                            <div class="col-md-3 showcase_text_area">
+                                                                                                <label>Sexe
+                                                                                                    :</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-9 showcase_content_area">
+                                                                                                <li><strong
+                                                                                                        th:text="${at.sexe}"></strong>
+                                                                                                </li>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!-- Adresse -->
+                                                                                        <div class="form-group row showcase_row_area">
+                                                                                            <div class="col-md-3 showcase_text_area">
+                                                                                                <label>Adresse
+                                                                                                    :</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-9 showcase_content_area">
+                                                                                                <li><strong
+                                                                                                        th:text="${at.adresse}"></strong>
+                                                                                                </li>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!-- Email -->
+                                                                                        <div class="form-group row showcase_row_area">
+                                                                                            <div class="col-md-3 showcase_text_area">
+                                                                                                <label>Email
+                                                                                                    :</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-9 showcase_content_area">
+                                                                                                <li><strong
+                                                                                                        th:text="${at.email}"></strong>
+                                                                                                </li>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!-- Numéro de telephonne -->
+                                                                                        <div class="form-group row showcase_row_area">
+                                                                                            <div class="col-md-3 showcase_text_area">
+                                                                                                <label>Numéro de Tél
+                                                                                                    :</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-9 showcase_content_area">
+                                                                                                <li><strong
+                                                                                                        th:text="${at.tele}"></strong>
+                                                                                                </li>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <hr>
+                                                                                    </div>
+                                                                                    <!-- /.card-body -->
+                                                                                </div>
+                                                                                <!-- /.card -->
+
+                                                                            </div>
+                                                                            <!-- /.col -->
+                                                                        </div>
+                                                                        <!-- /.row -->
+
+                                                                    </section>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                            data-dismiss="modal">Fermer
+                                                                    </button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- ----------------------------Fin Code 1 ----------------------------------->
+                                                    <div class="modal fade" id="deleteModal"
+                                                         tabindex="-1"
+                                                         th:attrappend="id=${at.id}"
+                                                         role="dialog"
+                                                         aria-labelledby="exampleModalCenterTitle5"
+                                                         aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered"
+                                                             role="document">
+                                                            <div class="modal-content">
+                                                                <form th:action="@{/Inspecteur/Supprimer/{id}(id=${at.id})}"
+                                                                      method="get">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title"
+                                                                            id="exampleModalCenterTitle5">
+                                                                            Supprimer Individu
+                                                                        </h5>
+                                                                        <button type="button"
+                                                                                class="close"
+                                                                                data-dismiss="modal"
+                                                                                aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <p>Voulez vous supprimer l'inspecteur : <br>
+                                                                            <strong th:text="${at.nom.trim()+' '+at.prenom.trim()}"></strong>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button"
+                                                                                class="btn btn-secondary"
+                                                                                data-dismiss="modal">
+                                                                            Fermer
+                                                                        </button>
+                                                                        <input type="submit" class="btn btn-danger" value="supprimer"/>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal fade" id="updateModal"
+                                                         tabindex="-1"
+                                                         th:attrappend="id=${at.id}"
+                                                         role="dialog"
+                                                         aria-labelledby="exampleModalCenterTitle7"
+                                                         aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg modal-dialog-centered"
+                                                             role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title"
+                                                                        id="exampleModalCenterTitle7">
+                                                                        Modifier L'inspecteur
+                                                                    </h5>
+                                                                    <button type="button"
+                                                                            class="close"
+                                                                            data-dismiss="modal"
+                                                                            aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <form th:action="@{/Inspecteur/Modifier/{id}(id=${at.id})}"  method="post">
+                                                                    <div class="modal-body">
+                                                                        <section class="content">
+                                                                            <div class="container-fluid">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <!-- About Me Box -->
+                                                                                        <div class="card card-primary">
+                                                                                            <!-- /.card-header -->
+                                                                                            <div class="card-body">
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Nom
+                                                                                                            :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <input type="text" th:value="${at.nom}"  class="form-control" name="nom"
+                                                                                                               required >
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <br>
+                                                                                                         
+ <!-- Select2 **************************************************************************************************-->
+ <select class="js-example-basic-single" name="state">
+    <option value="AL">Alabama</option>
+        <option value="MA">Madrid</option>
+        <option value="TO">Toronto</option>
+        <option value="LO">Londan</option>
+    <option value="WY">Wyoming</option>
+</select>
+</select>
+<!-- End Select2 ******************************************************************************************-->
+
+
+
+
+
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Prenom
+                                                                                                            :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <input type="text" th:value="${at.prenom}"  class="form-control" name="prenom"
+                                                                                                               required >
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <br>
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Date Naissance
+                                                                                                            :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <input type="date" th:value="${{at.datenaissance}}"  class="form-control" name="datenaissance"
+                                                                                                               required >
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <br>
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Sexe
+                                                                                                            :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <select class="custom-select" name="sexe" th:id="${'sexe'+at.id}" required>
+                                                                                                        <select class="custom-select" name="sexe" th:id="${'sexe'+at.id}" required>
+                                                                                                            <option value="">Choisir une option</option>
+                                                                                                            <option th:selected="${at.sexe=='Homme'}" id="Homme" value="Homme">Homme </option>
+                                                                                                            <option th:selected="${at.sexe=='Femme'}" id="Femme" value="Femme">Femme </option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <br>
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                                    <label>Adresse
+                                                                                                        :</label>
+                                                                                                </div>
+                                                                                                <div class="col-md-9 showcase_content_area">
+                                                                                                    <input type="text" th:value="${at.adresse}"  class="form-control" name="adresse"
+                                                                                                            >
+                                                                                                </div>
+                                                                                            </div>
+                                                                                                <br>
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Email
+                                                                                                            :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <input type="text" th:value="${at.email}"  class="form-control" name="email">
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <br>
+                                                                                                <div class="form-group row showcase_row_area">
+                                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                                        <label>Telephonne
+                                                                                                            :</label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                                        <input type="text" th:value="${at.tele}"  class="form-control" name="tele"
+                                                                                                               required >
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <br>
+
+                                                                                                <!-- /.card-body -->
+                                                                                            </div>
+                                                                                            <!-- /.card -->
+                                                                                        </div>
+                                                                                        <!-- /.col -->
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                                    <!-- /.row -->
+
+                                                                        </section>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                                data-dismiss="modal">Fermer
+                                                                        </button>
+                                                                        <input type="submit" value="Modifier" class="btn btn-success"/>
+
+                                                                    </div>
+                                                                </form>
+
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <!-- ----- Fin Code 2  ------------------ -->
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fc-footer-toolbar">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li th:if="${ats.number eq 0} ? 'disabled' : '' " class="page-item">
+                                        <a th:if="${not ats.isFirst()}"
+                                           th:href="@{/Inspecteurs/Tous(size=${ats.size}, page=${(ats.totalPages - ats.totalPages) + 1})}"
+                                           class="page-link" title="Première">&laquo;</a>
+                                        <a th:if="${ats.isFirst()}"
+                                           href="javascript:void(0)"
+                                           class="page-link btn-primary" title="Première">&laquo;</a>
+                                    </li>
+                                    <li th:if="${ats.number eq 0} ? 'disabled' : '' " class="page-item">
+                                        <a th:if="${not ats.isFirst()}"
+                                           th:href="@{/Inspecteurs/Tous(size=${ats.size}, page=${ats.number})}"
+                                           class="page-link" title="Précédente">&#8249;</a>
+                                        <a th:if="${ats.isFirst()}"
+                                           href="javascript:void(0)"
+                                           class="page-link btn-primary" title="Précédente">&#8249;</a>
+                                    </li>
+                                    <li th:if="${ats.totalPages > 0}" th:each="pageNumber : ${pageNumbers}"  class="page-item" th:classappend="${pageNumber eq ats.number + 1} ? active">
+                                        <a th:href="@{/Inspecteurs/Tous(size=${ats.size}, page=${pageNumber})}"
+                                           th:text="${pageNumber}"
+                                           class="page-link"></a>
+                                    </li>
+                                    <li th:if="${ats.number + 1 ge ats.totalPages} ? 'disabled' : '' " class="page-item">
+                                        <a th:if="${not ats.isLast()}"
+                                           th:href="@{/Inspecteurs/Tous(size=${ats.size}, page=${ats.number + 2})}"
+                                           class="page-link" title="Suivante">&#8250;</a>
+                                        <a th:if="${ats.isLast()}"
+                                           href="javascript:void(0)"
+                                           class="page-link btn-primary" title="Suivante">&#8250;</a>
+                                    </li>
+                                    <li th:if="${ats.number + 1 eq ats.totalPages} ? 'disabled' : '' " class="page-item">
+                                        <a th:if="${not ats.isLast()}"
+                                           th:href="@{/Inspecteurs/Tous(size=${ats.size}, page=${ats.totalPages})}"
+                                           class="page-link" title="Dernière">&raquo;</a>
+                                        <a th:if="${ats.isLast()}"
+                                           href="javascript:void(0)"
+                                           class="page-link" title="Dernière">&raquo;</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content viewport ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <!-- partial -->
+    </div>
+    <!-- page content ends -->
+</div>
+
+<script>
+// In your Javascript (external .js resource or <script> tag)
+    $(document).ready(function() {
+    $('.js-example-basic-single').select2();
+});
+  $(document).on('ready', function () {
+    // initialization of select2
+    $('.js-select2-custom').each(function () {
+      var select2 = $.HSCore.components.HSSelect2.init($(this));
+    });
+  });
+
+ 
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    function addinputs(id) {
+        let certifType = document.getElementsByName("typeCertif");
+        $('#divAppend').append('<div class="row">\n' +
+            '                                                                                                                <div class="col-sm-6">\n' +
+            '                                                                                                                    <div class="col-md-9 showcase_content_area">\n' +
+            '                                                                                                                        <select class="custom-select" id="certifType'+certifType.length+'" name="typeCertif">\n' +
+            '                                                                                                                            <option selected\n' +
+            '                                                                                                                                    disabled\n' +
+            '                                                                                                                                    value="">\n' +
+            '                                                                                                                                Choisir le type\n' +
+            '                                                                                                                            </option>\n' +
+            '                                                                                                                        </select>\n' +
+            '                                                                                                                    </div>\n' +
+            '                                                                                                                </div>\n' +
+            '                                                                                                                <div class="col-sm-6">\n' +
+            '                                                                                                                    <div class="col-md-9 showcase_content_area">\n' +
+            '                                                                                                                        <div class="custom-file">\n' +
+            '                                                                                                                            <input type="file" class="form-control" name="file" \n' +
+            '                                                                                                                                   accept="application/pdf">\n' +
+            '                                                                                                                        </div>\n' +
+            '                                                                                                                    </div>\n' +
+            '                                                                                                                </div>\n' +
+            '                                                                                                            </div>\n' +
+            '                                                                                                            <br>');
+        getType(id);
+        let file = document.getElementsByName("file");
+
+        console.log(certifType.values());
+        console.log(file.values());
+    }
+
+    function  getType(id){
+        let certifType = document.getElementsByName("certifType");
+        $.ajax({
+            url: '/PortailRH-BETA/VerifCertificat?at='+id,
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+
+                var certifTypeSelect = $('#certifType'+(certifType.length-1));
+                certifTypeSelect.empty;
+                $(data).each(function (index, element) {
+                    certifTypeSelect.append('<option value="' + element + '">'+element+ '</option>');
+                })
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+    }
+
+    function  getTypeAtFirst(id){
+        var certifTypeSelect = $('#certifTypeSelect');
+        document.getElementById("certifTypeSelect").innerHTML = "";
+        $.ajax({
+            url: '/PortailRH-BETA/VerifCertificat?at='+id,
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                certifTypeSelect.append('<option selected disabled value="">Choisir le type</option>');
+                $(data).each(function (index, element) {
+                    certifTypeSelect.append('<option value="' + element + '">'+element+ '</option>');
+                })
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+    }
+
+
+    function getDetail(id){
+        document.getElementById("informationAT").innerHTML = "";
+        var atInformation = $("#informationAT");
+        var certifDiv = $("#certifs");
+        document.getElementById("certifs").innerHTML = "";
+        document.getElementById("numeroAT").innerHTML = "";
+        certifDiv.append('<a href="/PortailRH-BETA/AT/Certificats/'+id+'" target="_blank">\n' +
+            '                                                                                                        <strong>Voir les certificats déposées</strong>\n' +
+            '                                                                                                    </a>');
+        getTypeAtFirst(id);
+        $.ajax({
+            url: '/PortailRH-BETA/AT?at='+id,
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+
+                if (data.villeAT==null && (data.adresseAT=='' || data.adresseAT==null)){
+                    if (data.arretTravail==false){
+                        atInformation.append('<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Nom et Prénom\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.individu.nom+' '+data.individu.prenom+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                                '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                                    '                                                                                                <label>Date et Heure accident\n' +
+                                        '                                                                                                    :</label>\n' +
+                                    '                                                                                            </div>\n' +
+                                '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                                    '                                                                                                <li><strong>'+data.dateAT+'</strong></li>\n' +
+                                    '                                                                                            </div>\n' +
+                                '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Lieu accident\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.placeAT+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Ville\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.chantierAT.ville.designation+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Adresse\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.chantierAT.adresse+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Type de blessure\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.typeBlessure+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Avec/Sans arrêt du travail \n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>Sans Arrêt du travail</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Chantier\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.chantierAT.designation+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Numéro du téléphone\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.numTele+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>');
+                    }
+                    if (data.arretTravail==true){
+
+                        atInformation.append('<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Nom et Prénom\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.individu.nom+' '+data.individu.prenom+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Date et Heure accident\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.dateAT+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Lieu accident\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.placeAT+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Ville\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.chantierAT.ville.designation+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Adresse\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.chantierAT.adresse+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Type de blessure\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.typeBlessure+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Avec/Sans arrêt du travail \n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>Avec Arrêt du travail</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Chantier\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.chantierAT.designation+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Numéro du téléphone\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.numTele+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>');
+                    }
+
+                }
+
+                if (data.villeAT!=null && (data.adresseAT!='' || data.adresseAT!=null) ){
+                    if (data.arretTravail==false){
+
+                        atInformation.append('<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Nom et Prénom\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.individu.nom+' '+data.individu.prenom+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Date et Heure accident\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.dateAT+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Lieu accident\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.placeAT+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Ville\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.villeAT.designation+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Adresse\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.adresseAT+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Type de blessure\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.typeBlessure+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Avec/Sans arrêt du travail \n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>Sans Arrêt du travail</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Chantier\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>En dehors du chantier</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Numéro du téléphone\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.numTele+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>');
+                    }
+                    if (data.arretTravail==true){
+
+                        atInformation.append('<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Nom et Prénom\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.individu.nom+' '+data.individu.prenom+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Date et Heure accident\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.dateAT+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Lieu accident\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.placeAT+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Ville\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.villeAT.designation+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Adresse\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.adresseAT+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Type de blessure\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.typeBlessure+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Avec/Sans arrêt du travail \n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>Avec Arrêt du travail</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Chantier\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>En dehors du chantier</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>' +
+                            '<div class="form-group row showcase_row_area">\n' +
+                            '                                                                                            <div class="col-md-3 showcase_text_area">\n' +
+                            '                                                                                                <label>Numéro du téléphone\n' +
+                            '                                                                                                    :</label>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                            <div class="col-md-9 showcase_content_area">\n' +
+                            '                                                                                                <li><strong>'+data.numTele+'</strong></li>\n' +
+                            '                                                                                            </div>\n' +
+                            '                                                                                        </div>');
+                    }
+
+                }
+
+                $('#numeroAT').text(data.id);
+
+                $('#modal').modal('show');
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+
+    }
+
+    function checkBless(id){
+        var oui = document.getElementById("ArT"+id);
+        var non = document.getElementById("sArT"+id);
+        var container = document.getElementById("avecAT"+id);
+
+        if (oui.checked){
+            container.style.display="block";
+        }
+        if (non.checked){
+            container.style.display="none";
+        }
+    }
+
+    $(document).ready(function () {
+        $('#submitAt').on('submit', function (e) {
+
+            var form = $('#submitAt')[0];
+            var data = new FormData(form);
+            var certificat = {};
+            let typeCertif = document.getElementById("certifTypeSelect").value;
+            var id = parseInt($('#numeroAT').text());
+            certificat.typeCertif = typeCertif;
+            data.append('certificat', new Blob([JSON.stringify(certificat)], {type: "application/json"}));
+            console.log(id);
+            $.ajax({
+                type: "POST",
+                url: "/PortailRH-BETA/AT/Certificat/Ajouter/"+id,
+                data: data,
+                //http://api.jquery.com/jQuery.ajax/
+                //https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
+                processData: false, //prevent jQuery from automatically transforming the data into a query string
+                contentType: false,
+                cache: false,
+                success: function (data) {
+                    window.location.href = "/PortailRH-BETA/Inspecteurs/Tous";
+                },
+                error: function (e) {
+                    alert("ERROR : ", e);
+                }
+            });
+        })
+    })
+</script>
+</body>
+</html>

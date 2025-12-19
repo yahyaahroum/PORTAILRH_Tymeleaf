@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.3.final using JasperReports Library version 6.20.3-415f9428cffdb6805c6f85bbb29ebaf18813a2ab  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Attestation_Formation" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d48eaf46-5e49-4206-a88d-fcb8668a6f3b">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+	<parameter name="Sexe" class="java.lang.String"/>
+	<parameter name="Nom" class="java.lang.String"/>
+	<parameter name="Prenom" class="java.lang.String"/>
+	<parameter name="Adresse" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="motif" class="java.lang.String"/>
+	<field name="dateSanction" class="java.util.Date"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="53" splitType="Stretch">
+			<image>
+				<reportElement x="10" y="10" width="140" height="30" uuid="13674bf2-11ca-4eca-acc1-b30fa790a97d"/>
+				<imageExpression><![CDATA[this.getClass().getResourceAsStream("/static/images/riche_bois.png")]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="544" splitType="Stretch">
+			<staticText>
+				<reportElement x="320" y="3" width="70" height="17" uuid="ae6cb82b-ff75-4b86-8647-71ad8f2bb8ac"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Casablanca, le ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="319" y="51" width="230" height="46" uuid="836ef5c2-6e38-498d-8c75-f3d1dda6a785"/>
+				<textFieldExpression><![CDATA[$P{Adresse}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="93" width="230" height="30" uuid="907a9258-43e9-42e8-8668-fa7cc38f0ea2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OBJET : LETTRE D'AVERTISSEMENT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="468" width="200" height="20" uuid="1bd7f17d-3e3f-4e1c-803e-d737e8213d57"/>
+				<textElement>
+					<font isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Copie  à :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="436" y="452" width="100" height="30" uuid="a7398943-db9c-4fc2-9a5f-8a2135111ac4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[La Direction]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="43" y="219" width="436" height="30" uuid="3a3f11c3-80d2-4f8a-8380-7f9636abeb55"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<text><![CDATA[En effet celles-ci dépassent les limites raisonnables, et nuises au bon fonctionnement de la production.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="44" y="269" width="434" height="30" uuid="0a841899-6aac-465c-8bb2-d2685e04d9cf"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<text><![CDATA[En conséquence, nous nous voyons dans l'obligation, de vous adresser un dernier rappel à l'ordre avant l'application des sanctions réglementaires légales.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="314" width="430" height="30" uuid="05d5f0ad-3077-43b7-b95f-19f52c4caeb3"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<text><![CDATA[Nous espérons que cet avertissement engendrera des changements dans votre comportement et que de tels faits ne se renouvelleront plus.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="361" width="435" height="30" uuid="c7824b1d-f00c-499e-ac40-d52cb2e6d22b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<text><![CDATA[Dans le cas contraire,nous serions dans l'obligation de prendre des mesures plus sévères à votre encontre.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="41" y="136" width="100" height="30" uuid="fcb1ba16-514e-4ee8-8200-aba359a4d6ce"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{Sexe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="505" width="210" height="25" uuid="573f161c-8aeb-40fc-9381-8901122e6433"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Sexe}+" "+ $P{Nom}+' '+$P{Prenom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="41" y="169" width="438" height="50" uuid="d1ad15fd-0e11-4fd1-9101-705668fb95d4"/>
+				<textFieldExpression><![CDATA["Par la présente, nous vous confirmons les remarques qui vous ont été faite à propos de votre " + $F{motif}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="46" y="404" width="432" height="30" uuid="e4fd5d87-aca6-42e7-85f3-8f44530e5ad9"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Veuillez agréer, "+$P{Sexe}+" , nos salutations distinguées."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="159" y="404" width="138" height="30" uuid="51f9cad0-752a-41e1-9dab-51df8820a927"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="488" width="200" height="15" uuid="67ddd15b-6926-4ef6-9fac-d6a22669d4a4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mr. L'inspecteur de travail]]></text>
+			</staticText>
+			<textField pattern="dd MMMM yyyy">
+				<reportElement x="393" y="3" width="149" height="17" uuid="df42a9a4-61cb-4539-813c-e66ce9077c65">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dateSanction}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="22" width="224" height="26" uuid="dc936f55-34ab-4cd5-8f00-7076b75b281d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Sexe} +" : "+$P{Nom}+ " "+$P{Prenom}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="83" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="20" width="555" height="50" uuid="9f58d2c9-3c2e-45a9-b530-109302e04b45"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["S.A.R.L au Capital de 35.000.000 Dirhams . Rue Abdelouahed El Marrakchi - Oukacha - 20580 Casablanca . \n "+
+"Tél  : 05 22 35 49 60 (L.G) - Fax  : 05 22 35 51 01 - Email  : contacts@richebois.net - Site web  : www.richebois.ma \n"+
+"Patente : 30703095 - R.c : Casablanca 35 .723 -I.F : 01640440 - CNSS : 175.91.93 - I.C.E : 000083823000080"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="10" width="555" height="1" uuid="86cb3235-195b-4e4d-a4d5-ba6ec252f228">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

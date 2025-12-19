@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="fragments/layout :: head"/>
+<link rel="stylesheet" type="text/css"
+      th:href="@{https://www.virtuosoft.eu/code/bootstrap-duallistbox/bootstrap-duallistbox/v3.0.2/bootstrap-duallistbox.css}">
+<script th:src="@{https://www.virtuosoft.eu/code/bootstrap-duallistbox/bootstrap-duallistbox/v3.0.2/jquery.bootstrap-duallistbox.js}"></script>
+
+
+<style>
+    .autocomplete-suggestions {
+        border: 1px solid #999;
+        background: #FFF;
+        overflow: auto;
+    }
+
+    .autocomplete-suggestion {
+        padding: 2px 5px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .autocomplete-selected {
+        background: #F0F0F0;
+    }
+
+    .autocomplete-suggestions strong {
+        font-weight: normal;
+        color: #3399FF;
+    }
+
+    .autocomplete-group {
+        padding: 2px 5px;
+    }
+
+    .autocomplete-group strong {
+        display: block;
+        border-bottom: 1px solid #000;
+    }
+
+
+</style>
+<style>
+    .moveall,
+    .removeall {
+        border: 1px solid #ccc !important;
+    }
+
+    .moveall:hover {
+        background: #efefef;
+    }
+
+    .removeall:hover {
+        background: #efefef;
+    }
+
+    /*// Only included because button labels aren't showing */
+
+    .moveall::after {
+        content: attr(title);
+
+    }
+
+    .removeall::after {
+        content: attr(title);
+    }
+
+    /*// Custom styling form*/
+    .form-control option {
+        padding: 10px;
+        border-bottom: 1px solid #efefef;
+    }
+</style>
+<body class="header-fixed">
+<!-- partial:../../partials/_header.html -->
+<nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+<!-- partial -->
+<div class="page-body">
+    <!-- partial:../../partials/_sidebar.html -->
+    <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+    <!-- partial -->
+    <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+            <div class="viewport-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb has-arrow">
+                        <li class="breadcrumb-item">
+                            <a href="#">Liste du Pointage</a>
+                        </li>
+                    </ol>
+                </nav>
+                <div class="alert-success">
+                    <p></p>
+                </div>
+            </div>
+            <div class="content-viewport">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <button class="btn btn-primary" data-target="#exampleModalCenter" data-toggle="modal"
+                                    id="ajoutgroupe">
+                                Ajout-groupé
+                            </button>
+
+                            <button class="btn btn-primary" data-target="#exampleModalCenterSimple" data-toggle="modal"
+                                    id="ajoutsimple">
+                                Ajout Simple
+                            </button>
+
+                            <div class="modal fade" id="exampleModalCenterSimple" tabindex="-1"
+                                 role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <form id="formSubmit">
+                                            <div class="modal-header ">
+                                                <h5 class="modal-title" id="exampleModalLongTitleSimple">
+                                                    Ajout Simple</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <div class="content-viewport">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+
+                                                            <div class="grid">
+                                                                <p class="grid-header">Choisir l'employé</p>
+                                                                <div class="grid-body">
+                                                                    <div class="item-wrapper">
+                                                                        <div class="row">
+                                                                            <div class="col-md-8 mx-auto">
+                                                                                <div class="row showcase_row_area">
+                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                        <label>Individu :</label>
+                                                                                    </div>
+                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                        <select class="custom-select"
+                                                                                                id="customselect3"
+                                                                                                style="width: 100%"
+                                                                                                required>
+                                                                                            <option th:each="emp : ${emps}"
+                                                                                                    th:id="${emp.individu}"
+                                                                                                    th:value="${emp.id}"
+                                                                                                    th:text="${emp.individu +' '+emp.nom.trim()+' '+emp.prenom.trim()}"
+                                                                                            ></option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="grid">
+                                                                <p class="grid-header">Chantier,Date et Nombre
+                                                                    d'heures</p>
+                                                                <div class="grid-body">
+                                                                    <div class="item-wrapper">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12" id="divAppend">
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-4">
+                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                            <label>Chantier :</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                            <select class="custom-select"
+                                                                                                    name="chantierCode"
+                                                                                                    required>
+                                                                                                <option selected
+                                                                                                        disabled
+                                                                                                        value="">
+                                                                                                    Choisir le chantier
+                                                                                                </option>
+                                                                                                <option th:each="code : ${chantier}"
+                                                                                                        th:id="${code.code}"
+                                                                                                        th:value="${code.code}"
+                                                                                                        th:text="${code.codedes}"></option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-4">
+                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                            <label>Date :</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                            <div class="custom-file">
+                                                                                                <input type="date" name="datesimple"
+                                                                                                       class="form-control"
+
+                                                                                                       required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-4">
+                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                            <label>heures
+                                                                                                :</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                            <div class="custom-file">
+                                                                                                <input type="number"
+                                                                                                       class="form-control"
+                                                                                                       name="heure"
+                                                                                                       min="0"
+                                                                                                       step="0.1"
+                                                                                                       required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+
+                                                                                </div><br>
+                                                                            </div>
+                                                                            <div class="col-lg-12" id="addLine" >
+                                                                                <a type="button" class="float-right" onclick="addinputs()">
+                                                                                    <i class="fa fa-plus"></i>
+                                                                                    ajouter une ligne
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light"
+                                                        data-dismiss="modal">fermer
+                                                </button>
+
+                                                <button type="submit" class="btn btn-primary" id="ajoutPointageSimple">
+                                                    Ajouter
+                                                </button>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="exampleModalCenter" tabindex="-1"
+                                 role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <form id="pointageform">
+                                            <div class="modal-header ">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                                    Ajout Groupé</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <div class="content-viewport">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+
+                                                            <div class="grid">
+                                                                <p class="grid-header">Choisir le(s) employé(s)</p>
+                                                                <div class="grid-body">
+                                                                    <div class="item-wrapper">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12 mx-auto">
+                                                                                <select multiple="multiple"
+                                                                                        name="duallistbox_demo1[]"
+                                                                                        title="duallistbox_demo1[]"
+                                                                                        required>
+                                                                                    <option th:each="emp : ${emps}"
+                                                                                            th:id="${emp.id}"
+                                                                                            th:value="${emp.id}"
+                                                                                            th:text="${emp.individu +' '+emp.nom.trim()+' '+emp.prenom.trim()}"
+                                                                                    ></option>
+                                                                                </select>
+                                                                                <br>
+
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid">
+                                                                <p class="grid-header">Chantier,Date et Nombre
+                                                                    d'heures</p>
+                                                                <div class="grid-body">
+                                                                    <div class="item-wrapper">
+                                                                        <div class="row">
+                                                                            <div class="col-md-8 mx-auto">
+                                                                                <div class="row showcase_row_area">
+                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                        <label>Chantier :</label>
+                                                                                    </div>
+                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                        <select class="custom-select"
+                                                                                                id="codechantier"
+                                                                                                required>
+                                                                                            <option selected disabled
+                                                                                                    value="">
+                                                                                                Choisir le chantier
+                                                                                            </option>
+                                                                                            <option th:each="code : ${chantier}"
+                                                                                                    th:id="${code.code}"
+                                                                                                    th:value="${code.code}"
+                                                                                                    th:text="${code.codedes}"></option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row showcase_row_area">
+                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                        <label>Date :</label>
+                                                                                    </div>
+                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                        <div class="custom-file">
+                                                                                            <input type="date"
+                                                                                                   class="form-control"
+                                                                                                   id="date" required>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row showcase_row_area">
+                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                        <label>Nombre d'heures :</label>
+                                                                                    </div>
+                                                                                    <div class="col-md-9 showcase_content_area">
+                                                                                        <div class="custom-file">
+                                                                                            <input type="number"
+                                                                                                   class="form-control"
+                                                                                                   id="nbrHeure"
+                                                                                                   min="0"
+                                                                                                   step="0.1" required>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light"
+                                                        data-dismiss="modal">fermer
+                                                </button>
+
+                                                <button type="submit" class="btn btn-primary" id="ajoutPointage">Ajouter
+                                                </button>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <button sec:authorize="hasAnyAuthority('RH','admin')" type="button" class="btn btn-primary float-lg-right"
+                                    data-target="#exampleModalCenter1" data-toggle="modal">Contrôle
+                            </button>
+
+                            <div class="modal fade" id="exampleModalCenter1" tabindex="-1"
+                                 role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header ">
+                                            <h5 class="modal-title" id="exampleModalLongTitle1">
+                                                Contrôle du pointage</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="content-viewport">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="grid">
+                                                            <div class="grid-body">
+                                                                <div class="item-wrapper">
+                                                                    <div class="row">
+                                                                        <div class="col-md-8 mx-auto">
+                                                                            <div class="row showcase_row_area">
+                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                    <label>Profile :</label>
+                                                                                </div>
+                                                                                <div class="col-md-9 showcase_content_area">
+                                                                                    <select class="custom-select"
+                                                                                            id="profile"
+                                                                                            required>
+                                                                                        <option selected disabled
+                                                                                                value="">
+                                                                                            Choisir le Profile
+                                                                                        </option>
+                                                                                        <option value="1">
+                                                                                            Mensuel
+                                                                                        </option>
+                                                                                        <option value="2">
+                                                                                            Horaire
+                                                                                        </option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row showcase_row_area">
+                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                    <label>Date Début :</label>
+                                                                                </div>
+                                                                                <div class="col-md-9 showcase_content_area">
+                                                                                    <div class="custom-file">
+                                                                                        <input type="date"
+                                                                                               class="form-control"
+                                                                                               id="datestart" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row showcase_row_area">
+                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                    <label>Date Fin :</label>
+                                                                                </div>
+                                                                                <div class="col-md-9 showcase_content_area">
+                                                                                    <div class="custom-file">
+                                                                                        <input type="date"
+                                                                                               class="form-control"
+                                                                                               id="dateend" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light"
+                                                    data-dismiss="modal">fermer
+                                            </button>
+
+                                            <button type="submit" class="btn btn-primary" id="controlePointage">
+                                                Contrôler
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="exampleModalCenter4" tabindex="-1"
+                                 role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header btn-success">
+                                            <h5 class="modal-title" id="exampleModalLongTitle4">
+                                                Succée</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="content-viewport">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="grid">
+                                                            <div class="grid-body">
+                                                                <div class="item-wrapper">
+                                                                    <div class="row">
+                                                                        <div class="col-md-8 mx-auto">
+                                                                            <p><strong>Le pointage a été controlé avec
+                                                                                succés</strong></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-success"
+                                                    data-dismiss="modal">fermer
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="exampleModalCenter3" tabindex="-1"
+                                 role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header btn-danger">
+                                            <h5 class="modal-title" id="exampleModalLongTitle3">
+                                                Erreur</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="content-viewport">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="grid">
+                                                            <div class="grid-body">
+                                                                <div class="item-wrapper">
+                                                                    <div class="row">
+                                                                        <div class="col-md-8 mx-auto">
+                                                                            <p><strong>Erreur ! Merci de verifier le
+                                                                                pointage en double affin de lancer le
+                                                                                contrôle</strong></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger"
+                                                    data-dismiss="modal">fermer
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="exampleModalCenter6" tabindex="-1"
+                                 role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header btn-warning">
+                                            <h5 class="modal-title" id="exampleModalLongTitle6">
+                                                En attente ....</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="content-viewport">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="grid">
+                                                            <div class="grid-body">
+                                                                <div class="item-wrapper">
+                                                                    <div class="row">
+                                                                        <div class="col-md-8 mx-auto">
+                                                                            <p><strong>L'opération est en cours de
+                                                                                traitement, veuillez patienter
+                                                                                .......</strong></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-warning"
+                                                    data-dismiss="modal">fermer
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="grid">
+                                    <p class="grid-header">Table du Pointage
+                                    </p>
+
+                                    <div class="item-wrapper">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover" id="pointageTable">
+                                                <thead>
+                                                <tr>
+
+                                                    <th>Date</th>
+                                                    <th>Matricule</th>
+                                                    <th>Nom/Prénom</th>
+                                                    <th>Nombre d'heure</th>
+                                                    <th>Chantier</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <div class="modal fade" id="exampleModalCenter5" tabindex="-1"
+                                                     role="dialog" aria-labelledby="exampleModalCenterTitle5"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered"
+                                                         role="document">
+
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="exampleModalCenterTitle5">Supprimer le
+                                                                    Pointage <strong style="display: none"
+                                                                                     id="debudgetid"></strong>
+                                                                </h5>
+                                                                <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <strong id="idPointage" style="display: none"></strong>
+                                                                <p>Voulez vous supprimer le Pointage pour l'employé :
+                                                                    <strong
+                                                                            id="pointageEmp"></strong> pour la date :
+                                                                    <strong id="pointageDate"></strong> avec un nombre
+                                                                    d'heures = <strong id="nombreHeure"></strong></p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Fermer
+                                                                </button>
+                                                                <input type="button" class="btn btn-danger"
+                                                                       value="supprimer" id="deletePointage"/>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="modal fade" id="exampleModalCenter2" tabindex="-1"
+                                                     role="dialog" aria-labelledby="exampleModalCenterTitle2"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog modal-xl modal-dialog-centered"
+                                                         role="document">
+                                                        <div class="modal-content">
+                                                            <form id="editForm">
+                                                                <div class="modal-header btn-primary">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle2">
+                                                                        Modifer un pointage</h5>
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal"
+                                                                            aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="content-viewport">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12">
+                                                                                <div class="grid">
+                                                                                    <p class="grid-header">
+                                                                                        l'employé(s)</p>
+                                                                                    <div class="grid-body">
+                                                                                        <div class="item-wrapper">
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-12 mx-auto">
+                                                                                                    <div class="row showcase_row_area">
+                                                                                                        <div class="col-md-2 showcase_text_area">
+                                                                                                            <label>L'employé
+                                                                                                                :</label>
+                                                                                                            <strong id="editEmpId"
+                                                                                                                    style="display: none"></strong>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-4 showcase_content_area">
+                                                                                                            <div class="custom-file">
+                                                                                                                <input type="text"
+                                                                                                                       class="form-control"
+                                                                                                                       id="empSelet"
+                                                                                                                       disabled>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-2 showcase_text_area">
+                                                                                                            <label>Chantier
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-4 showcase_content_area">
+                                                                                                            <div class="custom-file">
+                                                                                                                <input type="text"
+                                                                                                                       class="form-control"
+                                                                                                                       id="chantier"
+                                                                                                                       disabled>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="grid">
+                                                                                    <p class="grid-header">Date et
+                                                                                        Nombre d'heures</p>
+                                                                                    <div class="grid-body">
+                                                                                        <div class="item-wrapper">
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-12 mx-auto">
+                                                                                                    <div class="row showcase_row_area">
+                                                                                                        <div class="col-md-2 showcase_text_area">
+                                                                                                            <label>Date
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-4 showcase_content_area">
+                                                                                                            <div class="custom-file">
+                                                                                                                <input type="date"
+                                                                                                                       class="form-control"
+                                                                                                                       id="dateEdit"
+                                                                                                                       required>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-2 showcase_text_area">
+                                                                                                            <label>Nombre
+                                                                                                                d'heures
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-4 showcase_content_area">
+                                                                                                            <div class="custom-file">
+                                                                                                                <input type="number"
+                                                                                                                       class="form-control"
+                                                                                                                       id="nbrHeureEdit"
+                                                                                                                       min="0"
+                                                                                                                       step="0.1">
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-light"
+                                                                            data-dismiss="modal">fermer
+                                                                    </button>
+
+                                                                    <button type="submit" class="btn btn-primary"
+                                                                            id="editPointage">Modifier
+                                                                    </button>
+
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center flex-wrap mb-3"></ul>
+                        </nav>
+                    </div>
+
+            </div>
+        </div>
+        <!-- content viewport ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <!-- partial -->
+    </div>
+    <!-- page content ends -->
+</div>
+
+<script>
+    $(document).ready(function () {
+        var pointageAjout = {};
+
+        $('#pointageform').submit(function () {
+            let empList = $('[name="duallistbox_demo1[]"]').val();
+
+            pointageAjout.datePointage = $('#date').val();
+            pointageAjout.nbrHeure = $('#nbrHeure').val();
+            var pointageJSON = JSON.stringify(pointageAjout);
+            var code = $('#codechantier').val();
+            $.ajax({
+                url: '/PortailRH-BETA/Pointage/Ajouter?emp=' + empList + '&code=' + code,
+                method: 'POST',
+                data: pointageJSON,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            })
+            return true;
+        })
+
+    })
+
+    $(document).ready(function () {
+        var chantier = $('#filterChantier').val();
+        var dateStart = $('#filterDateStart').val();
+        var dateEnd = $('#filterDateEnd').val();
+
+        $('#filtrer').click(function () {
+
+            $.ajax({
+                url: '/PortailRH-BETA/Pointage/Filter?Chantier=' + chantier + '&start=' + dateStart + '&end=' + dateEnd,
+                method: 'GET',
+                data: {
+                    page: startPage,
+                    size: 15
+
+                },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            })
+        })
+
+    })
+
+
+    $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox({
+        nonSelectedListLabel: 'Tous Employés',
+        infoTextFiltered: '<span class="badge badge-warning">Filtré</span> {0} from {1}',
+        filterTextClear: 'Afficher tous',
+        infoText: 'Tous Affichés {0}',
+        infoTextEmpty: 'Aucune option séléctionnée',
+        selectedListLabel: 'Employés séléctionnés',
+        preserveSelectionOnMove: 'moved',
+        moveAllLabel: 'SéléctionnerTous',
+        filterPlaceHolder: 'Saisir le matricule',
+        removeAllLabel: 'SupprimerTous'
+    });
+
+
+</script>
+<script>
+    $(document).ready(function () {
+        let totalPages = 1;
+
+        function fetchNotes(startPage) {
+
+            $.ajax({
+                type: "GET",
+                url: "/PortailRH-BETA/Pointage/All",
+                data: {
+                    page: startPage,
+                    size: 15
+
+                },
+                success: function (response) {
+                    $('#pointageTable tbody').empty();
+                    if (!Object.keys(response.content).length) {
+                        let noteRow = '<tr>' +
+                            '<td colspan="6" align="center"><strong>Aucun Pointage Saisi</strong></td>' +
+                            '</tr>';
+                        $('#pointageTable tbody').append(noteRow);
+                    } else
+                        // add table rows
+                        $.each(response.content, (i, pointage) => {
+                            let noteRow = '<tr>' +
+                                '<td>' + pointage.datePointage + '</td>' +
+                                '<td>' + pointage.emp.individu + '</td>' +
+                                '<td>' + pointage.emp.nom + ' ' + pointage.emp.prenom + '</td>' +
+                                '<td>' + pointage.nbrHeure + ' Heures' + '</td>' +
+                                '<td>' + pointage.affaire.code + '</td>' +
+                                '<td> <a type="button" class="btn-sm btn-danger" title="supprimer" onclick="deletePointageModal(' + pointage.id + ')"><i class="fas fa-trash-alt"></i></a>' +
+                                '<a type="button" class="btn-sm btn-success" title="Modifier" onclick="ModifierPointageModal(' + pointage.id + ')"><i class="fas fa-pen-square"></i></a>' +
+                                '</td>' +
+                                '</tr>';
+                            $('#pointageTable tbody').append(noteRow);
+                        });
+
+                    if ($('ul.pagination li').length - 2 != response.totalPages) {
+                        // build pagination list at the first time loading
+                        $('ul.pagination').empty();
+                        buildPagination(response);
+                    }
+                },
+                error: function (e) {
+                    alert("ERROR: ", e);
+                    console.log("ERROR: ", e);
+                }
+            });
+        }
+
+        function buildPagination(response) {
+            totalPages = response.totalPages;
+
+            var pageNumber = response.pageable.pageNumber;
+
+            var numLinks = 10;
+
+            // print 'previous' link only if not on page one
+            var first = '';
+            var prev = '';
+            if (pageNumber > 0) {
+                if (pageNumber !== 0) {
+                    first = '<li class="page-item"><a type="button" class="page-link">«</a></li>';
+                }
+                prev = '<li class="page-item"><a type="button" class="page-link">‹</a></li>';
+            } else {
+                prev = ''; // on the page one, don't show 'previous' link
+                first = ''; // nor 'first page' link
+            }
+
+            // print 'next' link only if not on the last page
+            var next = '';
+            var last = '';
+            if (pageNumber < totalPages) {
+                if (pageNumber !== totalPages - 1) {
+                    next = '<li class="page-item"><a type="button" class="page-link">›</a></li>';
+                    last = '<li class="page-item"><a type="button" class="page-link">»</a></li>';
+                }
+            } else {
+                next = ''; // on the last page, don't show 'next' link
+                last = ''; // nor 'last page' link
+            }
+
+            var start = pageNumber - (pageNumber % numLinks) + 1;
+            var end = start + numLinks - 1;
+            end = Math.min(totalPages, end);
+            var pagingLink = '';
+
+            for (var i = start; i <= end; i++) {
+                if (i == pageNumber + 1) {
+                    pagingLink += '<li class="page-item active"><a type="button" class="page-link"> ' + i + ' </a></li>'; // no need to create a link to current page
+                } else {
+                    pagingLink += '<li class="page-item"><a type="button" class="page-link"> ' + i + ' </a></li>';
+                }
+            }
+
+            // return the page navigation link
+            pagingLink = first + prev + pagingLink + next + last;
+
+            $("ul.pagination").append(pagingLink);
+        }
+
+        $(document).on("click", "ul.pagination li a", function () {
+            var data = $(this).attr('data');
+            let val = $(this).text();
+
+            // click on the NEXT tag
+            if (val.toUpperCase() === "«") {
+                let currentActive = $("li.active");
+                fetchNotes(0);
+                $("li.active").removeClass("active");
+                // add .active to next-pagination li
+                currentActive.next().addClass("active");
+            } else if (val.toUpperCase() === "»") {
+                fetchNotes(totalPages - 1);
+                $("li.active").removeClass("active");
+                // add .active to next-pagination li
+                currentActive.next().addClass("active");
+            } else if (val.toUpperCase() === "›") {
+                let activeValue = parseInt($("ul.pagination li.active").text());
+                if (activeValue < totalPages) {
+                    let currentActive = $("li.active");
+                    startPage = activeValue;
+                    fetchNotes(startPage);
+                    // remove .active class for the old li tag
+                    $("li.active").removeClass("active");
+                    // add .active to next-pagination li
+                    currentActive.next().addClass("active");
+                }
+            } else if (val.toUpperCase() === "‹") {
+                let activeValue = parseInt($("ul.pagination li.active").text());
+                if (activeValue > 1) {
+                    // get the previous page
+                    startPage = activeValue - 2;
+                    fetchNotes(startPage);
+                    let currentActive = $("li.active");
+                    currentActive.removeClass("active");
+                    // add .active to previous-pagination li
+                    currentActive.prev().addClass("active");
+                }
+            } else {
+                startPage = parseInt(val - 1);
+                fetchNotes(startPage);
+                // add focus to the li tag
+                $("li.active").removeClass("active");
+                $(this).parent().addClass("active");
+                //$(this).addClass("active");
+            }
+        });
+
+        (function () {
+            // get first-page at initial time
+            fetchNotes(0);
+        })();
+    });
+</script>
+<script>
+    function deletePointageModal(id) {
+        $.ajax({
+            url: '/PortailRH-BETA/Pointage/get/' + id,
+            method: 'GET',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#exampleModalCenter5').modal('show');
+                $('#pointageEmp').text(data.emp.individu + ' ' + data.emp.nom + ' ' + data.emp.prenom);
+                $('#pointageDate').text(data.datePointage);
+                $('#nombreHeure').text(data.nbrHeure);
+                $('#idPointage').text(data.id);
+            },
+            error: function (error) {
+                alert(error);
+            }
+        })
+    }
+
+    function ModifierPointageModal(id) {
+        $.ajax({
+            url: '/PortailRH-BETA/Pointage/get/' + id,
+            method: 'GET',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#exampleModalCenter2').modal('show');
+                $('#empSelet').val(data.emp.individu + ' ' + data.emp.nom.trim() + ' ' + data.emp.prenom.trim());
+                $('#chantier').val(data.affaire.designation.trim());
+                $('#dateEdit').val(data.datePointage);
+                $('#nbrHeureEdit').val(data.nbrHeure);
+                $('#editEmpId').text(data.id);
+
+            },
+            error: function (error) {
+                alert(error);
+            }
+        })
+    }
+
+    $('#deletePointage').click(function () {
+        var id = parseInt($('#idPointage').text());
+        $.ajax({
+            url: '/PortailRH-BETA/Pointage/delete/' + id,
+            method: 'GET',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#exampleModalCenter5').modal('hide');
+                window.location.reload();
+
+            },
+            error: function (error) {
+                alert(error);
+            }
+        })
+    })
+
+    $('#editForm').submit(function () {
+        var id = parseInt($('#editEmpId').text());
+        var pointage = {};
+        pointage.nbrHeure = $('#nbrHeureEdit').val();
+        pointage.datePointage = $('#dateEdit').val();
+        var pointageJSON = JSON.stringify(pointage);
+        $.ajax({
+            url: '/PortailRH-BETA/Pointage/edit/' + id,
+            method: 'POST',
+            data: pointageJSON,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+            },
+            error: function (error) {
+                alert(error);
+            }
+        })
+    })
+
+    $('#controlePointage').click(function () {
+        var dateStart = $('#datestart').val();
+        var dateEnd = $('#dateend').val();
+        var profile = $('#profile').val();
+        if(profile=='')
+        {
+			profile='all';
+		}
+        $('#exampleModalCenter1').modal('hide');
+        $('#exampleModalCenter6').modal('show');
+        $.ajax({
+            url: '/PortailRH-BETA/Pointage/Controle?start=' + dateStart + '&end=' + dateEnd + '&profile=' + profile,
+            method: 'GET',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log('Succes');
+                $('#exampleModalCenter6').modal('hide');
+                $('#exampleModalCenter4').modal('show');
+            },
+            error: function (error) {
+                console.log(error);
+                $('#exampleModalCenter6').modal('hide');
+                $('#exampleModalCenter3').modal('show');
+            }
+        })
+    });
+
+    $(document).ready(function () {
+        $('#customselect3').select2({
+            width: 'resolve',
+            dropdownParent: $("#exampleModalCenterSimple")
+        });
+    });
+
+    function addinputs() {
+        let chantier = document.getElementsByName("chantierCode");
+        $('#divAppend').append(' <div class="row">\n' +
+            '                                                                                    <div class="col-sm-4">\n' +
+
+            '                                                                                        <div class="col-md-9 showcase_content_area">\n' +
+            '                                                                                            <select class="custom-select" id="chantier'+chantier.length+'" \n' +
+            '                                                                                                    name="chantierCode"\n' +
+            '                                                                                                    >\n' +
+            '                                                                                                <option selected\n' +
+            '                                                                                                        disabled\n' +
+            '                                                                                                        value="123">\n' +
+            '                                                                                                    Choisir le chantier\n' +
+            '                                                                                                </option>\n' +
+            '                                                                                            </select>\n' +
+            '                                                                                        </div>\n' +
+            '                                                                                    </div>\n' +
+            '                                                                                    <div class="col-sm-4">\n' +
+
+            '                                                                                        <div class="col-md-9 showcase_content_area">\n' +
+            '                                                                                            <div class="custom-file">\n' +
+            '                                                                                                <input type="date" name="datesimple"\n' +
+            '                                                                                                       class="form-control"\n' +
+            '                                                                                                       \n' +
+            '                                                                                                       >\n' +
+            '                                                                                            </div>\n' +
+            '                                                                                        </div>\n' +
+            '                                                                                    </div>\n' +
+            '                                                                                    <div class="col-sm-4">\n' +
+
+            '                                                                                        <div class="col-md-9 showcase_content_area">\n' +
+            '                                                                                            <div class="custom-file">\n' +
+            '                                                                                                <input type="number"\n' +
+            '                                                                                                       class="form-control"\n' +
+            '                                                                                                       name="heure"\n' +
+            '                                                                                                       min="0"\n' +
+            '                                                                                                       step="0.1"\n' +
+            '                                                                                                       >\n' +
+            '                                                                                            </div>\n' +
+            '                                                                                        </div>\n' +
+            '                                                                                    </div>\n' +
+            '\n' +
+            '\n' +
+            '                                                                                </div><br>');
+            getProjet();
+    }
+
+
+        $('#formSubmit').on('submit', function (e) {
+            var pointageArray = [];
+            var pointageList = {};
+
+            let chantier = document.getElementsByName("chantierCode");
+            let datePointage = document.getElementsByName("datesimple");
+            let nombreHeure = document.getElementsByName("heure");
+
+            var individu = parseInt($('#customselect3').val());
+
+            for (let i = 0; i < datePointage.length ; i++) {
+                var pointage = {};
+                pointage.chantier = chantier[i].value;
+                pointage.datePointage = datePointage[i].value;
+                pointage.nbrHeure = nombreHeure[i].value;
+                pointage.emp=individu;
+                pointageArray.push(pointage);
+            }
+
+            pointageList.pointageDTOList = pointageArray;
+
+            var pointageArr = JSON.stringify(pointageList);
+
+            $.ajax({
+                url: '/PortailRH-BETA/Pointage/AjoutSimple',
+                method: 'POST',
+                data: pointageArr,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            })
+
+        });
+
+    function getProjet(){
+        let chantier = document.getElementsByName("chantierCode");
+        $.ajax({
+            url: '/PortailRH-BETA/Affaire/All',
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var selectChantier = $('#chantier'+(chantier.length-1));
+                $(data).each(function (index, element) {
+                    selectChantier.append('<option value="' + element.code + '">'+element.code +' '+ element.designation + '</option>');
+                })
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+    }
+
+
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.2.27/jquery.autocomplete.min.js}"></script>
+
+
+</body>
+</html>

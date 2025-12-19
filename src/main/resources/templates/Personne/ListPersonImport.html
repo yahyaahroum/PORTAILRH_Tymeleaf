@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"/>
+<body class="header-fixed">
+<!-- partial:../../partials/_header.html -->
+<nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+<!-- partial -->
+<div class="page-body">
+    <!-- partial:../../partials/_sidebar.html -->
+    <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+    <!-- partial -->
+    <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+            <div class="viewport-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb has-arrow">
+                        <li class="breadcrumb-item">
+                            <a href="#">Liste des personnes importées</a>
+                        </li>
+                    </ol>
+                </nav>
+                <div class="alert-success" th:if="${success}">
+                    <p th:text="${success}"></p>
+                </div>
+            </div>
+            <form th:action="@{/Personnes/Importer}" method="post" enctype="multipart/form-data">
+                <div class="content-viewport">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="grid">
+                                <p class="grid-header">Importer des personnes</p>
+                                <div class="grid-body">
+                                    <div class="item-wrapper">
+                                        <div class="row">
+                                            <div class="col-md-8 mx-auto">
+                                                <div class="row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Canevas à importer :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <div class="custom-file">
+                                                            <input type="file" class="form-control" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                                      application/vnd.ms-excel" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 text-center text-sm-right order-sm-1">
+                        <input type="submit" class="btn btn-primary" value="Importer">
+                    </div>
+                </div>
+            </form>
+            <div class="content-viewport">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="grid">
+                            <p class="grid-header">Table des personnes importées
+                            <form th:action="@{/Personnes/export/{id}(id=${importId})}">
+                                <input type="submit" class="btn btn-primary btn-xs float-lg-right" value="Exporter">
+                            </form>
+                            </p>
+
+                            <div class="item-wrapper">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Nom</th>
+                                            <th>Prénom</th>
+                                            <th>Date naissance</th>
+                                            <th>Date d'embauche</th>
+                                            <th>Fonction</th>
+                                            <th>Pays</th>
+                                            <th>Ville</th>
+                                            <th>Rue</th>
+                                            <th>Code Pays</th>
+                                            <th>Banque</th>
+                                            <th>Rib</th>
+                                            <th>Domiciliation</th>
+                                            <th>Personnes à charge</th>
+                                            <th>Sexe</th>
+                                            <th>Situation Familiale</th>
+                                            <th>CIN</th>
+                                            <th>CNSS</th>
+                                            <th>CIMR</th>
+                                            <th>Type de contrat</th>
+                                            <th>Profil</th>
+                                            <th>Salaire</th>
+                                            <th>Chantier</th>
+                                            <th>Niveau d'étude</th>
+                                            <th>Mode de réglement</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="person : ${listperson}">
+                                            <td><input type="checkbox" th:id="${person.id}" th:value="${person.id}">
+                                            </td>
+                                            <td th:text="${person.nom}"></td>
+                                            <td th:text="${person.prenom}"></td>
+                                            <td th:text="${#dates.format(person.datenaissance,'dd-MM-yyyy')}"></td>
+                                            <td th:text="${#dates.format(person.dateentree,'dd-MM-yyyy')}"></td>
+                                            <td th:text="${person.fonction}"></td>
+                                            <td th:text="${person.adressepays}"></td>
+                                            <td th:text="${person.adresseville}"></td>
+                                            <td th:text="${person.adresserue}"></td>
+                                            <td th:text="${person.codepays}"></td>
+                                            <td th:text="${person.banque}"></td>
+                                            <td th:text="${person.rib}"></td>
+                                            <td th:text="${person.domiciliation}"></td>
+                                            <td th:text="${person.pcharge}"></td>
+                                            <td th:text="${person.sexe}"></td>
+                                            <td th:text="${person.sitfamiliale}"></td>
+                                            <td th:text="${person.codecin}"></td>
+                                            <td th:text="${person.cnss}"></td>
+                                            <td th:text="${person.cimr}"></td>
+                                            <td th:text="${person.typecontrat}"></td>
+                                            <td th:text="${person.profile}"></td>
+                                            <td th:text="${#numbers.arrayFormatDecimal(person.salaire,3,'POINT',2,'COMMA') + ' MAD'}"></td>
+                                            <td th:text="${person.codechantier}"></td>
+                                            <td th:text="${person.niveauetude}"></td>
+                                            <td th:text="${person.moderegl}"></td>
+
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content viewport ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <!-- partial -->
+    </div>
+    <!-- page content ends -->
+</div>
+
+</body>
+</html>

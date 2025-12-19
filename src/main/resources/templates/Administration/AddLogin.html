@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"/>
+
+  <body class="header-fixed">
+    <!-- partial:../../partials/_header.html -->
+    <nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+    <!-- partial -->
+    <div class="page-body">
+      <!-- partial:../../partials/_sidebar.html -->
+      <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+      <!-- partial -->
+      <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+          <div class="viewport-header">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb has-arrow">
+                <li class="breadcrumb-item">
+                  <a href="#">Ajouter Un Utilisateur</a>
+                </li>
+              </ol>
+            </nav>
+          </div>
+          <form th:action="@{/Utilisateurs/Ajouter}" method="post">
+          <div class="content-viewport">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="grid">
+                  <p class="grid-header">Information personnelles</p>
+                  <div class="grid-body">
+                    <div class="item-wrapper">
+                      <div class="row mb-3">
+                        <div class="col-md-8 mx-auto">
+                          <div class="form-group row showcase_row_area">
+                            <div class="col-md-3 showcase_text_area">
+                              <label>Matricule :</label>
+                            </div>
+                            <div class="col-md-9 showcase_content_area">
+                              <input type="number" class="form-control" name="matricule" placeholder="Saisir le Matricule" min="0" minlength="1" required>
+                            </div>
+                          </div>
+                          <div class="form-group row showcase_row_area">
+                            <div class="col-md-3 showcase_text_area">
+                              <label>Nom :</label>
+                            </div>
+                            <div class="col-md-9 showcase_content_area">
+                              <input type="text" class="form-control" name="nom" placeholder="Saisir le nom" required>
+                            </div>
+                          </div>
+                          <div class="form-group row showcase_row_area">
+                            <div class="col-md-3 showcase_text_area">
+                              <label >Prénom :</label>
+                            </div>
+                            <div class="col-md-9 showcase_content_area">
+                              <input type="text" class="form-control"  name="prenom" placeholder="Saisir le prenom" required>
+                            </div>
+                          </div>
+                          <div class="form-group row showcase_row_area">
+                            <div class="col-md-3 showcase_text_area">
+                              <label>Nom d'utilisateur :</label>
+                            </div>
+                            <div class="col-md-9 showcase_content_area">
+                              <input type="text" class="form-control" name="username" placeholder="Saisir le nom d'utilisateur" required>
+                            </div>
+                          </div>
+                          <div class="form-group row showcase_row_area">
+                            <div class="col-md-3 showcase_text_area">
+                              <label >Adresse Email :</label>
+                            </div>
+                            <div class="col-md-9 showcase_content_area">
+                              <input type="email" class="form-control" name="email" placeholder="Saisir l'email" required>
+                            </div>
+                          </div>
+                          <div class="form-group row showcase_row_area">
+                            <div class="col-md-3 showcase_text_area">
+                              <label>Mot de passe :</label>
+                            </div>
+                            <div class="col-md-9 showcase_content_area">
+                              <input type="password" class="form-control" name="password" placeholder="Saisir le mot de passe" required>
+                            </div>
+                          </div>
+                          <div class="form-group row showcase_row_area">
+                            <div class="col-md-3 showcase_text_area">
+                              <label>Confirmer le mot de passe :</label>
+                            </div>
+                            <div class="col-md-9 showcase_content_area">
+                              <input type="password" class="form-control" name="matchingpassword" placeholder="Confirmer le mot de passe" required>
+                            </div>
+                          </div>
+                          <div class="form-group row showcase_row_area">
+                            <div class="col-md-3 showcase_text_area">
+                              <label>Session :</label>
+                            </div>
+                            <div class="col-md-9 showcase_content_area">
+                              <div class="form-inline" required>
+                                <div class="radio mb-3">
+                                  <label class="radio-label mr-4">
+                                    <input type="radio" name="session" th:id="true" value="active">Activée<i class="input-frame"></i>
+                                  </label>
+                                </div>
+                                <div class="radio mb-3">
+                                  <label class="radio-label">
+                                    <input type="radio" name="session" th:id="false" value="inactive">Désactivée<i class="input-frame"></i>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row showcase_row_area">
+                            <div class="col-md-3 showcase_text_area">
+                              <label>Chantier(s) :</label>
+                            </div>
+                            <div class="col-md-9 showcase_content_area">
+                              <select class="custom-select" id="customselect3" style="width: 100%" name="chantier" required multiple>
+                                <option th:each="chantier : ${chantier}" th:id="${chantier.code}"
+                                        th:value="${chantier.id}"
+                                        th:text="${chantier.code+' '+chantier.designation}"></option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="form-group row showcase_row_area">
+                            <div class="col-md-3 showcase_text_area">
+                              <label>Roles :</label>
+                            </div>
+                            <div class="col-md-9 showcase_content_area">
+                              <div class="form-inline" required>
+                                <div class="radio mb-3" th:each="role : ${roles}">
+                                  <label class="radio-label mr-4">
+                                    <input type="checkbox" name="roles" th:id="${role.id}" th:value="${role.id}">[[${role.type}]]<i class="input-frame"></i>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              </div>
+
+                <div class="col-sm-6 text-center text-sm-right order-sm-1">
+                  <input type="submit" class="btn btn-primary" value="Enregistrer">
+                </div>
+
+            </div>
+          </form>
+          </div>
+        </div>
+        <!-- content viewport ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <footer class="footer" th:replace="fragments/footer::footer"></footer>
+        <!-- partial -->
+      </div>
+      <!-- page content ends -->
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#customselect3').select2({
+        width: 'resolve',
+      });
+    });
+  </script>
+  </body>
+</html>

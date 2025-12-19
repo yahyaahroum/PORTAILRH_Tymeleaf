@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DemandeConge" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0c2d55c6-67bf-4d67-89f4-ba19773054fd">
+	<field name="matricule" class="java.lang.Integer"/>
+	<field name="nom" class="java.lang.String"/>
+	<field name="prenom" class="java.lang.String"/>
+	<field name="adresserue" class="java.lang.String"/>
+	<field name="dateentree" class="java.util.Date"/>
+	<field name="dateDebut" class="java.util.Date"/>
+	<field name="exception" class="java.lang.String"/>
+	<field name="dateFin" class="java.util.Date"/>
+	<field name="motif" class="java.lang.String"/>
+	<field name="numTele" class="java.lang.String"/>
+	<field name="dateReprise" class="java.util.Date"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="88" splitType="Stretch">
+			<image>
+				<reportElement x="11" y="8" width="64" height="74" uuid="cc9e21fc-c1f0-483c-a121-5bdcbec3a354"/>
+				<imageExpression><![CDATA[this.getClass().getResourceAsStream("/static/images/richebois-200.png")]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="130" y="20" width="330" height="50" uuid="172c430f-63ef-4c76-8119-15bad1c74f1e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="22" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DEMANDE DE CONGE"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="490" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="20" width="555" height="30" uuid="a053f8b0-bc88-4ac8-8832-7f76809006a3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="16" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Demandeur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="35" y="70" width="140" height="30" uuid="bffbaea3-7fd8-459d-a227-499b93662dc7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="15" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Matricule :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="35" y="100" width="140" height="30" uuid="17c8fc68-2a97-4faf-ac63-755db3455b29"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="15" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Nom :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="35" y="130" width="140" height="30" uuid="c69b5595-bcf3-4c3b-9b23-b3becb6f12f0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="15" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Prénom :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="35" y="160" width="140" height="30" uuid="7a40627c-4934-4d86-b1c6-19e088445cce"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Date d'embauche :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="35" y="230" width="140" height="30" uuid="0c15f6fc-a260-4b83-b044-c38479aa7a65"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Serif" size="15" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Adresse :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="185" y="230" width="380" height="54" uuid="6e065f38-d34f-4ef6-8d63-deb277da77db"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Serif" size="14" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[TRIM($F{adresserue})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="185" y="100" width="360" height="30" uuid="75919934-9f0f-408f-8037-6a76ef2813b2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="14" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[TRIM($F{nom})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="185" y="70" width="360" height="30" uuid="67134f9b-13bb-4690-9110-f3018eaa0548"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="14" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matricule}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="185" y="130" width="360" height="30" uuid="6d2defec-158d-4396-9f30-4a438da1a511"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="14" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[TRIM($F{prenom})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="185" y="160" width="370" height="30" uuid="ed368f65-ba50-494b-ba75-4714d4fa1dc7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="14" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DATEFORMAT($F{dateentree},"dd/MM/yyyy")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="340" width="510" height="150" uuid="6d1a7a8a-5582-4c39-8074-c569888c0df9"/>
+				<textElement verticalAlignment="Top" markup="html">
+					<font fontName="Serif" size="14" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["<b>"+TRIM($F{motif})+"</b><br><br>"+(TRIM($F{motif}).equals("Congés payés à titre exceptionnel") ? "<b>Motif  :  </b>"+$F{exception}+"<br><br>" : "")+
+"<b>Période :  Du </b> "+DATEFORMAT($F{dateDebut},"dd/MM/yyyy")+"<b> Au </b>"+DATEFORMAT($F{dateFin},"dd/MM/yyyy")+"<br><br>"+
+"<b>Reprise Le : </b> "+DATEFORMAT($F{dateReprise},"dd/MM/yyyy")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="160" y="300" width="220" height="30" uuid="e47e240f-50bf-4830-92c2-dba4fc4c5bf4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="16" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Motif du congé ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="185" y="190" width="370" height="30" uuid="7f8e42c0-be82-4d98-b6a7-7884e83bdc17"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="14" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{numTele}==null ? "": $F{numTele})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="35" y="190" width="140" height="30" uuid="9ceecf79-1961-4485-89da-ec9e55472830"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Téléphone :]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="159" splitType="Stretch">
+			<line>
+				<reportElement x="10" y="35" width="534" height="1" uuid="b59dda48-b8bc-4725-bd4c-d9fd044d6768"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="140" y="0" width="1" height="130" uuid="22191ebe-6909-48ab-8b40-6f5888f18372"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="280" y="0" width="1" height="130" uuid="9b15a1f9-80e0-4081-b972-6e973d85a88b"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="410" y="0" width="1" height="130" uuid="7598700f-f1f7-41d0-bc89-a44badba5127"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="544" y="0" width="1" height="130" uuid="3889eae5-a759-4e2c-b230-3a4d9c6ed5bb"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="10" y="0" width="1" height="130" uuid="64b3dd16-ffd5-4974-8b32-dfb60449e89c"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="10" y="130" width="534" height="1" uuid="c20a091f-8edd-404e-8e19-fc3a94a4a4a2"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="11" y="5" width="129" height="30" uuid="d9f5b625-e4c2-4e4e-9281-ba7ebe43aee2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[L'INTERESSE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="141" y="5" width="139" height="30" uuid="70bd0389-71bf-47f6-9736-572cb49aa8b3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SCE PERSONNEL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="5" width="130" height="30" uuid="bb43088e-834c-4ba8-9a02-39a74eb45d68"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECTION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="411" y="5" width="129" height="30" uuid="717ba54b-bee6-443d-a00a-a8e104048f90"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OBSERVATION]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

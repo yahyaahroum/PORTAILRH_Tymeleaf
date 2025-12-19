@@ -1,0 +1,13 @@
+17-Oct-2023 12:32:13.205 INFOS [http-nio-8080-exec-2] org.apache.catalina.core.ApplicationContext.log HTMLManager: init: Associated with Deployer 'Catalina:type=Deployer,host=localhost'
+17-Oct-2023 12:32:13.205 INFOS [http-nio-8080-exec-2] org.apache.catalina.core.ApplicationContext.log HTMLManager: init: Global resources are available
+17-Oct-2023 12:32:13.212 INFOS [http-nio-8080-exec-2] org.apache.catalina.core.ApplicationContext.log HTMLManager: list: Listing contexts for virtual host 'localhost'
+17-Oct-2023 12:41:47.079 INFOS [http-nio-8080-exec-12] org.apache.catalina.core.ApplicationContext.log Manager: init: Associated with Deployer 'Catalina:type=Deployer,host=localhost'
+17-Oct-2023 12:41:47.079 INFOS [http-nio-8080-exec-12] org.apache.catalina.core.ApplicationContext.log Manager: init: Global resources are available
+17-Oct-2023 12:41:47.081 INFOS [http-nio-8080-exec-12] org.apache.catalina.core.ApplicationContext.log Manager: deploy: Deploying web application '/GAP'
+17-Oct-2023 12:41:47.081 INFOS [http-nio-8080-exec-12] org.apache.catalina.core.ApplicationContext.log Manager: Uploading WAR file to /opt/tomcat/webapps/GAP.war
+17-Oct-2023 12:45:55.454 INFOS [http-nio-8080-exec-15] org.apache.catalina.core.ApplicationContext.log Manager: deploy: Deploying web application '/PortailRH-BETA'
+17-Oct-2023 12:45:55.454 INFOS [http-nio-8080-exec-15] org.apache.catalina.core.ApplicationContext.log Manager: Uploading WAR file to /opt/tomcat/webapps/PortailRH-BETA.war
+17-Oct-2023 12:50:09.485 INFOS [http-nio-8080-exec-14] org.apache.catalina.core.ApplicationContext.log Manager: deploy: Deploying web application '/SC'
+17-Oct-2023 12:50:09.485 INFOS [http-nio-8080-exec-14] org.apache.catalina.core.ApplicationContext.log Manager: Uploading WAR file to /opt/tomcat/webapps/SC.war
+17-Oct-2023 12:52:33.053 INFOS [http-nio-8080-exec-11] org.apache.catalina.core.ApplicationContext.log Manager: deploy: Deploying web application '/GC'
+17-Oct-2023 12:52:33.053 INFOS [http-nio-8080-exec-11] org.apache.catalina.core.ApplicationContext.log Manager: Uploading WAR file to /opt/tomcat/webapps/GC.war

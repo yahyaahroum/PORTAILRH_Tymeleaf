@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Equipement" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bf8b1654-176e-4c7a-9d0b-2a5f94c4fe0d">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+
+	<field name="codecin" class="java.lang.String">
+
+	</field>
+	<field name="nom" class="java.lang.String">
+
+	</field>
+	<field name="prenom" class="java.lang.String">
+
+	</field>
+	<field name="sexe" class="java.lang.String">
+
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="62" splitType="Stretch">
+			<image>
+				<reportElement x="10" y="10" width="146" height="40" uuid="d74dbf7a-fce6-4068-98ff-4e25f0a27232"/>
+				<imageExpression><![CDATA[this.getClass().getResourceAsStream("/static/images/riche_bois.png")]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="593" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="30" width="555" height="30" uuid="485b26b1-9e65-4c1a-a5ef-cf43bbc0e89f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["<b>Decision</b>"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="80" width="470" height="340" uuid="0652f429-d765-4fa0-898c-b2cc39c127c7"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" markup="html">
+					<font fontName="Serif" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["A compter du "+"<b>"+DATEFORMAT(TODAY(),"dd/MM/yyyy")+"</b>"+" , <br><br>"+
+
+"Il sera affecté à "+(TRIM($F{sexe}).equals("1") ? "Monsieur ":"Madame ")+", "+"<b>"+UPPER(TRIM($F{nom}))+"</b>"+" "+"<b>"+UPPER(TRIM($F{prenom} ))+"</b>"+" titulaire de la CIN numéro : "+"<b>"+UPPER(TRIM($F{codecin}))+"</b>"+" les équipements de protection individuels (EPI) nécessaires à sa sécurité au travail composé de : <br><br>"+
+
+"   - Casque chantier ; <br>"+
+"   - Gilet de sécurité chantier ; <br>"+
+"   - Deux paires de gant ;<br>"+
+"   - Chaussures de sécurité ;<br>"+
+"   - Lunettes de protection.<br><br>"+
+
+"Il est a précisé que cette tenue est strictement réservée à usage professionnel de l'intéressé dans le cadre de son exercice au sein de la société RICHE BOIS.<br><br>"+
+
+"En cas de perte ou de vol, l'intéressé est tenu d'acquérir immédiatement et à sa charge une nouvelle tenue au nom de la société.<br><br>"+
+
+"La durée de vie des EPI attribués est de six mois au minimum. Leur valeur totale est fixée actuellement à trois cent dirhams au total. En cas de départ du salarié avant la fin de son contrat la société se réserve le droit de prélever du montant du solde de tout compte du salarié un montant équivalent au prorata de la valeur totale des EPI pour la période du contrat non achevée. "
+]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="480" width="330" height="30" uuid="b428eceb-df0c-4626-b13f-9b733a6e328f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fait en deux exemplaires à Casablanca le "+DATEFORMAT(TODAY(),"dd/MM/yyyy")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="530" width="149" height="30" uuid="2e723a72-1533-4359-a84a-b15ace84e42c"/>
+				<textElement textAlignment="Center" markup="html">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["<b>Signature</b>"
+]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="85" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="10" width="555" height="1" uuid="5620e579-3bcb-4e21-9662-38f4cbc862bc">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<textField>
+				<reportElement x="0" y="20" width="555" height="50" uuid="61ded1da-0109-4411-8bfd-7ca86c5222f8"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["S.A.R.L au Capital de 35.000.000 Dirhams . Rue Abdelouahed El Marrakchi - Oukacha - 20580 Casablanca . \n "+
+"Tél  : 05 22 35 49 60 (L.G) - Fax  : 05 22 35 51 01 - Email  : contacts@richebois.net - Site web  : www.richebois.ma \n"+
+"Patente : 30703095 - R.c : Casablanca 35 .723 -I.F : 01640440 - CNSS : 175.91.93 - I.C.E : 000083823000080"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

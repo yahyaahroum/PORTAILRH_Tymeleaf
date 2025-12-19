@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments/layout :: head"/>
+<body class="header-fixed">
+<!-- partial:../../partials/_header.html -->
+<nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+<!-- partial -->
+<div class="page-body">
+    <!-- partial:../../partials/_sidebar.html -->
+    <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+    <!-- partial -->
+    <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+            <div class="viewport-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb has-arrow">
+                        <li class="breadcrumb-item">
+                            <a href="#">Liste des Congés Demandés</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="content-viewport">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="grid-header">
+
+                            <div class="alert-danger" th:if="${errorconge}">
+
+                                <p th:text="${errorconge}"></p>
+
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="item-wrapper">
+                                <div class="table-responsive">
+                                    <table id="myTable" class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Matricule</th>
+                                            <th>Nom et Prénom</th>
+                                            <th>Date Début</th>
+                                            <th>Date Fin</th>
+                                            <th>Chantier</th>
+                                            <th>Motif</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:if="${congeDemande.isEmpty()}" >
+                                            <td class="text-lg-center" colspan="7"><strong th:text="${'Aucun Congé Demandé'}"></strong></td>
+                                        </tr>
+                                        <tr th:each="conge : ${congeDemande}">
+
+                                            <td th:text="${conge.individu.individu}"></td>
+
+                                            <td >
+                                                <a class="btn btn-secondary" type="button" data-toggle="modal"
+                                                   data-target="#modal-lg1"
+                                                   th:attrappend="data-target=${conge.id}" th:text="${conge.individu.nom+' '+conge.individu.prenom}">
+                                                </a>
+                                                <div class="modal fade" id="modal-lg1" tabindex="-1"
+                                                     role="dialog" aria-labelledby="exampleModalLongTitle1"
+                                                     aria-hidden="true" th:attrappend="id=${conge.id}">
+
+                                                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLongTitle1">
+                                                                    Dêpot del la demande du congé</h5>
+                                                                <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Fermer">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <form th:action="@{/Conge/Depot/{id}(id=${conge.id})}" enctype="multipart/form-data" method="post">
+                                                                <div class="modal-body">
+                                                                    <section class="content">
+                                                                        <div class="container-fluid">
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <!-- About Me Box -->
+                                                                                    <div class="card card-primary">
+                                                                                        <!-- /.card-header -->
+                                                                                        <div class="card-body">
+                                                                                            <p>Veuillez déposer la demande du congé pour l'employé :
+                                                                                            <h5
+                                                                                                    th:text="${conge.individu.nom+ ' ' +conge.individu.prenom}"></h5>
+                                                                                            </p>
+                                                                                            <hr>
+                                                                                        </div>
+
+                                                                                        <div class="form-group row showcase_row_area">
+                                                                                            <div class="col-md-3 showcase_text_area">
+                                                                                                <label>Demande du congé
+                                                                                                    :</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-9 showcase_content_area">
+                                                                                                <div class="custom-file">
+                                                                                                    <input type="file" class="form-control" name="file"
+                                                                                                           accept="application/pdf" required>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <hr>
+                                                                                        <p>Vous pouvez aussi <strong>Re-Télécharger</strong> la demande du congé en cliquant ci-dessous
+                                                                                        </p>
+                                                                                        <hr>
+                                                                                        <div class="col-md-6 showcase_content_area">
+                                                                                            <a type="submit" th:href="@{/Conge/DemandeConge/{id}(id=${conge.id})}"   target="_blank">Cliquer ici pour télécharger la demande</a>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                    <!-- /.card-body -->
+                                                                                </div>
+                                                                                <!-- /.card -->
+                                                                            </div>
+                                                                            <!-- /.col -->
+                                                                        </div>
+                                                                        <!-- /.row -->
+
+                                                                    </section>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                            data-dismiss="modal">Fermer
+                                                                    </button>
+
+                                                                    <input type="submit" value="Déposer"
+                                                                           class="btn btn-success"/>
+
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                            <td th:text="${#dates.format(conge.dateDebut,'dd-MM-yyyy')}">
+                                            <td th:text="${#dates.format(conge.dateFin,'dd-MM-yyyy')}">
+                                            </td>
+
+                                            <td th:text="${conge.affaire.designation}"></td>
+                                            <td th:text="${conge.motif}"></td>
+                                            <td>
+
+                                                <a sec:authorize="hasAnyAuthority('RH','admin','Pointeur')" type="button" class="btn-sm btn-danger" data-toggle="modal"
+                                                   data-target="#deleteModal"
+                                                   th:attrappend="data-target=${conge.id}" title="Supprimer"><i class="fas fa-trash"></i>
+                                                </a>
+
+                                                <div class="modal fade" id="deleteModal"
+                                                     tabindex="-1"
+                                                     th:attrappend="id=${conge.id}"
+                                                     role="dialog"
+                                                     aria-labelledby="exampleModalCenterTitle5"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered modal-lg"
+                                                         role="document">
+                                                        <div class="modal-content">
+                                                            <form th:action="@{/Conge/Supprimer/{id}(id=${conge.id})}"
+                                                                  method="get">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title"
+                                                                        id="exampleModalCenterTitle5">
+                                                                        Supprimer la demande du congé
+                                                                    </h5>
+                                                                    <button type="button"
+                                                                            class="close"
+                                                                            data-dismiss="modal"
+                                                                            aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p>Voulez vous supprimer la
+                                                                        demande <br>
+                                                                        <strong th:text="${conge.motif}"></strong>  <br>
+                                                                    <hr>
+                                                                        avec les informations suivantes : <br><br>
+
+                                                                        <li><label>Demandeur : </label><strong th:text="${' '+conge.individu.nom+' '+conge.individu.prenom}"></strong></li>
+                                                                        <li><label>Chantier : </label><strong th:text="${' '+conge.affaire.designation.trim()}"></strong></li>
+                                                                        <li>
+                                                                            <label>Du : </label><strong th:text="${' '+#dates.format(conge.dateDebut,'dd-MM-yyyy')}"></strong>
+                                                                            <label>Jusqu'à : </label><strong th:text="${' '+#dates.format(conge.dateFin,'dd-MM-yyyy')}"></strong>
+                                                                        </li>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button"
+                                                                            class="btn btn-secondary"
+                                                                            data-dismiss="modal">
+                                                                        Fermer
+                                                                    </button>
+                                                                    <input type="submit"
+                                                                           class="btn btn-danger"
+                                                                           value="supprimer"/>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                          <div th:if="${!#lists.isEmpty(congeDemande)}"  class="fc-footer-toolbar text-center mt-4">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                                <!-- Sélecteur d'éléments par page -->
+                                <div class="d-flex align-items-center mb-2 me-3">
+                                    <label for="pageSize" class="form-label me-2 mb-0">Éléments par page :</label>
+                                    <select id="pageSize" class="form-select form-select-sm" style="width: auto;"
+                                            onchange="changePageSize(this.value)">
+                                        <option value="10" th:selected="${congeDemande.size == 10}">10</option>
+                                        <option value="30" th:selected="${congeDemande.size == 30}">30</option>
+                                        <option value="50" th:selected="${congeDemande.size == 50}">50</option>
+                                        <option value="100" th:selected="${congeDemande.size == 100}">100</option>
+                                    </select>
+                                </div>
+
+                                <!-- Pagination -->
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center flex-wrap mb-0">
+                                        <!-- Première -->
+                                        <li class="page-item" th:classappend="${congeDemande.first} ? 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{/Conge/Demandes(statut=${statut}, size=${congeDemande.size}, page=1)}">&laquo;</a>
+                                        </li>
+
+                                        <!-- Précédente -->
+                                        <li class="page-item" th:classappend="${congeDemande.first} ? 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{/Conge/Demandes(statut=${statut}, size=${congeDemande.size}, page=${congeDemande.number})}">&#8249;</a>
+                                        </li>
+
+                                        <!-- Numéros -->
+                                        <li class="page-item"
+                                            th:each="pageNumber : ${pageNumbers}"
+                                            th:classappend="${pageNumber == congeDemande.number + 1} ? 'active'">
+                                            <a class="page-link"
+                                               th:href="@{/Conge/Demandes(statut=${statut}, size=${congeDemande.size}, page=${pageNumber})}"
+                                               th:text="${pageNumber}"></a>
+                                        </li>
+
+                                        <!-- Suivante -->
+                                        <li class="page-item" th:classappend="${congeDemande.last} ? 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{/Conge/Demandes(statut=${statut}, size=${congeDemande.size}, page=${congeDemande.number + 2})}">&#8250;</a>
+                                        </li>
+
+                                        <!-- Dernière -->
+                                        <li class="page-item" th:classappend="${congeDemande.last} ? 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{/Conge/Demandes(statut=${statut}, size=${congeDemande.size}, page=${congeDemande.totalPages})}">&raquo;</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- Informations sur les éléments affichés -->
+                                <div class="text-muted mb-2 me-3">
+                                    <small>
+                                        Affichage de <span th:text="${(congeDemande.number * congeDemande.size) + 1}">1</span>
+                                        à <span th:text="${(congeDemande.number + 1) * congeDemande.size > congeDemande.totalElements ? congeDemande.totalElements : (congeDemande.number + 1) * congeDemande.size}">30</span>
+                                        sur <span th:text="${congeDemande.totalElements}">100</span> éléments
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- content viewport ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <!-- partial -->
+    </div>
+    <!-- page content ends -->
+</div>
+<script type="text/javascript">
+
+    // function myFunction() {
+    //     var input, filter, table, tr, td, i, txtValue;
+    //     input = document.getElementById("myInput");
+    //     filter = input.value.toUpperCase();
+    //     table = document.getElementById("myTable");
+    //     tr = table.getElementsByTagName("tr");
+    //     for (i = 0; i < tr.length; i++) {
+    //         td = tr[i].getElementsByTagName("td")[1];
+    //         if (td) {
+    //             txtValue = td.textContent || td.innerText;
+    //             if (txtValue.toUpperCase().indexOf(filter) > -1) {
+    //                 tr[i].style.display = "";
+    //             } else {
+    //                 tr[i].style.display = "none";
+    //             }
+    //         }
+    //     }
+    // }
+</script>
+<script th:inline="javascript">
+    function changePageSize(newSize) {
+        /*<![CDATA[*/
+        var currentStatut = /*[[${statut}]]*/ 'All';
+        var contextPath = /*[[@{/}]]*/ ''; // récupère le contextPath automatiquement
+
+        var url = contextPath + 'Conge/Demandes?statut=' + encodeURIComponent(currentStatut) +
+            '&size=' + newSize + '&page=1';
+
+        window.location.href = url;
+        /*]]>*/
+    }
+</script>
+</body>
+</html>

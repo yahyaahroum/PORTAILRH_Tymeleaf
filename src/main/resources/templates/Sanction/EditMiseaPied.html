@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"/>
+<link href="../../../resources/select2/dist/css/select2.min.css" rel="stylesheet" />
+<script src="../../../resources/select2/dist/js/select2.min.js"></script>
+<script src="../../static/jquery/jquery.min.js"></script>
+
+  <body class="header-fixed" >
+    <!-- partial:../../partials/_header.html -->
+    <nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+    <!-- partial -->
+    <div class="page-body">
+      <!-- partial:../../partials/_sidebar.html -->
+      <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+      <!-- partial -->
+      <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+          <div class="viewport-header">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb has-arrow">
+                <li class="breadcrumb-item">
+                  <a href="#">Editer Une Mise à Piedt</a>
+                </li>
+              </ol>
+            </nav>
+          </div>
+          <form th:action="@{/MiseaPied/Modifier/{id}(id=${m_a_p.id})}"  method="post">
+          <div class="content-viewport">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="grid">
+                  <p class="grid-header">Information sur la mise à pied</p>
+                  <div class="grid-body">
+                    <div class="item-wrapper">
+                      <div class="row mb-3">
+                        <div class="col-md-8 mx-auto">
+                             
+                    <!------------------------------------------------------->
+                    <div class="form-group row showcase_row_area">
+                      <div class="col-md-3 showcase_text_area">
+                        <label>Individu
+                          :</label>
+                      </div>
+                      <div class="col-md-9 showcase_content_area">
+                        <select class="custom-select"
+                                id="IndividuSelect"
+                                style="width: 100%" name="individu"
+                                required>
+                          <option th:each="emp : ${emps}"
+                                  th:id="${emp.id}"
+                                  th:value="${emp.id}"
+                                  th:selected="${m_a_p.individu.id==emp.id}"
+                                  th:text="${emp.individu +' '+emp.nom.trim()+' '+emp.prenom.trim()}"
+                          ></option>
+                        </select>
+                      </div>
+                    </div>
+                    <br>
+                    <!------------------------------------------------------->
+                    <div class="form-group row showcase_row_area">
+                      <div class="col-md-3 showcase_text_area">
+                        <label>Type Sanction
+                          :</label>
+                      </div>
+                      <div class="col-md-9 showcase_content_area">
+                        <select class="custom-select" name ="typeSanction" required>
+                          <option value="">Choisir une option</option>
+                          <option th:selected="${m_a_p.typeSanction=='Avertissement'}" id="Avertissement" value="Avertissement">Avertissement </option>
+                          <option th:selected="${m_a_p.typeSanction=='Mise_a_pied'}" id="Mise_a_pied" value="Mise_a_pied">Mise à pied </option>
+                        </select>
+                      </div>
+                    </div>
+                    <br>
+                    <!------------------------------------------------------->
+                    <div class="form-group row showcase_row_area">
+                      <div class="col-md-3 showcase_text_area">
+                        <label>Date Naissance
+                          :</label>
+                      </div>
+                      <div class="col-md-9 showcase_content_area">
+                        <input type="date" th:value="${{m_a_p.dateSanction}}"  class="form-control" name="dateSanction"
+                               required >
+                      </div>
+                    </div>
+                    <br>
+                    <!------------------------------------------------------->
+                    <div class="form-group row showcase_row_area">
+                      <div class="col-md-3 showcase_text_area">
+                        <label>Motif de Sanction
+                          :</label>
+                      </div>
+                      <div class="col-md-9 showcase_content_area">
+                        <input name ="motif" type="text"  th:value="${m_a_p.motif}"  class="form-control" n
+                               required >
+                      </div>
+                    </div>
+                    <br>
+                    <!------------------------------------------------------->
+                    <div class="form-group row showcase_row_area">
+                      <div class="col-md-3 showcase_text_area">
+                        <label>Date Application
+                          :</label>
+                      </div>
+                      <div class="col-md-9 showcase_content_area">
+                        <input name ="dateApplication" type="date" th:value="${{m_a_p.dateApplication}}"  class="form-control"
+                               required >
+                      </div>
+                    </div>
+                    <br>      <!------------------------------------------------------->
+                    
+                    <div class="form-group row showcase_row_area">
+                      <div class="col-md-3 showcase_text_area">
+                        <label>Durée
+                          :</label>
+                      </div>
+                        <div class="col-md-9 showcase_content_area">
+                          <input type="number"  name ="duree"  th:value="${m_a_p.duree}"  class="form-control">
+                      </div>
+                    </div>
+                    <!------------------------------------------------------->
+                               
+                           </div>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              </div>
+
+               <div class="col-sm-6 text-center text-sm-right order-sm-1">
+                  <input type="submit" class="btn btn-primary" value="Enregistrer">
+                  <input type="button" value="Fermer" class="btn btn-primary" onclick="rtn()"/>
+                </div>
+                
+
+            </div>
+          </form>
+          </div>
+        </div>
+        <!-- content viewport ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <footer class="footer" th:replace="fragments/footer::footer"></footer>
+        <!-- partial -->
+      </div>
+      <!-- page content ends -->
+
+      <script>
+
+function rtn() {
+    window.history.back();
+  }
+
+        $(document).ready(function () {
+          $('#IndividuSelect').select2({
+            width: 'resolve',
+          });
+        });
+      
+      
+      
+      </script>
+      </body>
+      </html>
+      

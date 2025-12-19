@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.3.final using JasperReports Library version 6.20.3-415f9428cffdb6805c6f85bbb29ebaf18813a2ab  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MISE A PIED" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cb6c5845-0432-4e0c-9c6c-9115e3a1fd38">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="Nom" class="java.lang.String"/>
+	<parameter name="Prenom" class="java.lang.String"/>
+	<parameter name="Adresse" class="java.lang.String"/>
+	<parameter name="DateFinSanction" class="java.util.Date"/>
+	<parameter name="DateReprise" class="java.util.Date"/>
+	<parameter name="Sexe" class="java.lang.String"/>
+	<parameter name="Parameter1" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="motif" class="java.lang.String"/>
+	<field name="duree" class="java.lang.Long"/>
+	<field name="dateApplication" class="java.util.Date"/>
+	<field name="dateSanction" class="java.util.Date"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="610" splitType="Stretch">
+			<staticText>
+				<reportElement x="310" y="6" width="80" height="30" uuid="5b508db1-a58f-4022-9f3b-34b698e58510"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Casablanca, le ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="319" y="43" width="100" height="30" uuid="97585f95-6e77-4332-9114-0b52a868f370"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Monsieur/Madame :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="417" y="43" width="126" height="30" uuid="4fefa338-c029-4eb2-a883-7b74d3264e08"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{Nom}+" "+$P{Prenom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="319" y="81" width="230" height="46" uuid="ace1d210-6c68-48a5-b3b6-8a883c1e7cf7"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$P{Adresse}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-1" y="150" width="230" height="30" uuid="678f2cf7-81df-4a81-a7f7-e13e97410931"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OBJET : Mise à pied]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="230" width="431" height="50" uuid="bcb96381-4f11-4d48-8ae5-6169018f77ff"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{motif}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="81" y="283" width="289" height="30" uuid="d267ded9-1c15-474d-b335-1e09e9957e36"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[De ce fait, nous vous infligeons une mise à pied disciplinaire de ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="364" y="283" width="110" height="30" uuid="fa8d9eb4-d09d-4567-bdc7-a4ac7dc619f9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{duree}+" Jour(s)."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="83" y="319" width="428" height="39" uuid="d8ae6d29-d129-4279-a66b-6bf9998f2144"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<text><![CDATA[Pendant cette période, votre contrat de travail sera suspendu, ce qui aura pour effet de vous dispenser de travailler mais aussi de nous dispenser de vous verser la partie de votre salaire afférente à cette période.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="370" width="126" height="30" uuid="381a61fc-df58-4fbf-97ba-b8eb730badda"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[La mise à pied débutera le ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="206" y="370" width="54" height="30" uuid="57c8884b-2756-4311-b22b-7b7d97ab3227"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dateApplication}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="260" y="370" width="79" height="30" uuid="b10a1b01-01f7-4231-a500-13827f81ef50"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[et se terminera le ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="342" y="370" width="121" height="30" uuid="550b81b2-8646-4c88-b9d3-482fd9fe80db"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DateFinSanction}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="85" y="436" width="426" height="30" uuid="dbf6ec34-bca2-47c5-97c2-2d647abcfb60"/>
+				<textElement textAlignment="Justified"/>
+				<text><![CDATA[En fin nous vous informons que cette mise à pied sera le dernier avertissement avant le licenciement.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="38" y="474" width="200" height="30" uuid="1c18875e-6f05-4d6f-95b4-93f773fb1e92"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Copie  à :
+Mr. L'inspecteur de travail]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="87" y="506" width="158" height="18" uuid="eb69ebd9-fd22-44e7-8971-b14696c7088d"/>
+				<textElement verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Nom}+" "+$P{Prenom}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="383" y="468" width="127" height="30" uuid="7d41e6e3-f9dd-49e0-ad37-3322c0e8f0ea"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Salutations distinguées]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="83" y="402" width="127" height="30" uuid="9f7ece89-78e5-4320-acc2-4a9376f6bf7a"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[vous reprendrez le travail le ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="210" y="402" width="121" height="30" uuid="7b89c33f-e3de-450d-8813-5d3e793093d2"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DateReprise}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="392" y="6" width="100" height="30" uuid="59fab454-9b9e-479f-b573-5c56c79396e7"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dateSanction}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="506" width="47" height="18" uuid="a5758426-984b-4558-8783-6facd8cb9da0"/>
+				<textElement verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Sexe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="190" width="100" height="30" uuid="bca76cc9-2691-4740-9c6d-71b670b6a6a8"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{Sexe}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

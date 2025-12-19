@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments/layout :: head"/>
+
+
+<link href="../../../resources/select2/dist/css/select2.min.css" rel="stylesheet" />
+<script src="../../../resources/select2/dist/js/select2.min.js"></script>
+<script src="../../static/jquery/jquery.min.js"></script>
+
+<body class="header-fixed">
+<!-- partial:../../partials/_header.html -->
+<nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+<!-- partial -->
+<div class="page-body">
+  <!-- partial:../../partials/_sidebar.html -->
+  <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+  <!-- partial -->
+  <div class="page-content-wrapper">
+    <div class="page-content-wrapper-inner">
+      <div class="viewport-header">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb has-arrow">
+            <li class="breadcrumb-item">
+              <a href="">Liste des Avertissements </strong></a>
+            </li>
+          </ol>
+        </nav>
+      </div>
+      <div class="content-viewport">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="grid">
+              <div class="grid-header">
+                <!-- Debut Code Bouton Ajouter (Form pour ajouter un nouveau ordre de mission) + Filtre de recherche -->
+                <div class="card-header">
+                  <div class="card-title">
+                    <button class="btn btn-primary" data-target="#exampleModalCenterSimple" data-toggle="modal"
+                            id="ajout">
+                      Ajouter
+                    </button>
+
+
+                    <div class="modal fade" id="exampleModalCenterSimple" tabindex="-1"
+                         role="dialog" aria-labelledby="exampleModalCenterTitle"
+                         aria-hidden="true">
+                         
+                      <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                        <div class="modal-content">
+
+                          <form id="ajout_map" th:action="@{/Avertissement/new}" th:object="${avr}" method="post"
+                                enctype="multipart/form-data">
+                            <div class="modal-header ">
+                              <h5 class="modal-title" id="exampleModalLongTitleSimple">
+                                Avertissement</h5>
+                              
+                              <button type="button" class="close" data-dismiss="modal"
+                                      aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+
+                              <div class="content-viewport">
+                                <div class="row">
+                                  <div class="col-lg-12">
+
+                                    <div class="grid">
+                                      <p class="grid-header">Ajouter un nouveau avertissement</p>
+                                      <div class="grid-body">
+                                        <div class="item-wrapper">
+                                          <div class="row">
+                                            
+                                            <div class="col-md-8 mx-auto" th:object="${avr}">
+
+                                              <!--      Liste Individus        -->
+                                              <div class="form-group row showcase_row_area">
+                                                
+                                                <div class="col-md-3 showcase_text_area">
+                                                  <label>Individu :</label>
+                                                </div>
+                                                <div class="col-md-9 showcase_content_area">
+                                               
+                                                          <select class="custom-select"
+                                                          id="customselect3"
+                                                          style="width: 100%"
+                                                          name="individu"
+                                                          required>
+                                                    <option th:each="emp : ${emps}"
+                                                            th:id="${emp.id}"
+                                                            th:value="${emp.id}"
+                                                            th:text="${emp.individu +' '+emp.nom.trim()+' '+emp.prenom.trim()}"
+                                                    ></option>
+                                                  </select>
+
+                                                </div>
+                                              </div>
+                                              <br>
+                                              <!--        Type Sanctions         -->
+
+                                              <div class="form-group row showcase_row_area">
+                                                <div class="col-md-3 showcase_text_area">
+                                                  <label>Type Sanction
+                                                    :</label>
+                                                </div>
+                                                <div class="col-md-9 showcase_content_area">
+                                                  <input type="text"  class="form-control" name="typeSanction"
+                                                         th:value="Avertissement"
+                                                         required readonly>
+                                                </div>
+                                              </div>
+                                              <br>
+
+                                              <!--        Date  Sanction         -->
+                                              <div class="form-group row showcase_row_area">
+                                                <div class="col-md-3 showcase_text_area">
+                                                  <label>Date Avertissement :</label>
+                                                </div>
+                                                <div class="col-md-9 showcase_content_area">
+                                                  <input type="date" th:value="${{avr.dateSanction}}"  class="form-control" name="dateSanction"
+                                                         required >
+
+                                                </div>
+                                              </div>
+                                              <br>
+
+                                              <!--        Motif Sanction         -->
+                                              <div class="form-group row showcase_row_area">
+                                                <div class="col-md-3 showcase_text_area">
+                                                  <label>Motif :</label>
+                                                </div>
+                                                <div class="col-md-9 showcase_content_area">
+                                                  <input type="text" class="form-control" name="motif"
+                                                         th:value="${avr.motif}"
+                                                         placeholder="Saisir le motif de sanction" required>
+                                                </div>
+                                              </div>
+                                              <br>
+
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+
+                              </div>
+
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-light"
+                                      data-dismiss="modal">fermer
+                              </button>
+
+                              <button type="submit" class="btn btn-primary" id="ajoutPointageSimple">
+                                Ajouter
+                              </button>
+
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <!-- Fin Code Bouton Ajouter (Form pour ajouter un nouveau ordre de mission) + Filtre de recherche -->
+
+              </div>
+              <div class="item-wrapper">
+                <div class="table-responsive" style="height: 500px;">
+                  <table id="myTable" class="table table-hover">
+                    <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Individu</th>
+                      <th>Type Sanction</th>
+                      <th>Date Sanction</th>
+                      <th>Motif</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${sanctions.isEmpty()}">
+                      <td class="text-lg-center" colspan="6"><strong
+                              th:text="${'Aucune Sanction saisie'}"></strong></td>
+                    </tr>
+                    <tr th:each="sanction : ${sanctions}" >
+                      <td  th:text="${sanction.id}"></td>
+                      <td>
+                        <a class="btn btn-secondary" type="button" data-toggle="modal"
+                           data-target="#modal-lg1"
+                           th:attrappend="data-target=${sanction.id}" th:text="${sanction.individu.nom.trim()+' '+sanction.individu.prenom.trim()}">
+                        </a>
+                      </td>
+                      <td  th:text="${sanction.typeSanction}"></td>
+                      <td  th:text="${#dates.format(sanction.dateSanction,'dd-MM-yyyy')}"></td>
+                      <td  th:text="${sanction.motif}" ></td>
+
+
+                      <!-- -------------------- Code Bouttons avec Droits ------------------ -->
+                      <td >
+                        <div class="dropdown show">
+                          <a class="btn btn-xs btn-dark dropdown-toggle"
+                             href="#"
+                             role="button"
+                             th:id="${'dropdownMenuLink'+sanction.id}"
+                             data-toggle="dropdown" aria-haspopup="true"
+                             aria-expanded="false">
+                            Action
+                          </a>
+                          <div class="dropdown-menu"
+                          aria-labelledby="dropdownMenuLink">
+                         <div th:if="${(role == 'RH' or role == 'admin') and !sanction.valide}">
+                          <a type="button" class="dropdown-item"
+                          data-target="#deleteModal"
+                          data-toggle="modal"
+                          id="DeleteOM"
+                          th:attrappend="data-target=${sanction.id}">Supprimer</a>
+                          <a type="button" class="Desacbutton dropdown-item" id="UpdateOM"
+                          th:href="@{/Avertissement/Editer/{id}(id=${sanction.id})}"
+                          >Modifier</a>
+                       <a type="button" class="dropdown-item"
+                       data-target="#validModal"
+                       data-toggle="modal"
+                       th:attrappend="data-target=${sanction.id}">Valider</a>
+                         </div>
+                         <div th:if="${(role == 'RH' or role == 'admin') and sanction.imprime}">
+                          <a type="button" class="dropdown-item" target="_blank"
+                             th:href="@{/Avertissement/pdf/{id}(id=${sanction.id})}" onclick="Desactiver_Btn_Up_De()">Imprimer</a>
+                         </div>
+                       <div th:if="${(role == 'RH' or role == 'admin') and !sanction.imprime and sanction.valide }">
+                          <a type="button" class="Desacbutton dropdown-item" data-target="#deleteModal"
+                             data-toggle="modal" th:attrappend="data-target=${sanction.id}" id="DeleteOM">Supprimer</a>
+
+                             <a type="button" class="Desacbutton dropdown-item" id="UpdateOM"
+                             th:href="@{/Avertissement/Editer/{id}(id=${sanction.id})}"
+                             >Modifier</a>
+
+                          <a type="button" class="dropdown-item" target="_blank"
+                             th:href="@{/Avertissement/pdf/{id}(id=${sanction.id})}" onclick="Desactiver_Btn_Up_De()">Imprimer</a>
+                         </div>
+
+
+
+                         <div th:if="${role == 'Pointeur' and sanction.valide}">
+                          <a type="button" class="dropdown-item" target="_blank"
+                             th:href="@{/Avertissement/pdf/{id}(id=${sanction.id})}" onclick="Desactiver_Btn_Up_De()">Imprimer</a>
+                         </div>
+                          <div th:if="${role == 'Pointeur' and !sanction.valide}">
+                          <a type="button" class="Desacbutton dropdown-item" data-target="#deleteModal"
+                             data-toggle="modal" th:attrappend="data-target=${sanction.id}" id="DeleteOM">Supprimer</a>
+
+                             <a type="button" class="Desacbutton dropdown-item" id="UpdateOM"
+                             th:href="@{/Avertissement/Editer/{id}(id=${sanction.id})}"
+                             >Modifier</a>
+                         </div>
+                         </div>
+                          <!-- ---------------------------- Debut Code 1 ----------------------------- -->
+                          <div class="modal fade" tabindex="-1" id="modal-lg1"
+                               role="dialog" aria-labelledby="exampleModalLongTitle"
+                               aria-hidden="true" th:attrappend="id=${sanction.id}">
+                            <div class="modal-dialog modal-lg" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLongTitle1">
+                                    Consultation d'Avertissement de : <strong
+                                          th:text="${sanction.individu.nom+' '+sanction.individu.prenom}"></strong>
+                                  </h5>
+                                  <button type="button" class="close"
+                                          data-dismiss="modal" aria-label="Fermer">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <section class="content">
+                                    <div class="container-fluid">
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <!-- About Me Box -->
+                                          <div class="card card-primary">
+                                            <!-- /.card-header -->
+                                            <!-- Nom Complet -->
+                                            <div class="form-group row showcase_row_area">
+                                              <div class="col-md-3 showcase_text_area">
+                                                <label>Individu
+                                                  :</label>
+                                              </div>
+                                              <div class="col-md-9 showcase_content_area">
+                                                <li th:switch="${sanction.individu.sexe}">
+                                                  <strong th:case="1"
+                                                          th:text="${'Mr. '+sanction.individu.nom+' '+sanction.individu.prenom}"></strong>
+                                                  <strong th:case="2"
+                                                          th:text="${'Mme. '+sanction.individu.nom+' '+sanction.individu.prenom}"></strong>
+                                                  <strong th:case="*"
+                                                          th:text="${sanction.individu.nom+' '+sanction.individu.prenom}"></strong>
+                                                </li>
+                                              </div>
+                                            </div>
+
+                                            <!-- Type Sanction -->
+                                            <div class="form-group row showcase_row_area">
+                                              <div class="col-md-3 showcase_text_area">
+                                                <label>Type Sanction
+                                                  :</label>
+                                              </div>
+                                              <div class="col-md-9 showcase_content_area">
+                                                <li><strong
+                                                        th:text="${sanction.typeSanction}"></strong>
+                                                </li>
+                                              </div>
+                                            </div>
+
+                                            <div class="form-group row showcase_row_area">
+                                              <div class="col-md-3 showcase_text_area">
+                                                <label>Date Avertissement
+                                                  :</label>
+                                              </div>
+                                              <div class="col-md-9 showcase_content_area">
+                                                <li><strong
+                                                        th:text="${#dates.format(sanction.dateSanction,'dd-MM-yyyy')}"></strong>
+                                                </li>
+                                              </div>
+                                            </div>
+                                            <!-- Motif Sanction -->
+                                            <div class="form-group row showcase_row_area">
+                                              <div class="col-md-3 showcase_text_area">
+                                                <label>Motif d'Avertissement'
+                                                  :</label>
+                                              </div>
+                                              <div class="col-md-9 showcase_content_area">
+                                                <li><strong
+                                                        th:text="${sanction.motif}"  ></strong>
+                                                </li>
+                                              </div>
+                                            </div>
+
+                                            <hr>
+                                          </div>
+                                          <!-- /.card-body -->
+                                        </div>
+                                        <!-- /.card -->
+
+                                      </div>
+                                      <!-- /.col -->
+                                    </div>
+                                    <!-- /.row -->
+
+                                  </section>
+                                </div>
+                                <div class="modal-footer">
+                                  <div th:if="${sanction.valide}">
+                                  <form th:action="@{/Avertissement/pdf/{id}(id=${sanction.id})}" method="GET" target="_blank">
+                                    <input type="submit" class="btn btn-secondary"
+                                           value="Imprimer" onclick="Desactiver_Btn_Up_De()">
+                                    </input>
+                                  </form>
+                                </div>
+                                  <button type="button" class="btn btn-secondary"
+                                          data-dismiss="modal">Fermer
+                                  </button>
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- ----------------------------Fin Code 1 ----------------------------------->
+                          <!-- ----------------------------Debut Code 2 --------------------------------->
+                          <div class="modal fade" id="deleteModal"
+                               tabindex="-1"
+                               th:attrappend="id=${sanction.id}"
+                               role="dialog"
+                               aria-labelledby="exampleModalCenterTitle5"
+                               aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered"
+                                 role="document">
+                              <div class="modal-content">
+                                <form th:action="@{/Avertissements/Supprimer/{id}(id=${sanction.id})}"
+                                      method="get">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title"
+                                        id="exampleModalCenterTitle5">
+                                      Supprimer l'avertissement
+
+                                    </h5>
+                                    <button type="button"
+                                            class="close"
+                                            data-dismiss="modal"
+                                            aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <p>Voulez vous supprimer l'avertissement de : <br>
+                                    <div th:text="${sanction.individu.nom+' '+sanction.individu.prenom}"></div>
+                                    </p>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button"
+                                            class="btn btn-secondary"
+                                            data-dismiss="modal">
+                                      Fermer
+                                    </button>
+                                    <input type="submit" class="btn btn-danger" value="supprimer"/>
+                                  </div>
+                                </form>
+                              </div>
+
+                            </div>
+                          </div>
+                          <div class="modal fade" id="validModal"
+                          tabindex="-1"
+                          th:attrappend="id=${sanction.id}"
+                          role="dialog"
+                          aria-labelledby="exampleModalCenterTitle10"
+                          aria-hidden="true">
+                       <div class="modal-dialog modal-dialog-centered"
+                            role="document">
+                         <div class="modal-content">
+                           <form th:action="@{/Avertissements/validation/{id}(id=${sanction.id})}"
+                                 method="post">
+                             <div class="modal-header">
+                               <h5 class="modal-title"
+                                   id="exampleModalCenterTitle5">
+                                 Validation d'avertissement
+                               </h5>
+                               <button type="button"
+                                       class="close"
+                                       data-dismiss="modal"
+                                       aria-label="Close">
+                                 <span aria-hidden="true">&times;</span>
+                               </button>
+                             </div>
+                             <div class="modal-body">
+                               <p>Voulez vous valider l'avertissement de : <br>
+                               <div th:text="${sanction.individu.nom+' '+sanction.individu.prenom}"></div>
+                               </p>
+                             </div>
+                             <div class="modal-footer">
+                               <button type="button"
+                                       class="btn btn-secondary"
+                                       data-dismiss="modal">
+                                 Fermer
+                               </button>
+                               <input type="submit" class="btn btn-danger" value="Valider"/>
+                             </div>
+                           </form>
+                         </div>
+
+                       </div>
+                     </div>
+
+                        </div>
+                      </td>
+                      <!-- ---------------------------- Fin Code 2  ------------------------------- -->
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+              <div th:if="${!#lists.isEmpty(chantiers)}"  class="fc-footer-toolbar text-center mt-4">
+              <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                <!-- Sélecteur d'éléments par page -->
+                <div class="d-flex align-items-center mb-2 me-3">
+                  <label for="pageSize" class="form-label me-2 mb-0">Éléments par page :</label>
+                  <select id="pageSize" class="form-select form-select-sm" style="width: auto;"
+                          onchange="changePageSize(this.value)">
+                    <option value="10" th:selected="${dechargeList.size == 10}">10</option>
+                    <option value="30" th:selected="${dechargeList.size == 30}">30</option>
+                    <option value="50" th:selected="${dechargeList.size == 50}">50</option>
+                    <option value="100" th:selected="${dechargeList.size == 100}">100</option>
+                  </select>
+                </div>
+
+                <!-- Pagination -->
+                <nav aria-label="Page navigation">
+                  <ul class="pagination justify-content-center flex-wrap mb-0">
+                    <!-- Première -->
+                    <li class="page-item" th:classappend="${dechargeList.first} ? 'disabled'">
+                      <a class="page-link"
+                         th:href="@{/Decharge/Liste(statut=${statut}, size=${dechargeList.size}, page=1)}">&laquo;</a>
+                    </li>
+
+                    <!-- Précédente -->
+                    <li class="page-item" th:classappend="${dechargeList.first} ? 'disabled'">
+                      <a class="page-link"
+                         th:href="@{/Decharge/Liste(statut=${statut}, size=${dechargeList.size}, page=${dechargeList.number})}">&#8249;</a>
+                    </li>
+
+                    <!-- Numéros -->
+                    <li class="page-item"
+                        th:each="pageNumber : ${pageNumbers}"
+                        th:classappend="${pageNumber == dechargeList.number + 1} ? 'active'">
+                      <a class="page-link"
+                         th:href="@{/Decharge/Liste(statut=${statut}, size=${dechargeList.size}, page=${pageNumber})}"
+                         th:text="${pageNumber}"></a>
+                    </li>
+
+                    <!-- Suivante -->
+                    <li class="page-item" th:classappend="${dechargeList.last} ? 'disabled'">
+                      <a class="page-link"
+                         th:href="@{/Decharge/Liste(statut=${statut}, size=${dechargeList.size}, page=${dechargeList.number + 2})}">&#8250;</a>
+                    </li>
+
+                    <!-- Dernière -->
+                    <li class="page-item" th:classappend="${dechargeList.last} ? 'disabled'">
+                      <a class="page-link"
+                         th:href="@{/Decharge/Liste(statut=${statut}, size=${dechargeList.size}, page=${dechargeList.totalPages})}">&raquo;</a>
+                    </li>
+                  </ul>
+                </nav>
+                <!-- Informations sur les éléments affichés -->
+                <div class="text-muted mb-2 me-3">
+                  <small>
+                    Affichage de <span th:text="${(dechargeList.number * dechargeList.size) + 1}">1</span>
+                    à <span th:text="${(dechargeList.number + 1) * dechargeList.size > dechargeList.totalElements ? dechargeList.totalElements : (dechargeList.number + 1) * dechargeList.size}">30</span>
+                    sur <span th:text="${dechargeList.totalElements}">100</span> éléments
+                  </small>
+                </div>
+              </div>
+            </div>
+              <div th:if="${!#lists.isEmpty(chantiers)}"  class="fc-footer-toolbar text-center mt-4">
+              <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+
+                  <!-- Première -->
+                  <li class="page-item" th:classappend="${STCAll.first} ? 'disabled'">
+                    <a class="page-link" th:href="@{/STC/ListeNoire(size=${STCAll.size}, page=1)}">&laquo;</a>
+                  </li>
+
+                  <!-- Précédente -->
+                  <li class="page-item" th:classappend="${STCAll.first} ? 'disabled'">
+                    <a class="page-link" th:href="@{/STC/ListeNoire(size=${STCAll.size}, page=${STCAll.number})}">&#8249;</a>
+                  </li>
+
+                  <!-- Numéros -->
+                  <li class="page-item"
+                      th:each="pageNumber : ${pageNumbers}"
+                      th:classappend="${pageNumber == STCAll.number + 1} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/STC/ListeNoire(size=${STCAll.size}, page=${pageNumber})}"
+                       th:text="${pageNumber}"></a>
+                  </li>
+
+                  <!-- Suivante -->
+                  <li class="page-item" th:classappend="${STCAll.last} ? 'disabled'">
+                    <a class="page-link" th:href="@{/STC/ListeNoire(size=${STCAll.size}, page=${STCAll.number + 2})}">&#8250;</a>
+                  </li>
+
+                  <!-- Dernière -->
+                  <li class="page-item" th:classappend="${STCAll.last} ? 'disabled'">
+                    <a class="page-link" th:href="@{/STC/ListeNoire(size=${STCAll.size}, page=${STCAll.totalPages})}">&raquo;</a>
+                  </li>
+
+                </ul>
+              </nav>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- content viewport ends -->
+    <!-- partial:../../partials/_footer.html -->
+    <!-- partial -->
+  </div>
+  <!-- page content ends -->
+</div>
+
+<script>
+
+ function Desactiver_Btn_Up_De() {
+document.getElementById("UpdateOM").onclick = function() {
+   return false;
+}
+document.getElementById("DeleteOM").disabled=true;
+ }
+
+
+$(document).ready(function () {
+        $('#customselect3').select2({
+            width: 'resolve',
+            dropdownParent: $("#exampleModalCenterSimple")
+        });
+    });
+
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

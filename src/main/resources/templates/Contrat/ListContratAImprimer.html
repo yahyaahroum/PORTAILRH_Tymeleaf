@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="fragments/layout :: head"/>
+<body class="header-fixed">
+<!-- partial:../../partials/_header.html -->
+<nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+<!-- partial -->
+<div class="page-body">
+    <!-- partial:../../partials/_sidebar.html -->
+    <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+    <!-- partial -->
+    <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+            <div class="viewport-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb has-arrow">
+                        <li class="breadcrumb-item">
+                            <a href="#">Liste des Contrats à imprimer</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="content-viewport">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="grid-header">
+                            <div class="input-group input-group-sm" style="width: 200px;">
+                                <input type="text" name="myInput" id="myInput" onkeyup="myFunction()"
+                                       class="form-control float-right" placeholder="Rechercher">
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="item-wrapper">
+                                <div class="table-responsive">
+                                    <table id="myTable" class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Matricule</th>
+                                            <th>Nom</th>
+                                            <th>Prénom</th>
+                                            <th>Date naissance/d'embauch</th>
+                                            <th>Fonction</th>
+                                            <th>CIN</th>
+                                            <th>Chantier</th>
+                                            <th>Salaire</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:if="${personnes.isEmpty()}" >
+                                            <td class="text-lg-center" colspan="8"><strong th:text="${'Aucun contrat à déposer'}"></strong></td>
+                                        </tr>
+                                        <tr th:each="person : ${personnes}">
+                                            <td th:text="${person.matricule}"></td>
+                                            <td>
+                                                <a class="btn btn-secondary" type="button" data-toggle="modal"
+                                                   data-target="#modal-lg"
+                                                   th:attrappend="data-target=${person.id}" th:text="${person.nom}">
+                                                </a>
+                                            </td>
+
+                                            <td th:text="${person.prenom}"></td>
+                                            <td >
+                                                <li th:text="${#dates.format(person.datenaissance,'dd-MM-yyyy')+' / '+ #dates.format(person.dateentree,'dd-MM-yyyy')}"> </li>
+                                            </td>
+
+                                            <td th:text="${person.libelle}"></td>
+                                            <td th:text="${person.codecin}"></td>
+                                            <td th:text="${person.designation}"></td>
+                                            <td th:text="${#numbers.arrayFormatDecimal(person.salaire,3,'POINT',2,'COMMA') + ' DHS'}"></td>
+
+
+                                            <div class="modal fade" id="modal-lg" tabindex="-1"
+                                                 role="dialog" aria-labelledby="exampleModalLongTitle"
+                                                 aria-hidden="true" th:attrappend="id=${person.id}">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLongTitle">
+                                                                Dêpot des contrats</h5>
+                                                            <button type="button" class="close"
+                                                                    data-dismiss="modal" aria-label="Fermer">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <form th:action="@{/Ajout/Contrat/Depot/{id}(id=${person.id})}" method="post" enctype="multipart/form-data">
+                                                            <div class="modal-body">
+                                                                <section class="content">
+                                                                    <div class="container-fluid">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <!-- About Me Box -->
+                                                                                <div class="card card-primary">
+                                                                                    <!-- /.card-header -->
+                                                                                    <div class="card-body">
+                                                                                        <p>Veuillez déposer les contrats retenues pour l'employé :
+                                                                                        <h5
+                                                                                                th:text="${person.nom+ ' ' +person.prenom}"></h5>
+                                                                                        Dans le chantier <h5
+                                                                                            th:text="${#strings.trim(person.designation)}"></h5>
+                                                                                        </p>
+                                                                                        <hr>
+                                                                                    </div>
+
+                                                                                    <div class="form-group row showcase_row_area">
+                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                            <label>C. CDD
+                                                                                                :</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                            <div class="custom-file">
+                                                                                                <input type="file" class="form-control" name="file1"
+                                                                                                       accept="application/pdf" multiple required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row showcase_row_area">
+                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                            <label>C. Decision
+                                                                                                :</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                            <div class="custom-file">
+                                                                                                <input type="file" class="form-control" name="file2"
+                                                                                                       accept="application/pdf" multiple required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row showcase_row_area">
+                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                            <label>C. Decision Equip:</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                            <div class="custom-file">
+                                                                                                <input type="file" class="form-control" name="file3"
+                                                                                                       accept="application/pdf" multiple required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <hr>
+                                                                                    <p>Vous pouvez aussi <strong>Télécharger</strong> les contrats pour l'employé :<br>
+                                                                                    en cliquant sur le nom de chaque contrat.
+                                                                                    </p>
+                                                                                    <hr>
+                                                                                    <div class="form-group row showcase_row_area">
+                                                                                        <div class="col-md-6 showcase_text_area">
+                                                                                            <label>C. CDD
+                                                                                                :</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-6 showcase_content_area">
+                                                                                            <a type="submit" th:href="@{/Contrat/CDD/{id}(id=${person.id})}" target="_blank">Cliquer ici pour télécharger</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row showcase_row_area">
+                                                                                        <div class="col-md-6 showcase_text_area">
+                                                                                            <label>Contrat de Decision
+                                                                                                :</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-6 showcase_content_area">
+                                                                                            <a type="submit" th:href="@{/Contrat/Decision/{id}(id=${person.id})}" target="_blank">Cliquer ici pour télécharger</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row showcase_row_area">
+                                                                                        <div class="col-md-6 showcase_text_area">
+                                                                                            <label>Contrat Decision Equip:</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-6 showcase_content_area">
+                                                                                            <a type="submit" th:href="@{/Contrat/DecisionEquipement/{id}(id=${person.id})}" target="_blank">Cliquer ici pour télécharger</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <br>
+                                                                                    <a sec:authorize="hasAnyAuthority('RH','admin')" th:href="@{/Personnel/Couverture/{id}(id=${person.id})}" target="_blank">
+                                                                                        <strong th:text="${'La fiche de couverture de :'+person.nom.toUpperCase()+' '+person.prenom.toUpperCase()}"></strong>
+                                                                                    </a>
+                                                                                    <hr>
+                                                                                    <a sec:authorize="hasAnyAuthority('RH','admin')" th:href="@{/Ajout/Personnes/Fichiers/{id}(id=${person.id})}" target="_blank">
+                                                                                        <strong th:text="${'Vous pouver aussi consulter les fichiers qui concerne cet employé :'+person.nom.toUpperCase()+' '+person.prenom.toUpperCase()}"></strong>
+                                                                                    </a>
+                                                                                    <hr>
+
+                                                                                </div>
+                                                                                <!-- /.card-body -->
+                                                                            </div>
+                                                                            <!-- /.card -->
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                    </div>
+                                                                    <!-- /.row -->
+
+                                                                </section>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Fermer
+                                                                </button>
+
+                                                                <input type="submit" value="Enregistrer"
+                                                                       class="btn btn-success"/>
+
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                          <div th:if="${!#lists.isEmpty(chantiers)}"  class="fc-footer-toolbar text-center mt-4">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                                <!-- Sélecteur d'éléments par page -->
+                                <div class="d-flex align-items-center mb-2 me-3">
+                                    <label for="pageSize" class="form-label me-2 mb-0">Éléments par page :</label>
+                                    <select id="pageSize" class="form-select form-select-sm" style="width: auto;"
+                                            onchange="changePageSize(this.value)">
+                                        <option value="10" th:selected="${dechargeList.size == 10}">10</option>
+                                        <option value="30" th:selected="${dechargeList.size == 30}">30</option>
+                                        <option value="50" th:selected="${dechargeList.size == 50}">50</option>
+                                        <option value="100" th:selected="${dechargeList.size == 100}">100</option>
+                                    </select>
+                                </div>
+
+                                <!-- Pagination -->
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center flex-wrap mb-0">
+                                        <!-- Première -->
+                                        <li class="page-item" th:classappend="${dechargeList.first} ? 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{/Decharge/Liste(statut=${statut}, size=${dechargeList.size}, page=1)}">&laquo;</a>
+                                        </li>
+
+                                        <!-- Précédente -->
+                                        <li class="page-item" th:classappend="${dechargeList.first} ? 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{/Decharge/Liste(statut=${statut}, size=${dechargeList.size}, page=${dechargeList.number})}">&#8249;</a>
+                                        </li>
+
+                                        <!-- Numéros -->
+                                        <li class="page-item"
+                                            th:each="pageNumber : ${pageNumbers}"
+                                            th:classappend="${pageNumber == dechargeList.number + 1} ? 'active'">
+                                            <a class="page-link"
+                                               th:href="@{/Decharge/Liste(statut=${statut}, size=${dechargeList.size}, page=${pageNumber})}"
+                                               th:text="${pageNumber}"></a>
+                                        </li>
+
+                                        <!-- Suivante -->
+                                        <li class="page-item" th:classappend="${dechargeList.last} ? 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{/Decharge/Liste(statut=${statut}, size=${dechargeList.size}, page=${dechargeList.number + 2})}">&#8250;</a>
+                                        </li>
+
+                                        <!-- Dernière -->
+                                        <li class="page-item" th:classappend="${dechargeList.last} ? 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{/Decharge/Liste(statut=${statut}, size=${dechargeList.size}, page=${dechargeList.totalPages})}">&raquo;</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- Informations sur les éléments affichés -->
+                                <div class="text-muted mb-2 me-3">
+                                    <small>
+                                        Affichage de <span th:text="${(dechargeList.number * dechargeList.size) + 1}">1</span>
+                                        à <span th:text="${(dechargeList.number + 1) * dechargeList.size > dechargeList.totalElements ? dechargeList.totalElements : (dechargeList.number + 1) * dechargeList.size}">30</span>
+                                        sur <span th:text="${dechargeList.totalElements}">100</span> éléments
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fc-footer-toolbar">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li th:if="${personnes.number eq 0} ? 'disabled' : '' " class="page-item">
+                                        <a th:if="${not personnes.isFirst()}"
+                                           th:href="@{/Contrat/ListeAImprimer(size=${personnes.size}, page=${(personnes.totalPages - personnes.totalPages) + 1})}"
+                                           class="page-link" title="Première">&laquo;</a>
+                                        <a th:if="${personnes.isFirst()}"
+                                           href="javascript:void(0)"
+                                           class="page-link btn-primary" title="Première">&laquo;</a>
+                                    </li>
+                                    <li th:if="${personnes.number eq 0} ? 'disabled' : '' " class="page-item">
+                                        <a th:if="${not personnes.isFirst()}"
+                                           th:href="@{/Contrat/ListeAImprimer(size=${personnes.size}, page=${personnes.number})}"
+                                           class="page-link" title="Précédente">&#8249;</a>
+                                        <a th:if="${personnes.isFirst()}"
+                                           href="javascript:void(0)"
+                                           class="page-link btn-primary" title="Précédente">&#8249;</a>
+                                    </li>
+                                    <li th:if="${personnes.totalPages > 0}" th:each="pageNumber : ${pageNumbers}"  class="page-item" th:classappend="${pageNumber eq personnes.number + 1} ? active">
+                                        <a th:href="@{/Contrat/ListeAImprimer(size=${personnes.size}, page=${pageNumber})}"
+                                           th:text="${pageNumber}"
+                                           class="page-link"></a>
+                                    </li>
+                                    <li th:if="${personnes.number + 1 ge personnes.totalPages} ? 'disabled' : '' " class="page-item">
+                                        <a th:if="${not personnes.isLast()}"
+                                           th:href="@{/Contrat/ListeAImprimer(size=${personnes.size}, page=${personnes.number + 2})}"
+                                           class="page-link" title="Suivante">&#8250;</a>
+                                        <a th:if="${personnes.isLast()}"
+                                           href="javascript:void(0)"
+                                           class="page-link btn-primary" title="Suivante">&#8250;</a>
+                                    </li>
+                                    <li th:if="${personnes.number + 1 eq personnes.totalPages} ? 'disabled' : '' " class="page-item">
+                                        <a th:if="${not personnes.isLast()}"
+                                           th:href="@{/Contrat/ListeAImprimer(size=${personnes.size}, page=${personnes.totalPages})}"
+                                           class="page-link" title="Dernière">&raquo;</a>
+                                        <a th:if="${personnes.isLast()}"
+                                           href="javascript:void(0)"
+                                           class="page-link" title="Dernière">&raquo;</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content viewport ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <!-- partial -->
+    </div>
+    <!-- page content ends -->
+</div>
+<script type="text/javascript">
+
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

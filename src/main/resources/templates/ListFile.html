@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"/>
+  <body class="header-fixed">
+    <!-- partial:../../partials/_header.html -->
+    <nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+    <!-- partial -->
+    <div class="page-body">
+      <!-- partial:../../partials/_sidebar.html -->
+      <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+      <!-- partial -->
+      <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+          <div class="viewport-header">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb has-arrow">
+                <li class="breadcrumb-item">
+                  <a href="#">Liste des Fichiers</a>
+                </li>
+              </ol>
+            </nav>
+            <div >
+              <p th:text="${person.matricule+' '+person.nom.toUpperCase()+' '+person.prenom.toUpperCase()}"></p>
+            </div>
+          </div>
+          <div class="content-viewport">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="grid">
+                  <div class="item-wrapper">
+                    <div class="form-group row showcase_row_area">
+                      <div class="col-md-3 showcase_text_area">
+                        <label>Liste des fichiers :
+                          </label>
+                      </div>
+                      <div class="col-md-9 showcase_content_area">
+						  
+                        <li th:each="file : ${files}">
+                          <a th:if="${#strings.contains(file.getName(),person.codechantier)}" th:href="@{'/fichier/'+${person.id}+'/'+${file.getName()}}">
+							  <u>
+                    			<strong  th:text="${#dates.format(file.lastModified(),'yyyy-MM-dd')+' ===> '+file.getName()}"></strong>
+							  </u>
+                          </a>
+                          <a th:unless="${#strings.contains(file.getName(),person.codechantier)}" th:href="@{'/fichier/'+${person.id}+'/'+${file.getName()}}">
+                            <strong  th:text="${#dates.format(file.lastModified(),'yyyy-MM-dd')+' ===> '+file.getName()}"></strong>
+                          </a>
+                         <!-- <a th:if="${!#strings.contains(${file.getName(),${person.codechantier)}" th:href="@{'/fichier/'+${person.id}+'/'+${file.getName()}}">
+                            
+                            <strong  th:text="${#dates.format(file.lastModified(),'yyyy-MM-dd')+' ===> '+file.getName()}"></strong>
+                          </a> -->
+                        </li>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- page content ends -->
+    </div>
+  </body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"/>
+  <body class="header-fixed">
+    <!-- partial:partials/_header.html -->
+    <nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+    <!-- partial -->
+    <div class="page-body">
+      <!-- partial:partials/_sidebar.html -->
+      <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+      <!-- partial -->
+      <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+          <div class="content-viewport">
+            <div class="row">
+              <div class="col-12 py-5">
+                <h4>Acceuil</h4>
+                <p class="text-gray">  Bienvenue <strong th:text="${login.nom+' '+login.prenom}"></strong> sur l'application <strong>PortailRH</strong></p>
+              </div>
+            </div>
+
+            <div class="col-lg-12" sec:authorize="hasAnyAuthority('admin','RH','Pointeur')">
+              <div class="grid">
+                <div class="grid-header"><h4><strong>DOSSIERS</strong></h4></div>
+              </div>
+            </div>
+
+            <div class="row" sec:authorize="hasAnyAuthority('admin','RH','Pointeur')">
+
+              <div class="col-md-3 col-sm-6 col-6 equel-grid ">
+                <div class="grid">
+                  <div class="grid-body text-gray btn-warning">
+                    <div class="d-flex justify-content-between">
+                      <p th:text="${#numbers.formatDecimal(StatAvalider,0,'POINT',0,'COMMA')+' %'}"></p>
+                      <h2 class="text-black"><strong th:text="${dossierAValider}"></strong></h2>
+                    </div>
+                    <a th:href="@{/Personne/ListePersonnes(etat=${'A_Valider'})}"><p class="text-black"><strong>Dossiers à valider</strong></p></a>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-6 equel-grid">
+                <div class="grid">
+                  <div class="grid-body text-gray btn-success">
+                    <div class="d-flex justify-content-between">
+                      <p th:text="${#numbers.formatDecimal(StatValide,0,'POINT',0,'COMMA')+' %'}"></p>
+                      <h2 class="text-black"><strong th:text="${dossierValide}"></strong></h2>
+                    </div>
+                    <a th:href="@{/Personne/ListePersonnes(etat=${'Validé'})}"><p class="text-black"><strong>Dossiers validés</strong></p></a>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-6 equel-grid">
+                <div class="grid">
+                  <div class="grid-body text-gray btn-secondary">
+                    <div class="d-flex justify-content-between">
+                      <p th:text="${#numbers.formatDecimal(StatAImprimer,0,'POINT',0,'COMMA')+' %'}"></p>
+                      <h2 class="text-black"><strong th:text="${dossierAImprimer}"></strong></h2>
+                    </div>
+                    <a th:href="@{/Personne/ListePersonnes(etat=${'A_Imprimer'})}"><p class="text-black"><strong>Dossiers à imprimer</strong></p></a>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-6 equel-grid">
+                <div class="grid">
+                  <div class="grid-body text-gray btn-info">
+                    <div class="d-flex justify-content-between">
+                      <p th:text="${#numbers.formatDecimal(StatImprime,0,'POINT',0,'COMMA')+' %'}"></p>
+                      <h2 class="text-black"><strong th:text="${dossierImprime}"></strong></h2>
+                    </div>
+                    <a th:href="@{/Personne/ListePersonnes(etat=${'Imprimé'})}"><p class="text-black"><strong>Dossiers imprimés</strong></p></a>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-lg-12" sec:authorize="hasAnyAuthority('admin','RH','Pointeur')">
+              <div class="grid">
+                <div class="grid-header"><h4><strong>STC</strong></h4></div>
+              </div>
+            </div>
+
+            <div class="row" sec:authorize="hasAnyAuthority('admin','RH','Pointeur')">
+
+              <div class="col-md-3 col-sm-6 col-6 equel-grid ">
+                <div class="grid">
+                  <div class="grid-body text-gray btn-warning">
+                    <div class="d-flex justify-content-between">
+                      <p th:text="${#numbers.formatDecimal(stcStaticAValider,0,'POINT',0,'COMMA')+' %'}"></p>
+                      <h2 class="text-black"><strong th:text="${stcAValider}"></strong></h2>
+                    </div>
+                    <a th:href="@{/STC/Demandes}"><p class="text-black"><strong>STC à valider</strong></p></a>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-6 equel-grid ">
+                <div class="grid">
+                  <div class="grid-body text-gray btn-success">
+                    <div class="d-flex justify-content-between">
+                      <p th:text="${#numbers.formatDecimal(stcStaticValide,0,'POINT',0,'COMMA')+' %'}"></p>
+                      <h2 class="text-black"><strong th:text="${stcValide}"></strong></h2>
+                    </div>
+                    <a th:href="@{/STC/Valides}"><p class="text-black"><strong>STC Validés</strong></p></a>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-6 equel-grid ">
+                <div class="grid">
+                  <div class="grid-body text-gray btn-secondary">
+                    <div class="d-flex justify-content-between">
+                      <p th:text="${#numbers.formatDecimal(stcStaticApprouve,0,'POINT',0,'COMMA')+' %'}"></p>
+                      <h2 class="text-black"><strong th:text="${stcApprouve}"></strong></h2>
+                    </div>
+                    <a th:href="@{/STC/Approuves}"><p class="text-black"><strong>STC Approuvés</strong></p></a>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-lg-12" sec:authorize="hasAnyAuthority('admin','RH','Pointeur')">
+              <div class="grid">
+                <div class="grid-header"><h4><strong>POINTAGE</strong></h4></div>
+              </div>
+            </div>
+
+            <div class="row" sec:authorize="hasAnyAuthority('admin','RH','Pointeur')">
+
+              <div class="col-md-3 col-sm-6 col-6 equel-grid " >
+                <div class="grid">
+                  <div class="grid-body text-gray btn-warning">
+                    <div class="d-flex justify-content-between">
+                      <p>presonnes</p>
+                      <h2 class="text-black"><strong th:text="${allPersonnePerChantier}"></strong></h2>
+                    </div>
+                    <p class="text-black"><strong>Nombre total des personnes </strong></p>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-6 equel-grid ">
+                <div class="grid">
+                  <div class="grid-body text-gray btn-success">
+                    <div class="d-flex justify-content-between">
+                      <p>personnes</p>
+                      <h2 class="text-black"><strong th:text="${personnePerDay}"></strong></h2>
+                    </div>
+                   <p class="text-black"><strong>Personnes pointées aujourd'hui</strong></p>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-lg-12" sec:authorize="hasAnyAuthority('admin','RH','Pointeur')">
+              <div class="grid">
+                <div class="grid-header"><h4><strong>CONGE</strong></h4></div>
+              </div>
+            </div>
+
+            <div class="row" sec:authorize="hasAnyAuthority('admin','RH','Pointeur')">
+
+              <div class="col-md-3 col-sm-6 col-6 equel-grid " >
+                <div class="grid">
+                  <div class="grid-body text-gray btn-warning">
+                    <div class="d-flex justify-content-between">
+                      <p th:text="${#numbers.formatDecimal(statiCongeSaisi,0,'POINT',0,'COMMA')+' %'}"></p>
+                      <h2 class="text-black"><strong th:text="${congeSaisi}"></strong></h2>
+                    </div>
+                    <a th:href="@{/Conge/Demandes}"><p class="text-black"><strong>Congés Demandés</strong></p></a>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-6 equel-grid ">
+                <div class="grid">
+                  <div class="grid-body text-gray  btn-secondary">
+                    <div class="d-flex justify-content-between">
+                      <p th:text="${#numbers.formatDecimal(staticongedepose,0,'POINT',0,'COMMA')+' %'}"></p>
+                      <h2 class="text-black"><strong th:text="${congedepose}"></strong></h2>
+                    </div>
+                    <a th:href="@{/Conge/Importe}"><p class="text-black"><strong>Congés Déposés</strong></p></a>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-6 equel-grid ">
+                <div class="grid">
+                  <div class="grid-body text-gray btn-success">
+                    <div class="d-flex justify-content-between">
+                      <p th:text="${#numbers.formatDecimal(staticongeValid,0,'POINT',0,'COMMA')+' %'}"></p>
+                      <h2 class="text-black"><strong th:text="${congeValid}"></strong></h2>
+                    </div>
+                    <a th:href="@{/Conge/Valides}"><p class="text-black"><strong>Congés Validés</strong></p></a>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-6 col-6 equel-grid ">
+                <div class="grid">
+                  <div class="grid-body text-gray btn-danger">
+                    <div class="d-flex justify-content-between">
+                      <p th:text="${#numbers.formatDecimal(staticongeRefuse,0,'POINT',0,'COMMA')+' %'}"></p>
+                      <h2 class="text-black"><strong th:text="${congeRefuse}"></strong></h2>
+                    </div>
+                    <a th:href="@{/Conge/Refuse}"><p class="text-black"><strong>Congés Refusés</strong></p></a>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-lg-12" sec:authorize="hasAnyAuthority('admin','RH','Employé')">
+              <div class="grid">
+                <div class="grid-header"><h4><strong>DEMANDE</strong></h4></div>
+              </div>
+            </div>
+
+            <div class="row" sec:authorize="hasAnyAuthority('admin','RH','Employé')">
+
+              <div class="col-md-3 col-sm-6 col-6 equel-grid ">
+                <div class="grid">
+                  <div class="grid-body text-gray btn-warning">
+                    <div class="d-flex justify-content-between">
+                      <p th:text="${#numbers.formatDecimal(staticDemandeSaisi,0,'POINT',0,'COMMA')+' %'}"></p>
+                      <h2 class="text-black"><strong th:text="${demandeSaisi}"></strong></h2>
+                    </div>
+                    <a th:href="@{/Demande/Toutes(etat=${'Demandée'})}"><p class="text-black"><strong>Demandes Saisies</strong></p></a>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-6 equel-grid ">
+                <div class="grid">
+                  <div class="grid-body text-gray  btn-secondary">
+                    <div class="d-flex justify-content-between">
+                      <p th:text="${#numbers.formatDecimal(statidemandeEncours,0,'POINT',0,'COMMA')+' %'}"></p>
+                      <h2 class="text-black"><strong th:text="${demandeEncours}"></strong></h2>
+                    </div>
+                    <a th:href="@{/Demande/Toutes(etat=${'En_cours_de_signature'})}"><p class="text-black"><strong>Demandes En cours de sign.</strong></p></a>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-6 equel-grid ">
+                <div class="grid">
+                  <div class="grid-body text-gray btn-success">
+                    <div class="d-flex justify-content-between">
+                      <p th:text="${#numbers.formatDecimal(statidemandeValid,0,'POINT',0,'COMMA')+' %'}"></p>
+                      <h2 class="text-black"><strong th:text="${demandeValid}"></strong></h2>
+                    </div>
+                    <a th:href="@{/Demande/Toutes(etat=${'Validée'})}"><p class="text-black"><strong>Demandes Validées</strong></p></a>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-6 col-6 equel-grid ">
+                <div class="grid">
+                  <div class="grid-body text-gray btn-danger">
+                    <div class="d-flex justify-content-between">
+                      <p th:text="${#numbers.formatDecimal(statidemandeRefuse,0,'POINT',0,'COMMA')+' %'}"></p>
+                      <h2 class="text-black"><strong th:text="${demandeRefuse}"></strong></h2>
+                    </div>
+                    <a th:href="@{/Demande/Toutes(etat=${'Refusée'})}"><p class="text-black"><strong>Demandes Refusées</strong></p></a>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- page content ends -->
+    </div>
+    <!--page body ends -->
+    <!-- SCRIPT LOADING START FORM HERE /////////////-->
+    <!-- plugins:js -->
+
+    <!-- endinject -->
+    <!-- Vendor Js For This Page Ends-->
+    <script th:src="@{/vendors/apexcharts/apexcharts.min.js}"></script>
+
+    <!-- Vendor Js For This Page Ends-->
+    <!-- build:js -->
+
+    <script th:src="@{/js/dashboard.js}"></script>
+    <!-- endbuild -->
+  </body>
+</html>

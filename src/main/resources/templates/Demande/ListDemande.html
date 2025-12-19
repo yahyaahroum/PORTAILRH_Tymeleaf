@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"/>
+<link rel="stylesheet" type="text/css"
+      th:href="@{https://www.virtuosoft.eu/code/bootstrap-duallistbox/bootstrap-duallistbox/v3.0.2/bootstrap-duallistbox.css}">
+<script th:src="@{https://www.virtuosoft.eu/code/bootstrap-duallistbox/bootstrap-duallistbox/v3.0.2/jquery.bootstrap-duallistbox.js}"></script>
+
+<body class="header-fixed">
+<!-- partial:../../partials/_header.html -->
+<nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+<!-- partial -->
+<div class="page-body">
+    <!-- partial:../../partials/_sidebar.html -->
+    <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+    <!-- partial -->
+    <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+            <div class="viewport-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb has-arrow">
+                        <li class="breadcrumb-item">
+                            <a href="#">Liste des Demandes</a>
+                        </li>
+                    </ol>
+                </nav>
+                <div class="alert-success">
+                    <p></p>
+                </div>
+            </div>
+            <div class="content-viewport">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <button class="btn btn-primary" data-target="#exampleModalCenter" data-toggle="modal">
+                                Nouvelle Demande
+                            </button>
+                            <div class="row showcase_row_area float-lg-right">
+                                <div class="col-md-6 showcase_text_area float-lg-left">
+                                    <label>Filtrer par état :</label>
+                                </div>
+                                <div class="col-md-6 showcase_content_area float-lg-right">
+                                    <div class="dropdown show ">
+                                        <a class="btn btn-sm btn-dark dropdown-toggle"
+                                           href="#"
+                                           role="button"
+                                           id="dropdownMenuLink"
+                                           data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false">
+                                            Choisir une option
+                                        </a>
+
+                                        <div class="dropdown-menu"
+                                             aria-labelledby="dropdownMenuLink">
+                                            <a type="button" class="dropdown-item"
+                                               th:href="@{/Demande/Toutes(etat=${'All'})}">Toutes</a>
+                                            <a type="button" class="dropdown-item"
+                                               th:href="@{/Demande/Toutes(etat=${'Demandée'})}">Demandée</a>
+                                            <a type="button" class="dropdown-item"
+                                               th:href="@{/Demande/Toutes(etat=${'En_cours_de_signature'})}">En cours de
+                                                signature</a>
+                                            <a type="button" class="dropdown-item"
+                                               th:href="@{/Demande/Toutes(etat=${'Validée'})}">Validée</a>
+                                            <a type="button" class="dropdown-item"
+                                               th:href="@{/Demande/Toutes(etat=${'Refusée'})}">Refusée</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="exampleModalCenter" tabindex="-1"
+                                 role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <form th:action="@{/Demande/Ajouter}" method="post">
+                                            <div class="modal-header ">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                                    Ajouter une nouvelle demande</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="content-viewport">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+
+                                                            <div class="card card-primary">
+                                                                <!-- /.card-header -->
+
+                                                                <div class="card-body">
+                                                                    <p>Veuillez Choisir type de votre demande :</p>
+                                                                    <hr>
+                                                                    <div class="row showcase_row_area">
+                                                                        <div class="col-md-3 showcase_text_area">
+                                                                            <label>Type de demande :</label>
+                                                                        </div>
+                                                                        <div class="col-md-6 showcase_content_area">
+                                                                            <select class="custom-select"
+                                                                                    name="typeDemande" id="selectType"
+                                                                                    required>
+                                                                                <option id="ChoiOption" value="">Choisir
+                                                                                    une option
+                                                                                </option>
+                                                                                <option th:each="type : ${typeDemandes}"
+                                                                                        th:id="${'type'+type.id}"
+                                                                                        th:value="${type.id}"
+                                                                                        th:text="${type.type}"></option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="grid">
+
+                                                                        <p class="grid-header" id="gridHeaderConge"
+                                                                           style="display: none">
+                                                                            Demande Congé</p>
+
+                                                                        <p class="grid-header" id="gridHeaderATS"
+                                                                           style="display: none">
+                                                                            Demande Attestation de travail et de
+                                                                            salaire</p>
+
+                                                                        <p class="grid-header" id="gridHeaderAT"
+                                                                           style="display: none">Demande
+                                                                            Attestation de travail</p>
+
+                                                                        <p class="grid-header" id="gridHeaderPret"
+                                                                           style="display: none">
+                                                                            Demande prêt</p>
+
+                                                                        <p class="grid-header" id="gridHeaderBP"
+                                                                           style="display: none">Demande
+                                                                            Bulletin de paie</p>
+
+                                                                        <p class="grid-header" id="gridHeaderAVS"
+                                                                           style="display: none">
+                                                                            Demande avance sur salaire</p>
+
+                                                                        <p class="grid-header" id="gridHeaderAutorisationAbsence"
+                                                                           style="display: none">
+                                                                            Autorisation d'absence</p>
+
+                                                                        <div class="grid-body" id="gridTitle"
+                                                                             style="display: none">
+                                                                            <hr>
+                                                                            <p>Veuillez Remplir les champs ci-dessous
+                                                                                :</p>
+                                                                            <hr>
+                                                                        </div>
+
+                                                                        <div class="grid-body" id="gridDateDebut"
+                                                                             style="display: none">
+
+                                                                            <div class="form-group row showcase_row_area">
+                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                    <label>Date début
+                                                                                        :</label>
+                                                                                </div>
+                                                                                <div class="col-md-6 showcase_content_area">
+                                                                                    <input type="date"
+                                                                                           class="form-control"
+                                                                                           name="dateDebut">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="grid-body" id="gridDateFin"
+                                                                             style="display: none">
+                                                                            <div class="form-group row showcase_row_area">
+                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                    <label>Date fin
+                                                                                        :</label>
+                                                                                </div>
+                                                                                <div class="col-md-6 showcase_content_area">
+                                                                                    <input type="date"
+                                                                                           class="form-control"
+                                                                                           name="dateFin">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="grid-body" id="gridMotif"
+                                                                             style="display: none">
+                                                                            <div class="row showcase_row_area">
+                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                    <label>Motif :</label>
+                                                                                </div>
+                                                                                <div class="col-md-6 showcase_content_area">
+                                                                                    <select class="custom-select"
+                                                                                            name="motif"
+                                                                                            id="selectmotif">
+                                                                                        <option value="">Choisir une
+                                                                                            option
+                                                                                        </option>
+                                                                                        <option value="Congés payés à titre de l’année">
+                                                                                            Congés payés à titre de
+                                                                                            l’année
+                                                                                        </option>
+                                                                                        <option id="exceptionnel"
+                                                                                                value="Congés payés à titre exceptionnel">
+                                                                                            Congés payés à titre
+                                                                                            exceptionnel
+                                                                                        </option>
+                                                                                        <option value="Congés sans solde pour des raisons personnelles">
+                                                                                            Congés sans solde pour des
+                                                                                            raisons personnelles
+                                                                                        </option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div id="divException"
+                                                                                 style="display: none">
+                                                                                <div class="row showcase_row_area">
+                                                                                    <div class="col-md-3 showcase_text_area">
+                                                                                        <label></label>
+                                                                                    </div>
+                                                                                    <div class="col-md-6 showcase_content_area">
+                                                                                        <select class="custom-select"
+                                                                                                name="exception">
+                                                                                            <option value="">Choisir une
+                                                                                                option d'exception
+                                                                                            </option>
+                                                                                            <option value="Raisons personnelles">
+                                                                                                Raisons personnelles
+                                                                                            </option>
+                                                                                            <option value="Mariage">
+                                                                                                Mariage
+                                                                                            </option>
+                                                                                            <option value="Naissance">
+                                                                                                Naissance
+                                                                                            </option>
+                                                                                            <option value="Hospitalisation">
+                                                                                                Hospitalisation
+                                                                                            </option>
+                                                                                            <option value="Décès">
+                                                                                                Décès
+                                                                                            </option>
+                                                                                            <option value="Circoncision">
+                                                                                                Circoncision
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="grid-body" id="gridInterime"
+                                                                             style="display: none">
+                                                                            <div class="row showcase_row_area">
+                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                    <label>Interime :</label>
+                                                                                </div>
+                                                                                <div class="col-md-6 showcase_content_area">
+                                                                                    <select class="custom-select"
+                                                                                            name="interime">
+                                                                                        <option value="">Choisir un individu
+                                                                                        </option>
+                                                                                        <option th:each="ind : ${indByServ}"
+                                                                                                th:id="${ind.id}"
+                                                                                                th:value="${ind.id}"
+                                                                                                th:text="${ind.nom +' '+ind.prenom}"></option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                        <div class="grid-body" id="gridDateSouhaite"
+                                                                             style="display: none">
+
+                                                                            <div class="form-group row showcase_row_area">
+                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                    <label>Date Souhaitée
+                                                                                        :</label>
+                                                                                </div>
+                                                                                <div class="col-md-6 showcase_content_area">
+                                                                                    <input type="date"
+                                                                                           class="form-control"
+                                                                                           name="dateSouhaite">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="grid-body" id="gridMontant"
+                                                                             style="display: none">
+
+                                                                            <div class="form-group row showcase_row_area">
+                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                    <label>Montant
+                                                                                        :</label>
+                                                                                </div>
+                                                                                <div class="col-md-6 showcase_content_area">
+                                                                                    <input type="number" step="0.1"
+                                                                                           min="0" value="0"
+                                                                                           class="form-control"
+                                                                                           name="montant">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="grid-body" id="gridNumTele"
+                                                                             th:hidden="${numTelBoolean==true}"
+                                                                             style="display: none">
+
+                                                                            <div class="form-group row showcase_row_area">
+                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                    <label>N Téléphone
+                                                                                        :</label>
+                                                                                </div>
+                                                                                <div class="col-md-6 showcase_content_area">
+                                                                                    <input type="tel"
+                                                                                           class="form-control"
+                                                                                           name="numTele">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="grid-body" id="gridMensualite"
+                                                                             style="display: none">
+                                                                            <div class="form-group row showcase_row_area">
+                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                    <label>Mensualité
+                                                                                        :</label>
+                                                                                </div>
+                                                                                <div class="col-md-6 showcase_content_area">
+                                                                                    <input type="number" step="0.1"
+                                                                                           min="0" value="0"
+                                                                                           class="form-control"
+                                                                                           name="mensualite">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="grid-body" id="gridPeriodeDu"
+                                                                             style="display: none">
+
+                                                                            <div class="form-group row showcase_row_area">
+                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                    <label>Du
+                                                                                        :</label>
+                                                                                </div>
+                                                                                <div class="col-md-6 showcase_content_area">
+                                                                                    <input type="month"
+                                                                                           class="form-control"
+                                                                                           name="periodeDebut">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="grid-body" id="gridPeriodeFin"
+                                                                             style="display: none">
+                                                                            <div class="form-group row showcase_row_area">
+                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                    <label>Jusqu'à
+                                                                                        :</label>
+                                                                                </div>
+                                                                                <div class="col-md-6 showcase_content_area">
+                                                                                    <input type="month"
+                                                                                           class="form-control"
+                                                                                           name="periodeFin">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="grid-body" id="gridCachete"
+                                                                             style="display: none">
+                                                                            <div class="row showcase_row_area">
+                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                    <label>Cacheté :</label>
+                                                                                </div>
+                                                                                <div class="col-md-6 showcase_content_area">
+
+                                                                                    <div class="radio mb-3">
+                                                                                        <label class="radio-label mr-4">
+                                                                                            <input type="radio"
+                                                                                                   name="cachete"
+                                                                                                   th:value="1">Oui<i
+                                                                                                class="input-frame"></i>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="radio mb-3">
+                                                                                        <label class="radio-label mr-4">
+                                                                                            <input type="radio"
+                                                                                                   name="cachete"
+                                                                                                   th:value="0">Non<i
+                                                                                                class="input-frame"></i>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="grid-body">
+                                                                            <div class="row showcase_row_area">
+                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                    <label>Commentaire :</label>
+                                                                                </div>
+                                                                                <div class="col-md-6 showcase_content_area">
+                                                                                    <textarea class="form-control"
+                                                                                              name="commentaire"></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light"
+                                                        data-dismiss="modal">fermer
+                                                </button>
+
+                                                <button type="submit" class="btn btn-primary"
+                                                        id="ajoutPointage">Ajouter
+                                                </button>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="grid">
+                                    <p class="grid-header">Liste des demandes</p>
+
+                                    <div class="item-wrapper">
+                                        <div class="table-responsive" style="height: 500px;">
+                                            <table class="table table-hover" id="pointageTable">
+                                                <thead>
+                                                <tr>
+                                                    <th>Demandeur</th>
+                                                    <th>Type demande</th>
+                                                    <th>Date demande</th>
+                                                    <th>Etat</th>
+                                                    <th>-----</th>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:if="${listDemande.isEmpty()}">
+                                                    <td class="text-lg-center" colspan="5"><strong
+                                                            th:text="${'Aucune Demande Ajoutée'}"></strong></td>
+                                                </tr>
+                                                <tr th:each="demande : ${listDemande}">
+                                                    <td>
+                                                        <a class="btn btn-secondary" type="button"
+                                                           data-toggle="modal"
+                                                           data-target="#modal-lg1"
+                                                           th:attrappend="data-target=${demande.id}"
+                                                           th:text="${demande.emp.nom+' '+demande.emp.prenom}">
+                                                        </a>
+
+                                                        <div class="modal fade" tabindex="-1" id="modal-lg1"
+                                                             role="dialog"
+                                                             aria-labelledby="exampleModalLongTitle"
+                                                             aria-hidden="true"
+                                                             th:attrappend="id=${demande.id}">
+                                                            <div class="modal-dialog modal-lg modal-dialog-centered"
+                                                                 role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title"
+                                                                            id="exampleModalLongTitle1">
+                                                                            Demande d'employé : <strong
+                                                                                th:text="${demande.emp.nom+' '+demande.emp.prenom}"></strong>
+                                                                        </h5>
+                                                                        <button type="button" class="close"
+                                                                                data-dismiss="modal"
+                                                                                aria-label="Fermer">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+
+
+                                                                    <div class="modal-body">
+                                                                        <section class="content">
+                                                                            <div class="container-fluid">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <!-- About Me Box -->
+                                                                                        <div class="card card-primary">
+                                                                                            <!-- /.card-header -->
+                                                                                            <div class="card-body">
+
+                                                                                            </div>
+
+                                                                                            <div class="form-group row showcase_row_area">
+                                                                                                <div class="col-md-3 showcase_text_area">
+                                                                                                    <label>Type
+                                                                                                        demande
+                                                                                                        :</label>
+                                                                                                </div>
+                                                                                                <div class="col-md-9 showcase_content_area">
+                                                                                                    <li>
+                                                                                                        <strong th:text="${demande.typeDemande.type}"></strong>
+                                                                                                    </li>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="grid"
+                                                                                                 th:switch="${demande.typeDemande.id}">
+                                                                                                <div class="grid-body"
+                                                                                                     th:case="1">
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Date
+                                                                                                                Début
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${#dates.format(demande.dateDebut,'yyyy-MM-dd')}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Date
+                                                                                                                Fin
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${#dates.format(demande.dateFin,'yyyy-MM-dd')}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Motif
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${demande.motif}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div th:if="${demande.etat eq 'Refusée'}"
+                                                                                                         class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Motif
+                                                                                                                Refus
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${demande.motifRefus}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="grid-body"
+                                                                                                     th:case="2">
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Date
+                                                                                                                Souhaitée
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${#dates.format(demande.dateSouhaite,'yyyy-MM-dd')}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div th:if="${demande.etat eq 'Refusée'}"
+                                                                                                         class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Motif
+                                                                                                                Refus
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${demande.motifRefus}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="grid-body"
+                                                                                                     th:case="3">
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Date
+                                                                                                                Souhaitée
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${#dates.format(demande.dateSouhaite,'yyyy-MM-dd')}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div th:if="${demande.etat eq 'Refusée'}"
+                                                                                                         class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Motif
+                                                                                                                Refus
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${demande.motifRefus}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="grid-body"
+                                                                                                     th:case="4">
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Date
+                                                                                                                Souhaitée
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${#dates.format(demande.dateSouhaite,'yyyy-MM-dd')}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Montant
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${#numbers.formatDecimal(demande.montant,3,'POINT',2,'COMMA')+' DHS'}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Mensualité
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${#numbers.formatDecimal(demande.mensualite,3,'POINT',2,'COMMA')+' DHS'}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div th:if="${demande.etat eq 'Refusée'}"
+                                                                                                         class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Motif
+                                                                                                                Refus
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${demande.motifRefus}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="grid-body"
+                                                                                                     th:case="5">
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Du
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${#dates.format(demande.periodeDebut,'yyyy-MM')}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Jusqu'à
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${#dates.format(demande.periodeFin,'yyyy-MM')}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Cacheté
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li th:switch="${demande.cachete}">
+                                                                                                                <strong th:case="false"
+                                                                                                                        th:text="NON"></strong>
+                                                                                                                <strong th:case="true"
+                                                                                                                        th:text="OUI"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div th:if="${demande.etat eq 'Refusée'}"
+                                                                                                         class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Motif
+                                                                                                                Refus
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${demande.motifRefus}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="grid-body"
+                                                                                                     th:case="6">
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Date
+                                                                                                                Souhaitée
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${#dates.format(demande.dateSouhaite,'yyyy-MM-dd')}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Montant
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${#numbers.formatDecimal(demande.montant,3,'POINT',2,'COMMA')+' DHS'}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div th:if="${demande.etat eq 'Refusée'}"
+                                                                                                         class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                                            <label>Motif
+                                                                                                                Refus
+                                                                                                                :</label>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <li>
+                                                                                                                <strong th:text="${demande.motifRefus}"></strong>
+                                                                                                            </li>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                            <div class="grid"
+                                                                                                 th:hidden="${login.roles.contains(role) or demande.typeDemande.type=='Demande Attestation de travail et de salaire'
+                                                                                            or demande.typeDemande.type=='Demande de prêt' or demande.typeDemande.type=='Demande Bulletin de paie'
+                                                                                            or demande.typeDemande.type=='Demande avance sur salaire'}">
+                                                                                                <div class="grid-body">
+                                                                                                    <div class="form-group row showcase_row_area">
+                                                                                                        <div class="col-md-9 showcase_content_area">
+                                                                                                            <a th:href="@{/Demande/Generer/{id}(id=${demande.id})}"
+                                                                                                               target="_blank">
+                                                                                                                <strong>Veuillez cliquer ici pour télécharger le fichier de la demande</strong>
+                                                                                                            </a>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!-- /.card-body -->
+                                                                                    </div>
+                                                                                    <!-- /.card -->
+                                                                                </div>
+                                                                                <!-- /.col -->
+                                                                            </div>
+                                                                            <!-- /.row -->
+
+                                                                        </section>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button"
+                                                                                class="btn btn-secondary"
+                                                                                data-dismiss="modal">Fermer
+                                                                        </button>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td th:text="${demande.typeDemande.type}"></td>
+                                                    <td th:text="${#dates.format(demande.createdDate,'dd-MM-yyyy')}"></td>
+                                                    <td th:switch="${demande.etat}">
+                                                        <a th:case="'En_cours_de_signature'"
+                                                           class="btn btn-sm btn-warning"
+                                                           th:text="${demande.etat}"></a>
+                                                        <a th:case="'Demandée'" class="btn btn-sm btn-warning"
+                                                           th:text="${demande.etat}"></a>
+                                                        <a th:case="'Validée'" class="btn btn-sm btn-success"
+                                                           th:text="${demande.etat}"></a>
+                                                        <a th:case="'Refusée'" class="btn btn-sm btn-danger"
+                                                           th:text="${demande.etat}"></a>
+                                                    </td>
+                                                    <td>
+                                                        <div class="dropdown show">
+                                                            <a class="btn btn-xs btn-dark dropdown-toggle"
+                                                               href="#"
+                                                               role="button"
+                                                               th:id="${'dropdownMenuLink'+demande.id}"
+                                                               data-toggle="dropdown" aria-haspopup="true"
+                                                               aria-expanded="false">
+                                                                Action
+                                                            </a>
+
+                                                            <div class="dropdown-menu"
+                                                                 aria-labelledby="dropdownMenuLink">
+                                                                <a type="button" class="dropdown-item"
+                                                                   data-target="#deleteModal"
+                                                                   data-toggle="modal"
+                                                                   th:attrappend="data-target=${demande.id}">Supprimer</a>
+                                                                <a type="button" class="dropdown-item"
+                                                                   data-target="#ValidModal" data-toggle="modal"
+                                                                   th:attrappend="data-target=${demande.id}"
+                                                                   th:hidden="${login.roles.contains(role)}">Valider</a>
+                                                                <a type="button" class="dropdown-item"
+                                                                   data-target="#RefusModal" data-toggle="modal"
+                                                                   th:attrappend="data-target=${demande.id}"
+                                                                   th:hidden="${login.roles.contains(role)}">Refuser</a>
+                                                            </div>
+                                                            <div class="modal fade" id="deleteModal"
+                                                                 tabindex="-1"
+                                                                 th:attrappend="id=${demande.id}"
+                                                                 role="dialog"
+                                                                 aria-labelledby="exampleModalCenterTitle5"
+                                                                 aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered"
+                                                                     role="document">
+                                                                    <div class="modal-content">
+                                                                        <form th:action="@{/Demande/Supprimer/{id}(id=${demande.id})}"
+                                                                              method="get">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalCenterTitle5">
+                                                                                    Supprimer la demande
+                                                                                </h5>
+                                                                                <button type="button"
+                                                                                        class="close"
+                                                                                        data-dismiss="modal"
+                                                                                        aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <p>Voulez vous supprimer la
+                                                                                    demande <br>
+                                                                                    <strong th:text="${demande.typeDemande.type}"></strong>
+                                                                                </p>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                        class="btn btn-secondary"
+                                                                                        data-dismiss="modal">
+                                                                                    Fermer
+                                                                                </button>
+                                                                                <input type="submit"
+                                                                                       class="btn btn-danger"
+                                                                                       value="supprimer"/>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="modal fade" id="ValidModal"
+                                                                 tabindex="-1"
+                                                                 th:attrappend="id=${demande.id}"
+                                                                 role="dialog"
+                                                                 aria-labelledby="exampleModalCenterTitle6"
+                                                                 aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered"
+                                                                     role="document">
+                                                                    <div class="modal-content">
+                                                                        <form th:action="@{/Demande/Valider/{id}(id=${demande.id})}"
+                                                                              method="post">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalCenterTitle6">
+                                                                                    Validation de la demande
+                                                                                </h5>
+                                                                                <button type="button"
+                                                                                        class="close"
+                                                                                        data-dismiss="modal"
+                                                                                        aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <div class="grid">
+                                                                                    <div class="grid-body">
+                                                                                        <p>Valider la demande :
+                                                                                            <strong
+                                                                                                    th:text="${demande.typeDemande.type}"></strong><br>
+                                                                                            de :
+                                                                                            <strong th:text="${demande.emp.nom+' '+demande.emp.prenom}"></strong>
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                        class="btn btn-secondary"
+                                                                                        data-dismiss="modal">
+                                                                                    Fermer
+                                                                                </button>
+                                                                                <input type="submit"
+                                                                                       class="btn btn-success"
+                                                                                       value="Valider"/>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="modal fade" id="RefusModal"
+                                                                 tabindex="-1"
+                                                                 th:attrappend="id=${demande.id}"
+                                                                 role="dialog"
+                                                                 aria-labelledby="exampleModalCenterTitle7"
+                                                                 aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered"
+                                                                     role="document">
+                                                                    <div class="modal-content">
+                                                                        <form th:action="@{/Demande/Refuser/{id}(id=${demande.id})}"
+                                                                              method="post">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalCenterTitle7">
+                                                                                    Refus
+                                                                                    de la demande
+                                                                                </h5>
+                                                                                <button type="button"
+                                                                                        class="close"
+                                                                                        data-dismiss="modal"
+                                                                                        aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <div class="grid">
+                                                                                    <div class="grid-body">
+                                                                                        <p>Refuser la demande :
+                                                                                            <strong
+                                                                                                    th:text="${demande.typeDemande.type}"></strong><br>
+                                                                                            de :
+                                                                                            <strong th:text="${demande.emp.nom+' '+demande.emp.prenom}"></strong>
+                                                                                        </p>
+                                                                                    </div>
+
+                                                                                    <div class="row showcase_row_area">
+                                                                                        <div class="col-md-3 showcase_text_area">
+                                                                                            <label>Commentaire
+                                                                                                :</label>
+                                                                                        </div>
+                                                                                        <div class="col-md-6 showcase_content_area">
+                                                                                            <textarea
+                                                                                                    class="form-control"
+                                                                                                    name="motifRefus"
+                                                                                                    required></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                        class="btn btn-secondary"
+                                                                                        data-dismiss="modal">
+                                                                                    Fermer
+                                                                                </button>
+                                                                                <input type="submit"
+                                                                                       class="btn btn-danger"
+                                                                                       value="Refuser"/>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${!#lists.isEmpty(listDemande)}"  class="fc-footer-toolbar text-center mt-4">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                            <!-- Sélecteur d'éléments par page -->
+                            <div class="d-flex align-items-center mb-2 me-3">
+                                <label for="pageSize" class="form-label me-2 mb-0">Éléments par page :</label>
+                                <select id="pageSize" class="form-select form-select-sm" style="width: auto;"
+                                        onchange="changePageSize(this.value)">
+                                    <option value="10" th:selected="${listDemande.size == 10}">10</option>
+                                    <option value="30" th:selected="${listDemande.size == 30}">30</option>
+                                    <option value="50" th:selected="${listDemande.size == 50}">50</option>
+                                    <option value="100" th:selected="${listDemande.size == 100}">100</option>
+                                </select>
+                            </div>
+
+                            <!-- Pagination -->
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-center flex-wrap mb-0">
+                                    <!-- Première -->
+                                    <li class="page-item" th:classappend="${listDemande.first} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{/Demande/Toutes(etat=${state}, size=${listDemande.size}, page=1)}">&laquo;</a>
+                                    </li>
+
+                                    <!-- Précédente -->
+                                    <li class="page-item" th:classappend="${listDemande.first} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{/Demande/Toutes(etat=${state}, size=${listDemande.size}, page=${listDemande.number})}">&#8249;</a>
+                                    </li>
+
+                                    <!-- Numéros -->
+                                    <li class="page-item"
+                                        th:each="pageNumber : ${pageNumbers}"
+                                        th:classappend="${pageNumber == listDemande.number + 1} ? 'active'">
+                                        <a class="page-link"
+                                           th:href="@{/Demande/Toutes(etat=${state}, size=${listDemande.size}, page=${pageNumber})}"
+                                           th:text="${pageNumber}"></a>
+                                    </li>
+
+                                    <!-- Suivante -->
+                                    <li class="page-item" th:classappend="${listDemande.last} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{/Demande/Toutes(etat=${state}, size=${listDemande.size}, page=${listDemande.number + 2})}">&#8250;</a>
+                                    </li>
+
+                                    <!-- Dernière -->
+                                    <li class="page-item" th:classappend="${listDemande.last} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{/Demande/Toutes(etat=${state}, size=${listDemande.size}, page=${listDemande.totalPages})}">&raquo;</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <!-- Informations sur les éléments affichés -->
+                            <div class="text-muted mb-2 me-3">
+                                <small>
+                                    Affichage de <span th:text="${(listDemande.number * listDemande.size) + 1}">1</span>
+                                    à <span th:text="${(listDemande.number + 1) * listDemande.size > listDemande.totalElements ? listDemande.totalElements : (listDemande.number + 1) * listDemande.size}">30</span>
+                                    sur <span th:text="${listDemande.totalElements}">100</span> éléments
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- content viewport ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <!-- partial -->
+    </div>
+    <!-- page content ends -->
+</div>
+</body>
+<script>
+
+    $(document).ready(function () {
+        $('#selectmotif').change(function () {
+            var exception = document.getElementById("exceptionnel");
+            var divException = document.getElementById("divException");
+
+            if (exception.selected) {
+                divException.style.display = "block";
+            }
+            if (!exception.selected) {
+                divException.style.display = "none";
+            }
+        })
+    })
+    $(document).ready(function () {
+        $('#selectType').change(function () {
+            var typeconge = document.getElementById("type1");
+            var typeAtS = document.getElementById("type2");
+            var typeAt = document.getElementById("type3");
+            var typePret = document.getElementById("type4");
+            var typeBP = document.getElementById("type5");
+            var typeAvS = document.getElementById("type6");
+            var typeAutorisationAbsence = document.getElementById("type7");
+            var ChoiOption = document.getElementById("ChoiOption");
+
+            var gridConge = document.getElementById("gridHeaderConge");
+            var gridAt = document.getElementById("gridHeaderAT");
+            var gridAtS = document.getElementById("gridHeaderATS");
+            var gridBP = document.getElementById("gridHeaderBP");
+            var gridPret = document.getElementById("gridHeaderPret");
+            var gridAvS = document.getElementById("gridHeaderAVS");
+            var gridAutorisationAbsence = document.getElementById("gridHeaderAutorisationAbsence");
+
+            var gridDateDebut = document.getElementById("gridDateDebut");
+            var gridDateFin = document.getElementById("gridDateFin");
+            var gridDateSouhaite = document.getElementById("gridDateSouhaite");
+            var gridMontant = document.getElementById("gridMontant");
+            var gridMensualite = document.getElementById("gridMensualite");
+            var gridPeriodeDu = document.getElementById("gridPeriodeDu");
+            var gridPeriodeFin = document.getElementById("gridPeriodeFin");
+            var gridCachete = document.getElementById("gridCachete");
+            var gridMotif = document.getElementById("gridMotif");
+            var gridTitle = document.getElementById("gridTitle");
+            var gridTele = document.getElementById("gridNumTele");
+            var gridInterime = document.getElementById("gridInterime");
+
+            if (ChoiOption.selected == true) {
+                gridTitle.style.display = "none";
+                gridConge.style.display = "none";
+                gridDateDebut.style.display = "none";
+                gridDateFin.style.display = "none";
+                gridMotif.style.display = "none";
+                gridDateSouhaite.style.display = "none";
+                gridMontant.style.display = "none";
+                gridMensualite.style.display = "none";
+                gridPeriodeDu.style.display = "none";
+                gridPeriodeFin.style.display = "none";
+                gridCachete.style.display = "none";
+                gridAt.style.display = "none";
+                gridAtS.style.display = "none";
+                gridBP.style.display = "none";
+                gridPret.style.display = "none";
+                gridAvS.style.display = "none";
+                gridTele.style.display = "none";
+                gridInterime.style.display = "none";
+                gridAutorisationAbsence.style.display = "none";
+
+            }
+
+            if (typeconge.selected == true) {
+                gridTitle.style.display = "block";
+                gridConge.style.display = "block";
+                gridDateDebut.style.display = "block";
+                gridDateFin.style.display = "block";
+                gridMotif.style.display = "block";
+                gridTele.style.display = "block";
+                gridInterime.style.display = "block";
+                gridDateSouhaite.style.display = "none";
+                gridMontant.style.display = "none";
+                gridMensualite.style.display = "none";
+                gridPeriodeDu.style.display = "none";
+                gridPeriodeFin.style.display = "none";
+                gridCachete.style.display = "none";
+                gridAt.style.display = "none";
+                gridAtS.style.display = "none";
+                gridBP.style.display = "none";
+                gridPret.style.display = "none";
+                gridAvS.style.display = "none";
+                gridAutorisationAbsence.style.display = "none";
+
+            }
+            if (typeAtS.selected == true) {
+                gridTitle.style.display = "block";
+                gridConge.style.display = "none";
+                gridDateDebut.style.display = "none";
+                gridDateFin.style.display = "none";
+                gridMotif.style.display = "none";
+                gridDateSouhaite.style.display = "block";
+                gridMontant.style.display = "none";
+                gridMensualite.style.display = "none";
+                gridPeriodeDu.style.display = "none";
+                gridPeriodeFin.style.display = "none";
+                gridCachete.style.display = "none";
+                gridAt.style.display = "none";
+                gridAtS.style.display = "block";
+                gridBP.style.display = "none";
+                gridPret.style.display = "none";
+                gridAvS.style.display = "none";
+                gridTele.style.display = "none";
+                gridInterime.style.display = "none";
+                gridAutorisationAbsence.style.display = "none";
+            }
+
+            if (typeAt.selected == true) {
+                gridTitle.style.display = "block";
+                gridConge.style.display = "none";
+                gridDateDebut.style.display = "none";
+                gridDateFin.style.display = "none";
+                gridMotif.style.display = "none";
+                gridDateSouhaite.style.display = "block";
+                gridMontant.style.display = "none";
+                gridMensualite.style.display = "none";
+                gridPeriodeDu.style.display = "none";
+                gridPeriodeFin.style.display = "none";
+                gridCachete.style.display = "none";
+                gridAt.style.display = "block";
+                gridAtS.style.display = "none";
+                gridBP.style.display = "none";
+                gridPret.style.display = "none";
+                gridAvS.style.display = "none";
+                gridTele.style.display = "none";
+                gridInterime.style.display = "none";
+                gridAutorisationAbsence.style.display = "none";
+            }
+
+            if (typePret.selected == true) {
+                gridTitle.style.display = "block";
+                gridConge.style.display = "none";
+                gridDateDebut.style.display = "none";
+                gridDateFin.style.display = "none";
+                gridMotif.style.display = "none";
+                gridDateSouhaite.style.display = "block";
+                gridMontant.style.display = "block";
+                gridMensualite.style.display = "block";
+                gridPeriodeDu.style.display = "none";
+                gridPeriodeFin.style.display = "none";
+                gridCachete.style.display = "none";
+                gridAt.style.display = "none";
+                gridAtS.style.display = "none";
+                gridBP.style.display = "none";
+                gridPret.style.display = "block";
+                gridAvS.style.display = "none";
+                gridTele.style.display = "none";
+                gridInterime.style.display = "none";
+                gridAutorisationAbsence.style.display = "none";
+            }
+
+            if (typeBP.selected == true) {
+                gridTitle.style.display = "block";
+                gridConge.style.display = "none";
+                gridDateDebut.style.display = "none";
+                gridDateFin.style.display = "none";
+                gridMotif.style.display = "none";
+                gridDateSouhaite.style.display = "none";
+                gridMontant.style.display = "none";
+                gridMensualite.style.display = "none";
+                gridPeriodeDu.style.display = "block";
+                gridPeriodeFin.style.display = "block";
+                gridCachete.style.display = "block";
+                gridAt.style.display = "none";
+                gridAtS.style.display = "none";
+                gridBP.style.display = "block";
+                gridPret.style.display = "none";
+                gridAvS.style.display = "none";
+                gridTele.style.display = "none";
+                gridInterime.style.display = "none";
+                gridAutorisationAbsence.style.display = "none";
+            }
+
+            if (typeAvS.selected == true) {
+                gridTitle.style.display = "block";
+                gridConge.style.display = "none";
+                gridDateDebut.style.display = "none";
+                gridDateFin.style.display = "none";
+                gridMotif.style.display = "none";
+                gridDateSouhaite.style.display = "block";
+                gridMontant.style.display = "block";
+                gridMensualite.style.display = "none";
+                gridPeriodeDu.style.display = "none";
+                gridPeriodeFin.style.display = "none";
+                gridCachete.style.display = "none";
+                gridAt.style.display = "none";
+                gridAtS.style.display = "none";
+                gridBP.style.display = "none";
+                gridPret.style.display = "none";
+                gridAvS.style.display = "block";
+                gridTele.style.display = "none";
+                gridInterime.style.display = "none";
+                gridAutorisationAbsence.style.display = "none";
+            }
+
+            if (typeAutorisationAbsence.selected == true) {
+                gridTitle.style.display = "block";
+                gridConge.style.display = "none";
+                gridAutorisationAbsence.style.display = "block";
+                gridDateDebut.style.display = "block";
+                gridDateFin.style.display = "block";
+                gridInterime.style.display = "block";
+                gridMotif.style.display = "none";
+                gridTele.style.display = "none";
+                gridDateSouhaite.style.display = "none";
+                gridMontant.style.display = "none";
+                gridMensualite.style.display = "none";
+                gridPeriodeDu.style.display = "none";
+                gridPeriodeFin.style.display = "none";
+                gridCachete.style.display = "none";
+                gridAt.style.display = "none";
+                gridAtS.style.display = "none";
+                gridBP.style.display = "none";
+                gridPret.style.display = "none";
+                gridAvS.style.display = "none";
+            }
+
+        });
+    });
+</script>
+<script th:inline="javascript">
+    function changePageSize(newSize) {
+        /*<![CDATA[*/
+        var currentStatut = /*[[${state}]]*/ 'All';
+        var contextPath = /*[[@{/}]]*/ ''; // récupère le contextPath automatiquement
+
+        var url = contextPath + 'Demande/Toutes?etat=' + encodeURIComponent(currentStatut) +
+            '&size=' + newSize + '&page=1';
+
+        window.location.href = url;
+        /*]]>*/
+    }
+</script>
+</html>

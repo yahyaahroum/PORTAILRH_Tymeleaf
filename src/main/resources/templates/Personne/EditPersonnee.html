@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"/>
+
+<body class="header-fixed">
+<!-- partial:../../partials/_header.html -->
+<nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+<!-- partial -->
+<div class="page-body">
+    <!-- partial:../../partials/_sidebar.html -->
+    <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+    <!-- partial -->
+    <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+            <div class="viewport-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb has-arrow">
+                        <li class="breadcrumb-item">
+                            <a href="#">Formulaire d'ajout</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+
+            <form th:action="@{/Personnes/Editer/{id}(id=${personne.id})}" method="post"
+                  enctype="multipart/form-data">
+                <div class="content-viewport">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="grid">
+                                <p class="grid-header">Informations personnelles</p>
+                                <div class="alert-danger" th:if="${errorRib}">
+                                    <strong th:text="${errorRib}"></strong>
+                                </div>
+                                <div class="grid-body">
+                                    <div class="item-wrapper">
+                                        <div class="row mb-3">
+                                            <div class="col-md-8 mx-auto">
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Nom :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="text" class="form-control" name="nom"
+                                                               placeholder="Saisir le nom" th:value="${personne.nom}"
+                                                               onkeyup="this.value = this.value.toUpperCase();" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Prénom :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="text" class="form-control" name="prenom"
+                                                               onkeyup="this.value = this.value.toUpperCase();"
+                                                               th:value="${personne.prenom}"
+                                                               placeholder="Saisir le prenom" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Date de naissance :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="date" class="form-control" name="datenaissance" th:value="${{personne.datenaissance}}"
+                                                               placeholder="Saisir la date de naissance" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Sexe :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <select class="custom-select" name="sexe" required>
+                                                            <option selected disabled value="">Choisir le sexe
+                                                            </option>
+                                                            <option th:selected="${personne.sexe} eq 1" value="1">Homme</option>
+                                                            <option th:selected="${personne.sexe} eq 2" value="2">Femme</option>
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Adresse :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="text" class="form-control" name="adressepays"
+                                                               onkeyup="this.value = this.value.toUpperCase();"
+                                                               th:value="${personne.adressepays}"
+                                                               placeholder="Saisir le pays" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label></label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="text" class="form-control" name="adresseville"
+                                                               onkeyup="this.value = this.value.toUpperCase();"
+                                                               th:value="${personne.adresseville}"
+                                                               placeholder="Saisir la ville" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label></label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="text" class="form-control" name="adresserue"
+                                                               onkeyup="this.value = this.value.toUpperCase();"
+                                                               th:value="${personne.adresserue}"
+                                                               placeholder="Saisir le rue" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Situation familiale :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <select class="custom-select" name="sitfamiliale" required>
+                                                            <option selected disabled value="">Choisir la situation Familiale
+                                                            </option>
+                                                            <option th:selected="${personne.sitfamiliale} eq 1" value="1">Célibataire</option>
+                                                            <option th:selected="${personne.sitfamiliale} eq 2" value="2">Marié</option>
+                                                            <option th:selected="${personne.sitfamiliale} eq 3" value="3">Divorcé</option>
+                                                            <option th:selected="${personne.sitfamiliale} eq 4" value="4">Veuf</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Personnes à charge :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="number" class="form-control" name="pcharge"
+                                                               th:value="${personne.pcharge}"
+                                                               placeholder="Saisir le numéro des personnes à charge"
+                                                               required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Numéro de téléphone :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="text" class="form-control" name="numtele"
+                                                               th:value="${personne.numtele}"
+                                                               placeholder="Saisir le numéro de téléphone" required>
+                                                        <br>
+                                                        <div class="radio mb-3">
+                                                            <label class="radio-label">
+                                                                <input type="checkbox" name="whatsapp"
+                                                                       th:checked="${personne.whatsapp} eq true ? 'checked'"
+                                                                       th:value="1">Whatsapp<i
+                                                                    class="input-frame"></i>
+                                                            </label>
+                                                        </div>
+                                                        <div class="radio mb-3">
+                                                            <label class="radio-label">
+                                                                <input type="checkbox" name="bulletin"
+                                                                       th:checked="${personne.bulletin} eq true ? 'checked'"
+                                                                       th:value="1">Accepter pour l'envoie du bulletin
+                                                                via whatsapp<i
+                                                                    class="input-frame"></i>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>CIN :</label>
+                                                    </div>
+                                                    <div class="col-md-3 showcase_content_area">
+                                                        <input type="text" class="form-control" name="codecin"
+                                                               onkeyup="this.value = this.value.toUpperCase();"
+                                                               th:value="${personne.codecin}"
+                                                               placeholder="Saisir le CIN" required>
+                                                    </div>
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Date Expiration :</label>
+                                                    </div>
+                                                    <div class="col-md-3 showcase_content_area">
+
+                                                        <input type="date" class="form-control"
+                                                               id="dateExpCin"
+                                                               name="dateExpCin"
+                                                               th:value="${personne.dateExpCin != null ? #temporals.format(personne.dateExpCin, 'yyyy-MM-dd') : ''}"
+                                                               placeholder="Saisir la date d'expiration de CIN"
+                                                               onkeydown="return false;" required>
+
+
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>CIN Recto :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <div class="custom-file">
+                                                            <input type="file" class="form-control" name="file1"
+                                                                   accept="application/pdf" multiple >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>CIN Verso :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <div class="custom-file">
+                                                            <input type="file" class="form-control" name="file2"
+                                                                   accept="application/pdf" multiple >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Fiche anthropométrique :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <div class="custom-file">
+                                                            <input type="file" class="form-control" name="file3"
+                                                                   accept="application/pdf" >
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="grid">
+                                <p class="grid-header">Contrat</p>
+                                <div class="grid-body">
+                                    <div class="item-wrapper">
+                                        <div class="row mb-3">
+                                            <div class="col-md-8 mx-auto">
+                                                <div class="row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Chantier :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <select class="custom-select" name="codechantier" required>
+                                                            <option th:each="code : ${chantier}" th:id="${code.code}"
+                                                                    th:value="${code.code}"
+                                                                    th:selected="${personne.codechantier.trim()==code.code}"
+                                                                    th:text="${code.codedes}"></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Date d'entrée :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="date" class="form-control" name="dateentree" th:value="${{personne.dateentree}}"
+                                                               placeholder="Saisir la date d'entée" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Période d'essai :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="number" name="pessai" class="form-control" th:value="${personne.pessai}"
+                                                               placeholder="Entrer le nombre des jours">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Profil :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <select class="custom-select" name="profile" required>
+                                                            <option selected disabled value="">Choisir le profile
+                                                            </option>
+                                                            <option th:selected="${personne.profile} eq 1"  value="1">Mensuel</option>
+                                                            <option th:selected="${personne.profile} eq 2" value="2">Horaire</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Fonction :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <select class="custom-select" name="fonction" required>
+
+                                                            <option th:each="fonction : ${fonctions}"
+                                                                    th:id="${fonction.codefonction}"
+                                                                    th:value="${fonction.codefonction}"
+                                                                    th:selected="${personne.fonction==fonction.codefonction}"
+                                                                    th:text="${fonction.libelle}"></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="grid">
+                                <p class="grid-header">Organismes Sociaux</p>
+                                <div class="grid-body">
+                                    <div class="item-wrapper">
+                                        <div class="row mb-3">
+                                            <div class="col-md-8 mx-auto">
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>CNSS :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area" >
+                                                        <input type="text" name="cnss" class="form-control" th:value="${personne.cnss}"
+                                                               placeholder="Entrer le numéro CNSS">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area" >
+                                                        <label>Attestation CNSS :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area" >
+                                                        <input type="file" name="file4" class="form-control"
+                                                               placeholder="Choisir un fichier" accept="application/pdf">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="grid">
+                                <p class="grid-header">Informations bancaires</p>
+                                <div class="grid-body">
+                                    <div class="item-wrapper">
+                                        <div class="row mb-3">
+                                            <div class="col-md-8 mx-auto">
+                                                <div class="row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Banque :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+
+                                                        <select class="custom-select" name="banque" required>
+                                                            <option value="">Choisir la Banque
+                                                            </option>
+                                                            <option th:each="banque : ${banques}"
+                                                                    th:id="${banque.designation}"
+                                                                    th:value="${banque.designation}"
+                                                                    th:selected="${banque.designation==personne.banque}"
+                                                                    th:text="${banque.designation}"></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Domiciliation :</label>
+                                                    </div>
+                                                        <div class="col-md-9 showcase_content_area">
+                                                            <input type="text" class="form-control" name="domiciliation"
+                                                                   th:value="${personne.domiciliation}"
+                                                                   onkeyup="this.value = this.value.toUpperCase();"
+                                                                   placeholder="Saisir l'agence" required>
+                                                        </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Code RIB :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="number" class="form-control" name="rib"
+                                                               th:value="${personne.rib}"
+                                                               placeholder="Saisir le RIB"  minlength="24" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Attestation RIB :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <div class="custom-file">
+                                                            <input type="file" class="form-control" name="file5"
+                                                                   accept="application/pdf" >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="grid">
+                                <p class="grid-header">Parcours Academique</p>
+                                <div class="grid-body">
+                                    <div class="item-wrapper">
+                                        <div class="row mb-3">
+                                            <div class="col-md-8 mx-auto">
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area" >
+                                                        <label>CV :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <div class="custom-file">
+                                                            <input type="file" class="form-control" name="file6"
+                                                                   accept="application/pdf,application/msword">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area" >
+                                                        <label>Niveau d'étude :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <select class="custom-select" name="niveauetude">
+                                                            <option selected disabled value="">Choisir le niveau d'étude</option>
+                                                            <option th:value="BAC+5">Bac+5</option>
+                                                            <option th:value="BAC+4">Bac+4</option>
+                                                            <option th:value="BAC+3">Bac+3</option>
+                                                            <option th:value="BAC+2">Bac+2</option>
+                                                            <option th:value="BAC">Bac</option>
+                                                            <option th:value="NIVEAUBAC">Niveau Bac</option>
+                                                            <option th:value="INFNIVEAUBAC">Inférieur à Niveau Bac</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 text-center text-sm-right order-sm-1">
+                    <input type="submit" class="btn btn-primary" value="Enregistrer">
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <!-- content viewport ends -->
+    <!-- partial:../../partials/_footer.html -->
+    <footer class="footer" th:replace="fragments/footer::footer"></footer>
+    <!-- partial -->
+</div>
+<!-- page content ends -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let today = new Date().toISOString().split('T')[0]; // Obtient la date au format YYYY-MM-DD
+        document.getElementById("dateExpCin").setAttribute("min", today);
+    });
+</script>
+</body>
+</html>

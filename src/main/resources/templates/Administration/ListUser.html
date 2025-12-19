@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"/>
+<body class="header-fixed">
+<!-- partial:../../partials/_header.html -->
+<nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+<!-- partial -->
+<div class="page-body">
+    <!-- partial:../../partials/_sidebar.html -->
+    <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+    <!-- partial -->
+    <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+            <div class="viewport-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb has-arrow">
+                        <li class="breadcrumb-item">
+                            <a href="#">Liste des utilisateurs</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="content-viewport">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="grid-header">
+                            <div class="input-group input-group-sm" style="width: 200px;">
+                                <input type="text" name="myInput" id="myInput" onkeyup="myFunction()"
+                                       class="form-control float-right" placeholder="Rechercher">
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="item-wrapper">
+                                <div class="table-responsive">
+                                    <table id="myTable" class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Nom</th>
+                                            <th>Prénom</th>
+                                            <th>Email</th>
+                                            <th>Nom d'utilisateur</th>
+                                            <th>Session</th>
+                                            <th>Role</th>
+                                            <th>Chantier</th>
+                                            <th >Action</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="user : ${users}">
+                                            <td><input  type="checkbox" th:id="${user.id}" th:value="${user.id}">
+                                            </td>
+                                            <td th:text="${user.nom}"></td>
+                                            <td th:text="${user.prenom}"></td>
+                                            <td th:text="${user.email}"></td>
+                                            <td th:text="${user.username}"></td>
+                                            <td th:text="${user.session}"></td>
+                                            <td>
+                                                <li th:each="role : ${user.roles}" th:text="${role.type}"></li>
+                                            </td>
+                                            <td>
+                                                <li th:each="chantier : ${user.chantier}" th:text="${chantier.code}"></li>
+                                            </td>
+                                            <td>
+
+                                                <a class="btn-sm btn-success" type="submit" th:href="@{/Utilisateurs/Editer/{id}(id=${user.id})}" title="modifier">
+                                                    <i class="fas fa-pen-square"></i>
+                                                </a>
+
+                                                <a type="button" class="btn-sm btn-danger" title="supprimer"
+                                                        data-target="#modal-danger" data-toggle="modal" th:attrappend="data-target=${user.id}">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+
+                                                <div class="modal fade" id="modal-danger" th:attrappend="id=${user.id}">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content bg-danger">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Confirmation de la suppression</h4>
+                                                                <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>Êtes vous sùre de vouloir supprimer ?</p>
+                                                            </div>
+                                                            <div class="modal-footer justify-content-between">
+                                                                <button type="button" class="btn btn-outline-light"
+                                                                        data-dismiss="modal">Fermer
+                                                                </button>
+                                                                <form th:action="@{/Utilisateurs/Supprimer/{id}(id=${user.id})}" method="GET">
+                                                                    <input type="submit" class="btn btn-outline-light" value="Confirmer"/>
+
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.modal-content -->
+                                                    </div>
+                                                    <!-- /.modal-dialog -->
+                                                </div>
+                                                <!-- /.modal -->
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content viewport ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <!-- partial -->
+    </div>
+    <!-- page content ends -->
+</div>
+<script type="text/javascript">
+
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>

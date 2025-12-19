@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+  <head>
+  </head>
+  <body class="header-fixed">
+
+
+      <div class="sidebar" th:fragment="sidebar">
+
+        <ul class="navigation-menu">
+          <li sec:authorize="hasAnyAuthority('admin')">
+          <a href="#Administration" data-toggle="collapse" aria-expanded="false">
+            <span class="link-title">Administration</span>
+            <i class="mdi mdi-settings link-icon"></i>
+          </a>
+          <ul class="collapse navigation-submenu" id="Administration">
+            <li>
+              <a th:href="@{/Utilisateurs/Ajouter}">Ajouter un utilisateur</a>
+            </li>
+            <li>
+              <a th:href="@{/Utilisateurs/Liste}">Liste des utilisateurs</a>
+            </li>
+          </ul>
+          </li>
+
+          <li >
+            <a href="#Demande" data-toggle="collapse" aria-expanded="false">
+              <span class="link-title">Demandes</span>
+              <i class="mdi mdi-reply link-icon"></i>
+            </a>
+            <ul class="collapse navigation-submenu" id="Demande">
+              <li sec:authorize="hasAnyAuthority('admin','RH','Employé')">
+                <a th:href="@{/Demande/Toutes(etat=${'All'})}">Liste des Demandes</a>
+              </li>
+              <li>
+                <a th:href="@{/OrdreMission/Tous}">Ordres de missions</a>
+              </li>
+            </ul>
+          </li>
+          <li sec:authorize="hasAnyAuthority('admin','Tech','RH')">
+            <a href="#Decharge" data-toggle="collapse" aria-expanded="false">
+              <span class="link-title">Décharges</span>
+              <i class="mdi mdi-reply link-icon"></i>
+            </a>
+            <ul class="collapse navigation-submenu" id="Decharge">
+              <li>
+                <a th:href="@{/Decharge/Liste(statut=${'All'})}">Liste des Décharges</a>
+              </li>
+            </ul>
+          </li>
+
+          <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur')">
+            <a href="#liste" data-toggle="collapse" aria-expanded="false">
+              <span class="link-title">Personnels</span>
+              <i class="mdi mdi-account-circle link-icon"></i>
+            </a>
+            <ul class="collapse navigation-submenu" id="liste">
+              <li sec:authorize="hasAnyAuthority('RH','Pointeur','admin')">
+                <a th:href="@{/}">Nouveau Contrat</a>
+              </li>
+              <li sec:authorize="hasAnyAuthority('RH','Pointeur','admin')">
+                <a th:href="@{/STC/ListeNoire}">Liste Noire</a>
+              </li>
+              <li>
+                <a href="#listepersonne" data-toggle="collapse" aria-expanded="false">
+                  <span class="link-title"><strong>Personnes</strong></span>
+                </a>
+                <ul class="collapse navigation-submenu" id="listepersonne">
+<!--                  <li sec:authorize="hasAnyAuthority('admin','RH')">-->
+<!--                    <a th:href="@{/Personne/ListePersonnes}">Toutes les personnes</a>-->
+<!--                  </li>-->
+                  <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur')">
+                    <a th:href="@{/Personne/ListePersonnes(etat=${'All'})}">Liste des Contrats</a>
+                  </li>
+
+                </ul>
+              </li>
+
+          </ul>
+          <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur','ChefProjet')">
+          <a href="#listestc" data-toggle="collapse" aria-expanded="false">
+            <span class="link-title">STC</span>
+            <i class="mdi mdi-logout link-icon"></i>
+          </a>
+            <ul class="collapse navigation-submenu" id="listestc">
+              <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur','ChefProjet')">
+                <a th:href="@{/STC/Demandes}">Demandés</a>
+              </li>
+              <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur','ChefProjet')">
+                <a th:href="@{/STC/Valides}">Validés</a>
+              </li>
+              <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur','ChefProjet')">
+                <a  th:href="@{/STC/Approuves}">Approuvés</a>
+              </li>
+            </ul>
+          </li>
+          </li>
+          <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur','ChefProjet')">
+            <a href="#listConge" data-toggle="collapse" aria-expanded="false">
+              <span class="link-title">Congés</span>
+              <i class="mdi mdi-clock link-icon"></i>
+            </a>
+            <ul class="collapse navigation-submenu" id="listConge">
+              <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur','ChefProjet')">
+                <a th:href="@{/Conge/Demandes}">Demandés</a>
+              </li>
+              <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur','ChefProjet')">
+                <a th:href="@{/Conge/Importe}">Importés</a>
+              </li>
+              <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur','ChefProjet')">
+                <a th:href="@{/Conge/Refuse}">Refusés</a>
+              </li>
+              <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur','ChefProjet')">
+                <a th:href="@{/Conge/Valides}">Validés</a>
+              </li>
+            </ul>
+          </li>
+          </li>
+          <li>
+            <a sec:authorize="hasAnyAuthority('RH','admin')" href="#export" data-toggle="collapse" aria-expanded="false">
+              <span class="link-title">Import / Export</span>
+              <i class="mdi mdi-file-excel link-icon"></i>
+            </a>
+            <ul class="collapse navigation-submenu" id="export">
+              <li sec:authorize="hasAnyAuthority('RH','admin')">
+                <a th:href="@{/Ajout/Importer}">Importer</a>
+              </li>
+              <li sec:authorize="hasAnyAuthority('RH','admin')">
+                <a type="button" data-toggle="modal" data-target="#modal-lg1" >Nouveau Contrat</a>
+                <div class="modal fade " id="modal-lg1" tabindex="-1"
+                     role="dialog" aria-labelledby="exampleModalLongTitle1"
+                     aria-hidden="true" >
+                  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle1">
+                          Traitement des nouveaux Contrats</h5>
+                        <button type="button" class="close"
+                                data-dismiss="modal" aria-label="Fermer">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form th:action="@{/Personnes/ExportNouveauContrat}" method="get">
+                        <div class="modal-body">
+                          <section class="content">
+                            <div class="container-fluid">
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <!-- About Me Box -->
+                                  <div class="card card-primary">
+                                    <!-- /.card-header -->
+                                    <div class="form-group row showcase_row_area">
+                                      <div class="col-md-3 showcase_text_area">
+                                        <label>Date début
+                                          :</label>
+                                      </div>
+                                      <div class="col-md-9 showcase_content_area">
+                                        <input class="form-control" type="date" name="start" required>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row showcase_row_area">
+                                      <div class="col-md-3 showcase_text_area">
+                                        <label>Date fin
+                                          :</label>
+                                      </div>
+                                      <div class="col-md-9 showcase_content_area">
+                                        <input class="form-control" type="date" name="end" required>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                              </div>
+                              <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+
+                          </section>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary"
+                                  data-dismiss="modal">Fermer
+                          </button>
+
+                          <input type="submit" value="Traiter"
+                                 class="btn btn-success"/>
+
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li sec:authorize="hasAnyAuthority('RH','admin')">
+                <a type="button" data-toggle="modal" data-target="#modal-lg3">STC</a>
+                <div class="modal fade " id="modal-lg3" tabindex="-1"
+                     role="dialog" aria-labelledby="exampleModalLongTitle3"
+                     aria-hidden="true" >
+                  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle3">
+                          Traitement des STCs</h5>
+                        <button type="button" class="close"
+                                data-dismiss="modal" aria-label="Fermer">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form th:action="@{/STC/ExportNouveauSTC}" method="get">
+                        <div class="modal-body">
+                          <section class="content">
+                            <div class="container-fluid">
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <!-- About Me Box -->
+                                  <div class="card card-primary">
+                                    <!-- /.card-header -->
+                                    <div class="form-group row showcase_row_area">
+                                      <div class="col-md-3 showcase_text_area">
+                                        <label>Date début
+                                          :</label>
+                                      </div>
+                                      <div class="col-md-9 showcase_content_area">
+                                        <input class="form-control" type="date" name="start" required>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row showcase_row_area">
+                                      <div class="col-md-3 showcase_text_area">
+                                        <label>Date fin
+                                          :</label>
+                                      </div>
+                                      <div class="col-md-9 showcase_content_area">
+                                        <input class="form-control" type="date" name="end" required>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                              </div>
+                              <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+
+                          </section>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary"
+                                  data-dismiss="modal">Fermer
+                          </button>
+
+                          <input type="submit" value="Traiter"
+                                 class="btn btn-success"/>
+
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li sec:authorize="hasAnyAuthority('RH','admin')">
+                <a type="button" data-toggle="modal" data-target="#modal-lg2">Elements Variables</a>
+                <div class="modal fade " id="modal-lg2" tabindex="-1"
+                     role="dialog" aria-labelledby="exampleModalLongTitle2"
+                     aria-hidden="true" >
+                  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle2">
+                          Traitement des Elements Variables</h5>
+                        <button type="button" class="close"
+                                data-dismiss="modal" aria-label="Fermer">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form th:action="@{/Operation/ExportEV}" method="get">
+                        <div class="modal-body">
+                          <section class="content">
+                            <div class="container-fluid">
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <!-- About Me Box -->
+                                  <div class="card card-primary">
+                                    <!-- /.card-header -->
+                                    <div class="form-group row showcase_row_area">
+                                      <div class="col-md-3 showcase_text_area">
+                                        <label>Date début
+                                          :</label>
+                                      </div>
+                                      <div class="col-md-9 showcase_content_area">
+                                        <input class="form-control" type="date" name="start" required>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row showcase_row_area">
+                                      <div class="col-md-3 showcase_text_area">
+                                        <label>Date fin
+                                          :</label>
+                                      </div>
+                                      <div class="col-md-9 showcase_content_area">
+                                        <input class="form-control" type="date" name="end" required>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                              </div>
+                              <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+
+                          </section>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary"
+                                  data-dismiss="modal">Fermer
+                          </button>
+
+                          <input type="submit" value="Traiter"
+                                 class="btn btn-success"/>
+
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li sec:authorize="hasAnyAuthority('RH','admin')">
+                <a type="button" data-toggle="modal" data-target="#modal-lg" >Canevas des avances</a>
+                <div class="modal fade " id="modal-lg" tabindex="-1"
+                     role="dialog" aria-labelledby="exampleModalLongTitle"
+                     aria-hidden="true" >
+                  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">
+                          Traitement des avances</h5>
+                        <button type="button" class="close"
+                                data-dismiss="modal" aria-label="Fermer">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form th:action="@{/Avance/ExportCanevas}" method="get">
+                        <div class="modal-body">
+                          <section class="content">
+                            <div class="container-fluid">
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <!-- About Me Box -->
+                                  <div class="card card-primary">
+                                    <!-- /.card-header -->
+                                    <div class="form-group row showcase_row_area">
+                                      <div class="col-md-3 showcase_text_area">
+                                        <label>Date début
+                                          :</label>
+                                      </div>
+                                      <div class="col-md-9 showcase_content_area">
+                                          <input class="form-control" type="date" name="start" required>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row showcase_row_area">
+                                      <div class="col-md-3 showcase_text_area">
+                                        <label>Date fin
+                                          :</label>
+                                      </div>
+                                      <div class="col-md-9 showcase_content_area">
+                                        <input class="form-control" type="date" name="end" required>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                              </div>
+                              <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+
+                          </section>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary"
+                                  data-dismiss="modal">Fermer
+                          </button>
+
+                          <input type="submit" value="Traiter"
+                                 class="btn btn-success"/>
+
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li sec:authorize="hasAnyAuthority('RH','admin')">
+                <a  th:href="@{/canevasImport}">Canevas d'imports</a>
+              </li>
+            </ul>
+
+          </li>
+          <li>
+            <a sec:authorize="hasAnyAuthority('RH','admin','Caissier')" href="#operationCaisse" data-toggle="collapse" aria-expanded="false">
+              <span class="link-title">Operations Caisses</span>
+              <i class="mdi mdi-calculator link-icon"></i>
+            </a>
+            <ul class="collapse navigation-submenu" id="operationCaisse">
+              <li >
+                <a th:href="@{/OperationCaisse}">Liste des opérations</a>
+              </li>
+              <li sec:authorize="hasAnyAuthority('RH','admin')">
+                <a th:href="@{/PointageOperationCaisse}">Pointage des opérations</a>
+              </li>
+            </ul>
+          </li>
+          <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur')">
+            <a href="#Sanctions" data-toggle="collapse" aria-expanded="false">
+              <span class="link-title">Sanctions</span>
+              <i class="mdi mdi-bank link-icon"></i>
+            </a>
+            <ul class="collapse navigation-submenu" id="Sanctions" sec:authorize="hasAnyAuthority('RH','admin','Pointeur')">
+              <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur')">
+                <a th:href="@{/Avertissements/Tous}">Avertissements</a>
+              </li>
+              <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur')">
+                <a th:href="@{/MiseaPied/Tous}">Mise à pied</a>
+              </li>
+             
+            </ul>
+          </li>
+          <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur','ChefProjet')">
+            <a th:href="@{/AT/Tous}">
+              <span class="link-title">Accidents du travail</span>
+              <i class="mdi mdi-wheelchair-accessibility link-icon"></i>
+            </a>
+          </li>
+          <li sec:authorize="hasAnyAuthority('RH','admin')">
+            <a th:href="@{/Projets/tous}">
+              <span class="link-title">Projets</span>
+              <i class="mdi mdi-chart-bar link-icon"></i>
+            </a>
+          </li>
+          <li sec:authorize="hasAnyAuthority('RH','admin','Pointeur','ChefProjet')">
+            <a th:href="@{/Pointage}">
+              <span class="link-title">Pointages</span>
+              <i class="mdi mdi-calendar link-icon"></i>
+            </a>
+          </li>
+          
+         
+
+      </div>
+
+  </body>
+</html>

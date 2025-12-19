@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.3.final using JasperReports Library version 6.20.3-415f9428cffdb6805c6f85bbb29ebaf18813a2ab  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Lettre d&apos;avertissement " pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="98ccdf04-7498-48a4-879c-663ed34c7717">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="Sexe" class="java.lang.String"/>
+	<parameter name="Nom" class="java.lang.String"/>
+	<parameter name="Prenom" class="java.lang.String"/>
+	<parameter name="Adresse" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="motif" class="java.lang.String"/>
+	<field name="dateSanction" class="java.util.Date"/>
+	<title>
+		<band height="130">
+			<staticText>
+				<reportElement x="320" y="6" width="70" height="30" uuid="381d9b81-a435-4378-9084-e4649d5a743b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Casablanca, le ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="319" y="49" width="100" height="30" uuid="81ce9814-d094-4626-9063-fbaaf48e76a8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Monsieur/Madame :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="418" y="49" width="126" height="30" uuid="3e618298-5add-4dfb-bfdc-0898e0f6e32e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{Nom}+' '+$P{Prenom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="319" y="84" width="230" height="46" uuid="67be815f-5344-44f1-a225-dff8dc2bcb2c"/>
+				<textFieldExpression><![CDATA[$P{Adresse}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMM yyyy">
+				<reportElement x="391" y="6" width="149" height="30" uuid="f97b4ea4-7113-41d5-bcbb-d42efe44ebf1"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dateSanction}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="514" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="230" height="30" uuid="ae3c2f38-59b8-40a5-9c27-69b69d73cb88"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OBJET : LETTRE D'AVERTISSEMENT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="390" width="200" height="20" uuid="da469587-2fc1-4a1f-9064-e9705ddaa0bc"/>
+				<textElement>
+					<font isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Copie  à :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="436" y="369" width="100" height="30" uuid="a7814651-37d8-457d-a056-7de9ca3744a4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[La Direction]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="92" width="439" height="14" uuid="4a432e47-2c3f-40bd-a383-57b44e4bbbc8"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<text><![CDATA[Par la présente, nous vous confirmons les remarques qui vous ont été faite à propos de votre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="43" y="136" width="436" height="30" uuid="38ce7e12-6ad2-4583-81cc-b2e665538f85"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<text><![CDATA[En effet celles-ci dépassent les limites raisonnables, et nuises au bon fonctionnement de la production.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="44" y="186" width="434" height="30" uuid="0cd9da8a-60b2-46cd-8573-9112e7b21cf7"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<text><![CDATA[En conséquence, nous nous voyons dans l'obligation, de vous adresser un dernier rappel à l'ordre avant l'application des sanctions réglementaires légales.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="231" width="430" height="30" uuid="ec1b2766-5e21-4781-aed2-26ed7be41fc1"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<text><![CDATA[Nous espérons que cet avertissement engendrera des changements dans votre comportement et que de tels faits ne se renouvelleront plus.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="278" width="435" height="30" uuid="9b14339d-ecc7-4a6a-a792-ef783d38d795"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<text><![CDATA[Dans le cas contraire,nous serions dans l'obligation de prendre des mesures plus sévères à votre encontre.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="321" width="70" height="30" uuid="a4f6f3dd-04b3-4068-9937-37f2ef24246e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Veuillez agréer, ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="49" y="432" width="158" height="30" uuid="ae4a8c38-c2af-4f3a-af0a-afa13fc713a9"/>
+				<textElement verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Nom}+' '+$P{Prenom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="41" y="53" width="100" height="30" uuid="68782601-9801-4fa1-a176-385975b49625"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{Sexe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="432" width="60" height="30" uuid="91867e48-18f1-478a-bc31-b8d4d3741a4e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Sexe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="41" y="106" width="438" height="30" uuid="a520fece-48b5-4667-8be6-da65ff487634"/>
+				<textFieldExpression><![CDATA[$F{motif}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="321" width="44" height="30" uuid="fe694048-86f6-4307-9637-7b48f76a661d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{Sexe}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="159" y="321" width="138" height="30" uuid="a9007fc3-2890-49c0-9128-6ebda991ed2b"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[, nos salutations distinguées.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="410" width="200" height="30" uuid="40013818-b730-4461-9050-c53f463bd24f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mr. L'inspecteur de travail]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

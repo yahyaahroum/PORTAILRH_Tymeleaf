@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CTC" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5c62823c-1fe7-4c0c-8118-452888e4f83d">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+	<field name="id" class="java.lang.Long"/>
+	<field name="adresserue" class="java.lang.String"/>
+	<field name="adresseville" class="java.lang.String"/>
+	<field name="cnss" class="java.lang.String"/>
+	<field name="codecin" class="java.lang.String"/>
+	<field name="dateentree" class="java.sql.Timestamp"/>
+	<field name="datenaissance" class="java.sql.Timestamp"/>
+	<field name="nom" class="java.lang.String"/>
+	<field name="prenom" class="java.lang.String"/>
+	<field name="salaire" class="java.lang.Double"/>
+	<field name="sitfamiliale" class="java.lang.String"/>
+	<field name="designation" class="java.lang.String"/>
+	<field name="libelle" class="java.lang.String"/>
+	<field name="pessai" class="java.lang.String"/>
+	<field name="profile" class="java.lang.String"/>
+	<field name="sexe" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="76" splitType="Stretch">
+			<textField>
+				<reportElement x="147" y="0" width="260" height="30" uuid="27b0d4d4-73d0-4de3-81da-324cae997b83"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CONTRAT DE TRAVAIL CONCLU \n" +
+"POUR ACCOMPLIR UN TRAVAIL DETERMINE \n"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="142" y="30" width="270" height="20" uuid="ab7f16c6-8d42-4323-ad6a-ae3ea986ba69"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["(conformément à l’article 16 du code de travail marocain) (*)"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="50" width="555" height="20" uuid="78e15198-c6a5-4daa-94f8-b301e25d7cf6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font fontName="Serif" size="10" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["<b>CHANTIER : </b>"+"<b>"+UPPER(TRIM($F{designation}))+"</b>"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="10" y="0" width="50" height="50" uuid="1dd384b6-a2bf-49d3-8bb1-746cc6642b8d"/>
+				<imageExpression><![CDATA[this.getClass().getResourceAsStream("/static/images/richebois-200.png")]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="664" splitType="Stretch">
+			<textField>
+				<reportElement stretchType="ElementGroupHeight" x="10" y="0" width="535" height="664" uuid="b085001d-ce4d-4ba3-8470-0962bafc125d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" markup="styled">
+					<font fontName="Serif" size="10" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["<b>Entre les soussignés</b> \n" +
+
+"La Société RICHE BOIS sise à Rue Abdelouahed Elmourrakchi OUKACHA, représentée par Monsieur <b>Lahcen EL BAZ (ci-après la société)</b> \n" +
+
+"                                                                                                                                                                       <b>D’une part, </b>\n" +
+
+"Et \n"+
+(TRIM($F{sexe}).equals("1") ? "Monsieur ":"Madame ")+UPPER(TRIM($F{nom})) + " "+UPPER(TRIM($F{prenom}) ) +" <b>(ci-après le salarié)</b> \n" +
+"Titulaire de la Carte Nationale d’Identité N° " +"<b>"+UPPER(TRIM($F{codecin})) + "</b> \n" +
+"Né le  <b>" +DATEFORMAT($F{datenaissance},"dd/MM/yyyy") + "</b> Situation famille : "+"<b>"+( TRIM($F{sitfamiliale}).equals("1") ? "Célibataire" :
+( TRIM($F{sitfamiliale}).equals("2") ? "Marié" :
+( TRIM($F{sitfamiliale}).equals("3") ? "Divorcé" :
+( TRIM($F{sitfamiliale}).equals("4") ? "Veuf" : ""))))+"</b> \n" +
+"N°CNSS <b>" +$F{cnss}+ "</b> \n" +
+"Et demeurant <b>" +UPPER(TRIM($F{adresserue})) + " "+UPPER(TRIM($F{adresseville}) ) +"</b> \n" +
+
+"                                                                                                                                                                      <b>D’autres part, </b>\n" +
+
+"<b>Il a été convenu ce qui suit : </b>\n \n" +
+
+"Le salarié est recruté dans le cadre du présent contrat pour accomplir un  travail déterminé à compter du <b>"+DATEFORMAT($F{dateentree},"dd/MM/yyyy") + "</b> sur le chantier <b>"+UPPER(TRIM($F{designation}))+"</b> dans lequel la société intervient au profit de son client. \n"+
+"Le présent contrat est conclu pour la durée d’exécution des travaux ou d’une partie des travaux sur le chantier précité. La fin de l’exécution de ces travaux sur ledit chantier entraînera automatiquement la fin du contrat. \n\n"+
+"Le salarié qui est recruté en qualité de <b>"+UPPER(TRIM($F{libelle}))+"</b> au salaire "+(TRIM( $F{profile}).equals("1") ? "mensuel net de " : "horaire de ")+"<b>"+ $F{salaire}+"</b> DH s’engage pendant la durée de son contrat à ne pas s’intéresser directement ou indirectement dans toute entreprise relevant du même secteur. "+
+"Le présent contrat du travail est soumis à une période d’essai de <b>"+TRIM($F{pessai}) +"</b> jours, pendant laquelle chacune des deux parties peut rompre le contrat unilatéralement sans préavis ni indemnités.\n \n"+
+"La société se réserve le droit de rompre le contrat et ce sans avoir à payer une quelconque indemnité en cas de faute grave commise par le salarié, à la fin de la tache attribuée au salarié, baisse d’activité, suspension ou arrêt du chantier pour quelque cause que ce soit. \n\n"+
+"Le salarié reçoit au moment de son affectation les équipements de protection individuels (EPI) nécessaires à sa sécurité au travail. La durée de vie des EPI attribués est de six mois au minimum. Leur valeur totale est fixée actuellement à trois cent dirhams au total. En cas de départ du salarié avant la fin de son contrat la société se réserve le droit de prélever du montant du solde de tout compte du salarié un montant équivalent au prorata de la valeur totale des EPI pour la période du contrat non achevée.  \n \n"+
+"Le salarié doit utiliser le logement mis à sa disposition suivant la réglementation marocaine en vigueur et le bon usage en matière d’hygiène et de sécurité. \n"+
+"Il s'interdit particulièrement d’utiliser des bouteilles de gaz en mauvais état ou autres produits électriques dangereux à l’intérieur du logement. \n"+
+"La préparation des repas dans les chambres est strictement interdite et les ordures ménagères doivent être transportées jusqu'aux emplacements réservés à cet effet. \n"+
+"Le salarié doit s'abstenir en toute circonstance de troubler la tranquillité des voisins et d’autres locataires.  \n"+
+"Il doit également veiller à consommer rationnellement l’eau et l’électricité mis à sa disposition.  \n"+
+"Seul le salarié assume la responsabilité des conséquences du non respect de ces consignes.  \n\n"+
+"Le présent contrat est soumis aux dispositions du code de travail, notamment en ce qui concerne les dispositions relatives à l’application de l’alinéa 1 de l’article 16 relatif au « contrat de travail conclu pour accomplir un travail déterminé».  \n\n"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="591" width="534" height="19" uuid="eda860ee-a7d2-4878-978f-0f53d40afb15"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fait en deux exemplaires à Casablanca le "+DATEFORMAT(TODAY(),"dd/MM/yyyy")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="610" width="270" height="30" uuid="d8399f1f-a41a-4a4d-ab58-d3b0e965caea"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["LE SALARIE\n"+
+(TRIM($F{sexe}).equals("1") ? "Monsieur ":"Madame ")+UPPER($F{nom})+" "+UPPER($F{prenom} )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="396" y="610" width="149" height="30" uuid="6c4c397a-b25f-4c98-9b2a-d3d8380e7f64"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["L'EMPLOYEUR  \n"+
+"RICHE BOIS"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="15" width="555" height="39" uuid="85cf1a72-45ef-4d2d-9023-54172ec82c2b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["S.A.R.L au Capital de 35.000.000 Dirhams . Rue Abdelouahed El Marrakchi - Oukacha - 20580 Casablanca . \n "+
+"Tél  : 05 22 35 49 60 (L.G) - Fax  : 05 22 35 51 01 - Email  : contacts@richebois.net - Site web  : www.richebois.ma \n"+
+"Patente : 30703095 - R.c : Casablanca 35 .723 -I.F : 01640440 - CNSS : 175.91.93 - I.C.E : 000083823000080"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="10" width="555" height="1" uuid="ab707fb9-14a5-4911-aee0-cfef8f867f61">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

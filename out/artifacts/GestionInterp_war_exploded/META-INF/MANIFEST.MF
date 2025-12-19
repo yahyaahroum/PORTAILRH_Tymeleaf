@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Created-By: IntelliJ IDEA
+Built-By: stagiaire
+Build-Jdk: version 1.8.0_281
+Implementation-Title: GestionInterp
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: ma.richebois
+Main-Class: ${start-class}
+

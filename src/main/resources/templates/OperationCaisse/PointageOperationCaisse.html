@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments/layout :: head"/>
+
+<body class="header-fixed">
+<!-- partial:../../partials/_header.html -->
+<nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+<!-- partial -->
+<div class="page-body">
+    <!-- partial:../../partials/_sidebar.html -->
+    <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+    <!-- partial -->
+    <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+            <div class="viewport-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb has-arrow">
+                        <li class="breadcrumb-item">
+                            <a href="#">Liste Des Opérations Caisse</a>
+                        </li>
+
+                    </ol>
+
+                </nav>
+
+            </div>
+            <div class="content-viewport">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                            <div class="grid-header">
+                                <div class="grid-title" >
+                                    <div class="input-group float-lg-left" style="width: 500px;">
+                                        <input type="text" name="myInput" id="myInput"
+                                               class="form-control " placeholder="Rechercher">
+                                    </div>
+                                </div>
+                                </br>
+                            </div>
+                        <div class="grid">
+                            <div class="item-wrapper">
+                                <div class="table-responsive">
+                                    <table id="myTable" class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>N d'opération</th>
+                                            <th>Individu</th>
+                                            <th>Date</th>
+                                            <th>Motif</th>
+
+                                            <th>Montant</th>
+                                            <th>Chantier</th>
+                                            <th>Etat</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td colspan="7" style="text-align: center"><strong>Aucune Opération, veuillez taper le numéro d'opération au niveau de la barre de recherche</strong></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content viewport ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <!-- partial -->
+    </div>
+    <!-- page content ends -->
+</div>
+</body>
+<script type="text/javascript">
+
+    var barcode = '';
+    var interval ;
+
+    document.addEventListener('keydown',function(e){
+        if (interval)
+            clearInterval(interval);
+        if (e.code == 'Enter'){
+            if (barcode)
+                handelBarcode(barcode);
+            barcode = '';
+            return;
+        }
+        if (e.key != 'Shift')
+            barcode +=e.key;
+        interval = setInterval(()=>barcode = '' , 20);
+    });
+
+    function handelBarcode(scanned_barcode){
+        $('#myInput').val(scanned_barcode);
+        myFunction();
+    }
+
+    function myFunction() {
+        var inputSearch = $('#myInput').val();
+        var tableSearch = $('#myTable tbody');
+        tableSearch.empty();
+        $.ajax({
+            url: '/PortailRH-BETA/SearchOperation?id='+inputSearch,
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+
+                tableSearch.append('<tr id="'+data.id+'"><td>'+data.id+'</td>' +
+                    '<td>'+data.individu.nom+' '+data.individu.prenom+'</td>' +
+                    '<td>'+data.dateOper+'</td>' +
+                    '<td>'+data.motif.desc_motif+'</td>' +
+                    '<td>'+ Intl.NumberFormat('de-DE', {
+                        style: 'currency',
+                        currency: 'MAD'
+                    }).format(data.montant)+'</td>' +
+                    '<td>'+data.affaire.designation+'</td>' +
+                    '<td>'+data.etat+'</td>' +
+                    '<td><a type="button" class="btn-sm btn-primary" title="valider" onclick="Valider('+data.id+')"><i class="fas fa-check"></i></a></td>' +
+                    '</tr>');
+            },
+            error: function (error) {
+                tableSearch.empty();
+                tableSearch.append('<tr><td colspan="7" style="text-align: center"><strong>Aucune Opération, veuillez taper le numéro d\'opération au niveau de la barre de recherche</strong></td></tr>');
+            },
+
+        });
+
+    }
+
+    function Valider(id) {
+        var tr = $('#'+id);
+        $.ajax({
+            url: '/PortailRH-BETA/ValideOperation?id='+id,
+            method: 'POST',
+            success: function (data) {
+                tr.empty();
+                tr.append('<td>'+data.id+'</td>' +
+                    '<td>'+data.individu.nom+' '+data.individu.prenom+'</td>' +
+                    '<td>'+data.dateOper+'</td>' +
+                    '<td>'+data.motif.desc_motif+'</td>' +
+                    '<td>'+ Intl.NumberFormat('de-DE', {
+                        style: 'currency',
+                        currency: 'MAD'
+                    }).format(data.montant)+'</td>' +
+                    '<td>'+data.affaire.designation+'</td>' +
+                    '<td>'+data.etat+'</td>' );
+            },
+            error: function (error) {
+
+            },
+
+        });
+    }
+
+</script>
+
+
+
+</html>

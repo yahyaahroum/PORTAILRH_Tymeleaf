@@ -1,0 +1,11 @@
+0:0:0:0:0:0:0:1 - - [15/May/2025:09:31:51 +0100] "GET /PortailRH-DEV/ HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [15/May/2025:09:31:52 +0100] "GET /PortailRH-DEV/login HTTP/1.1" 200 3379
+0:0:0:0:0:0:0:1 - - [15/May/2025:09:31:53 +0100] "GET /PortailRH-DEV/vendors/css/vendor.addons.css HTTP/1.1" 200 159062
+0:0:0:0:0:0:0:1 - - [15/May/2025:09:31:53 +0100] "GET /PortailRH-DEV/css/demo_1/style.css HTTP/1.1" 200 17695
+0:0:0:0:0:0:0:1 - - [15/May/2025:09:31:53 +0100] "GET /PortailRH-DEV/vendors/iconfonts/mdi/css/materialdesignicons.css HTTP/1.1" 200 190282
+0:0:0:0:0:0:0:1 - - [15/May/2025:09:31:53 +0100] "GET /PortailRH-DEV/css/shared/style.css HTTP/1.1" 200 264587
+0:0:0:0:0:0:0:1 - - [15/May/2025:09:31:53 +0100] "GET /PortailRH-DEV/js/template.js HTTP/1.1" 200 3328
+0:0:0:0:0:0:0:1 - - [15/May/2025:09:31:53 +0100] "GET /PortailRH-DEV/images/richebois-200.png HTTP/1.1" 200 5260
+0:0:0:0:0:0:0:1 - - [15/May/2025:09:31:53 +0100] "GET /PortailRH-DEV/vendors/js/core.js HTTP/1.1" 200 163939
+0:0:0:0:0:0:0:1 - - [15/May/2025:09:31:53 +0100] "GET /PortailRH-DEV/vendors/js/vendor.addons.js HTTP/1.1" 200 558368
+0:0:0:0:0:0:0:1 - - [15/May/2025:09:31:54 +0100] "GET /PortailRH-DEV/images/favicon.ico HTTP/1.1" 404 132

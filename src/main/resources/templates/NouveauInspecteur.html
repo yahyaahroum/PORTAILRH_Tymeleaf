@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"/>
+
+<body class="header-fixed">
+<!-- partial:../../partials/_header.html -->
+<nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+<!-- partial -->
+<div class="page-body">
+    <!-- partial:../../partials/_sidebar.html -->
+    <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+    <!-- partial -->
+    <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+            <div class="viewport-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb has-arrow">
+                        <li class="breadcrumb-item">
+                            <a href="#">Nouveau Contrat</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <form th:action="@{/Inspecteur/new}" th:object="${inspecteur}" method="post"
+                  enctype="multipart/form-data">
+                <div class="content-viewport">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="grid">
+                                <p class="grid-header">Informations personnelles</p>
+                                <div class="grid-body">
+                                    <div class="item-wrapper">
+                                        <div class="row mb-3">
+                                            <div class="col-md-8 mx-auto">
+
+
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Nom :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="text" class="form-control" name="nom"
+                                                               placeholder="Saisir le nom"
+                                                               th:value="${inspecteur.nom}"
+                                                               onkeyup="this.value = this.value.toUpperCase();">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Prénom :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="text" class="form-control" name="prenom"
+                                                               onkeyup="this.value = this.value.toUpperCase();"
+                                                               th:value="${inspecteur.prenom}"
+                                                               placeholder="Saisir le prénom">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Date de naissance :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="date" th:value="${{inspecteur.datenaissance}}"  class="form-control" name="datenaissance"
+                                                               required >
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Sexe :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <select class="custom-select" name="sexe" required>
+                                                            <option selected disabled value="">Choisir le sexe
+                                                            </option>
+                                                            <option th:selected="${inspecteur.sexe} eq 1" value="Homme">Homme</option>
+                                                            <option th:selected="${inspecteur.sexe} eq 2" value="Femme">Femme</option>
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Adresse :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="text" class="form-control" name="adresse"
+                                                               onkeyup="this.value = this.value.toUpperCase();"
+                                                               th:value="${inspecteur.adresse}"
+                                                               placeholder="Saisir l'adresse"  >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Adresse Email:</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="text" class="form-control" name="email"
+                                                               onkeyup="this.value = this.value.toUpperCase();"
+                                                               th:value="${inspecteur.email}"
+                                                               placeholder="Saisir l'adresse">
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row showcase_row_area">
+                                                    <div class="col-md-3 showcase_text_area">
+                                                        <label>Numéro de téléphone :</label>
+                                                    </div>
+                                                    <div class="col-md-9 showcase_content_area">
+                                                        <input type="text" class="form-control" name="tele"
+                                                               th:value="${inspecteur.tele}"
+                                                               placeholder="Saisir le numéro de téléphone" required>
+                                                        <br>
+
+                                                    </div>
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                <div class="col-sm-6 text-center text-sm-right order-sm-1">
+                    <input type="submit" class="btn btn-primary" value="Enregistrer">
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <!-- content viewport ends -->
+    <!-- partial:../../partials/_footer.html -->
+    <footer class="footer" th:replace="fragments/footer::footer"></footer>
+    <!-- partial -->
+</div>
+<!-- page content ends -->
+<script type="text/javascript">
+    function checkbox() {
+        var oui = document.getElementById("true");
+        var non = document.getElementById("false");
+        var container1 = document.getElementById("containern1");
+        var container2 = document.getElementById("containern2");
+        var container3 = document.getElementById("container9");
+        var container4 = document.getElementById("container10");
+        if (oui.checked) {
+            container1.style.display = "block";
+            container2.style.display = "block";
+            container3.style.display = "block";
+            container4.style.display = "block";
+        } else if (non.checked) {
+            container1.style.display = "none";
+            container2.style.display = "none";
+            container3.style.display = "none";
+            container4.style.display = "none";
+        }
+    }
+
+
+    function pessaicheckbox() {
+        var oui = document.getElementById("poui");
+        var non = document.getElementById("pnon");
+        var container = document.getElementById("containerp");
+        var containerpl = document.getElementById("containerpl");
+        if (oui.checked) {
+            container.style.display = "block";
+            containerpl.style.display = "block";
+        } else if (non.checked) {
+            container.style.display = "none";
+            containerpl.style.display = "none";
+        }
+    }
+
+</script>
+</body>
+</html>
