@@ -162,6 +162,7 @@
                                                                                 <div class="col-md-6 showcase_content_area">
                                                                                     <input type="date"
                                                                                            class="form-control"
+                                                                                           id="dateDebut"
                                                                                            name="dateDebut">
                                                                                 </div>
                                                                             </div>
@@ -177,6 +178,7 @@
                                                                                 <div class="col-md-6 showcase_content_area">
                                                                                     <input type="date"
                                                                                            class="form-control"
+                                                                                           id="dateFin"
                                                                                            name="dateFin">
                                                                                 </div>
                                                                             </div>
@@ -1316,6 +1318,41 @@
             }
 
         });
+    });
+
+    // Validation de la date de fin >= date de début
+    $(document).ready(function () {
+        var dateDebutInput = document.getElementById("dateDebut");
+        var dateFinInput = document.getElementById("dateFin");
+
+        function validateDates() {
+            if (dateDebutInput.value && dateFinInput.value) {
+                var dateDebut = new Date(dateDebutInput.value);
+                var dateFin = new Date(dateFinInput.value);
+
+                if (dateFin < dateDebut) {
+                    dateFinInput.setCustomValidity("La date de fin doit être supérieure ou égale à la date de début");
+                    dateFinInput.style.borderColor = "red";
+                } else {
+                    dateFinInput.setCustomValidity("");
+                    dateFinInput.style.borderColor = "";
+                }
+            }
+        }
+
+        if (dateDebutInput) {
+            dateDebutInput.addEventListener('change', function() {
+                // Définir la date minimum pour dateFin
+                if (this.value) {
+                    dateFinInput.setAttribute('min', this.value);
+                }
+                validateDates();
+            });
+        }
+
+        if (dateFinInput) {
+            dateFinInput.addEventListener('change', validateDates);
+        }
     });
 </script>
 <script th:inline="javascript">

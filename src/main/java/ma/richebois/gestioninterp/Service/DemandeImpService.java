@@ -27,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.*;
 import java.util.*;
+
 @AllArgsConstructor
 @Service
 public class DemandeImpService implements DemandeService {
@@ -40,9 +41,8 @@ public class DemandeImpService implements DemandeService {
     private LoginRepository loginRepository;
     public JavaMailSender emailSender;
 
-
     @Override
-    public Demande saveDemande(Demande demande,String numTele) {
+    public Demande saveDemande(Demande demande, String numTele) {
         Login login = userImpService.findbyusername();
         Optional<Individu> individu = individuRepository.findByIndividu(login.getMatricule());
 
@@ -55,7 +55,7 @@ public class DemandeImpService implements DemandeService {
         demande.setEtat(DemandeState.Demandée.name());
         demande.setEmp(login);
         if (demande.getTypeDemande().getType().equals("Demande congé")) {
-            if (demande.getDateFin().before(demande.getDateDebut())){
+            if (demande.getDateFin().before(demande.getDateDebut())) {
                 return null;
             }
         }
@@ -76,7 +76,8 @@ public class DemandeImpService implements DemandeService {
             int toIndex = Math.min(startItem + pageSize, getAllByEmp().size());
             listCons = getAllByEmp().subList(startItem, toIndex);
         }
-        Page<Demande> consultPage = new PageImpl<Demande>(listCons, PageRequest.of(currentPage, pageSize), getAllByEmp().size());
+        Page<Demande> consultPage = new PageImpl<Demande>(listCons, PageRequest.of(currentPage, pageSize),
+                getAllByEmp().size());
 
         return consultPage;
     }
@@ -84,13 +85,13 @@ public class DemandeImpService implements DemandeService {
     @Override
     public List<Demande> getAllByEmp() {
         Login login = userImpService.findbyusername();
-        List<Role> roles= login.getRoles();
+        List<Role> roles = login.getRoles();
         for (Role role : roles) {
             if (role.getType().equals("employé")) {
                 List<Demande> getdemandeByRole = demandeRepository.findAllByEmpOrderByIdDesc(login);
                 return getdemandeByRole;
-            }else
-                return demandeRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
+            } else
+                return demandeRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         }
         return null;
     }
@@ -115,7 +116,7 @@ public class DemandeImpService implements DemandeService {
     }
 
     @Override
-    public Demande refuser(Long id,String motifRefus) {
+    public Demande refuser(Long id, String motifRefus) {
         Optional<Demande> demande = demandeRepository.findById(id);
         demande.get().setEtat(DemandeState.Refusée.name());
         demande.get().setMotifRefus(motifRefus);
@@ -125,46 +126,52 @@ public class DemandeImpService implements DemandeService {
     @Override
     public List<Demande> getAllByEmpAndState(String state) {
         Login login = userImpService.findbyusername();
-        List<Role> roles= login.getRoles();
+        List<Role> roles = login.getRoles();
         for (Role role : roles) {
             if (role.getType().equals("Employé")) {
-                if (state.equals("All")){
+                if (state.equals("All")) {
                     List<Demande> getdemandeByRole = demandeRepository.findAllByEmpOrderByIdDesc(login);
                     return getdemandeByRole;
                 }
-                if (state.equals("Demandée")){
-                    List<Demande> getdemandeByRoleAndState = demandeRepository.findAllByEmpAndEtatOrderByIdDesc(login,DemandeState.Demandée.name());
+                if (state.equals("Demandée")) {
+                    List<Demande> getdemandeByRoleAndState = demandeRepository.findAllByEmpAndEtatOrderByIdDesc(login,
+                            DemandeState.Demandée.name());
                     return getdemandeByRoleAndState;
                 }
-                if (state.equals("Validée")){
-                    List<Demande> getdemandeByRoleAndState = demandeRepository.findAllByEmpAndEtatOrderByIdDesc(login,DemandeState.Validée.name());
+                if (state.equals("Validée")) {
+                    List<Demande> getdemandeByRoleAndState = demandeRepository.findAllByEmpAndEtatOrderByIdDesc(login,
+                            DemandeState.Validée.name());
                     return getdemandeByRoleAndState;
                 }
-                if (state.equals("Refusée")){
-                    List<Demande> getdemandeByRoleAndState = demandeRepository.findAllByEmpAndEtatOrderByIdDesc(login,DemandeState.Refusée.name());
+                if (state.equals("Refusée")) {
+                    List<Demande> getdemandeByRoleAndState = demandeRepository.findAllByEmpAndEtatOrderByIdDesc(login,
+                            DemandeState.Refusée.name());
                     return getdemandeByRoleAndState;
                 }
-                if (state.equals("En_cours_de_signature")){
-                    List<Demande> getdemandeByRoleAndState = demandeRepository.findAllByEmpAndEtatOrderByIdDesc(login,DemandeState.En_cours_de_signature.name());
+                if (state.equals("En_cours_de_signature")) {
+                    List<Demande> getdemandeByRoleAndState = demandeRepository.findAllByEmpAndEtatOrderByIdDesc(login,
+                            DemandeState.En_cours_de_signature.name());
                     return getdemandeByRoleAndState;
                 }
 
-            } if (!role.getType().equals("Employé")) {
-                if (role.getType().equals("RH") || role.getType().equals("admin")){
-                    if (state.equals("All")){
-                        return demandeRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
+            }
+            if (!role.getType().equals("Employé")) {
+                if (role.getType().equals("RH") || role.getType().equals("admin")) {
+                    if (state.equals("All")) {
+                        return demandeRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
                     }
-                    if (state.equals("Demandée")){
+                    if (state.equals("Demandée")) {
                         return demandeRepository.findAllByEtatOrderByIdDesc(DemandeState.Demandée.name());
                     }
-                    if (state.equals("Validée")){
+                    if (state.equals("Validée")) {
                         return demandeRepository.findAllByEtatOrderByIdDesc(DemandeState.Validée.name());
                     }
-                    if (state.equals("Refusée")){
+                    if (state.equals("Refusée")) {
                         return demandeRepository.findAllByEtatOrderByIdDesc(DemandeState.Refusée.name());
                     }
-                    if (state.equals("En_cours_de_signature")){
-                        List<Demande> getdemandeByRoleAndState = demandeRepository.findAllByEtatOrderByIdDesc(DemandeState.En_cours_de_signature.name());
+                    if (state.equals("En_cours_de_signature")) {
+                        List<Demande> getdemandeByRoleAndState = demandeRepository
+                                .findAllByEtatOrderByIdDesc(DemandeState.En_cours_de_signature.name());
                         return getdemandeByRoleAndState;
                     }
                 }
@@ -188,7 +195,8 @@ public class DemandeImpService implements DemandeService {
             int toIndex = Math.min(startItem + pageSize, getAllByEmpAndState(state).size());
             listCons = getAllByEmpAndState(state).subList(startItem, toIndex);
         }
-        Page<Demande> consultPage = new PageImpl<Demande>(listCons, PageRequest.of(currentPage, pageSize), getAllByEmpAndState(state).size());
+        Page<Demande> consultPage = new PageImpl<Demande>(listCons, PageRequest.of(currentPage, pageSize),
+                getAllByEmpAndState(state).size());
 
         return consultPage;
     }
@@ -197,10 +205,12 @@ public class DemandeImpService implements DemandeService {
     public ResponseEntity<byte[]> generateDemande(Long id) throws JRException, IOException {
 
         Optional<Demande> demande = demandeRepository.findById(id);
-        Individu individu = individuRepository.findAllByIndividuOrderByIndividuDesc(demande.get().getEmp().getMatricule());
+        Individu individu = individuRepository
+                .findAllByIndividuOrderByIndividuDesc(demande.get().getEmp().getMatricule());
         List<Contrat> contrat = contratRepository.findAllByMatriculeOrderByNumcontratDesc(individu.getIndividu());
 
-        if (demande.get().getTypeDemande().getType().equals("Demande congé") && individu!=null && !contrat.isEmpty()){
+        if (demande.get().getTypeDemande().getType().equals("Demande congé") && individu != null
+                && !contrat.isEmpty()) {
             CongeDTO congeDTO = new CongeDTO();
 
             // ✅ CORRECTION : Utiliser LocalDate au lieu de Calendar
@@ -226,35 +236,52 @@ public class DemandeImpService implements DemandeService {
             congeDTO.setMotif(demande.get().getMotif());
             congeDTO.setException(demande.get().getException());
 
-            if (individu.getTele() != null){
+            if (individu.getTele() != null) {
                 congeDTO.setNumTele(individu.getTele());
             }
 
             congeDTO.setNbrJour(CalculNombreDeJoursDeConge.CalculNombreDeJours(
                     congeDTO,
                     demande.get().getDateDebut(),
-                    demande.get().getDateFin()
-            ).getNbrJour());
+                    demande.get().getDateFin()).getNbrJour());
 
-            if (demande.get().getInterime() != null){
-                congeDTO.setInterime(demande.get().getInterime().getNom() + " " + demande.get().getInterime().getPrenom());
+            if (demande.get().getInterime() != null) {
+                String nom = demande.get().getInterime().getNom() != null ? demande.get().getInterime().getNom().trim()
+                        : "";
+                String prenom = demande.get().getInterime().getPrenom() != null
+                        ? demande.get().getInterime().getPrenom().trim()
+                        : "";
+
+                if (!nom.isEmpty() && !prenom.isEmpty()) {
+                    congeDTO.setInterime(nom + " " + prenom);
+                } else if (!nom.isEmpty()) {
+                    congeDTO.setInterime(nom);
+                } else if (!prenom.isEmpty()) {
+                    congeDTO.setInterime(prenom);
+                } else {
+                    congeDTO.setInterime("Non renseigné");
+                }
             } else {
                 congeDTO.setInterime("Non renseigné");
             }
 
             Resource resource = new ClassPathResource("File/DemandeCongeEmp.jrxml");
 
-            JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(Collections.singleton(congeDTO));
-            JasperReport compileReport = JasperCompileManager.compileReport(new FileInputStream(resource.getURL().getPath()));
+            JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(
+                    Collections.singleton(congeDTO));
+            JasperReport compileReport = JasperCompileManager
+                    .compileReport(new FileInputStream(resource.getURL().getPath()));
 
             HashMap<String, Object> map = new HashMap<>();
             JasperPrint report = JasperFillManager.fillReport(compileReport, map, beanCollectionDataSource);
 
             byte[] data = JasperExportManager.exportReportToPdf(report);
             HttpHeaders headers = new HttpHeaders();
-            headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=Demande_Congé_"+congeDTO.getNom().trim().toUpperCase()+"_"+congeDTO.getPrenom().trim().toUpperCase()+".pdf");
+            headers.set(HttpHeaders.CONTENT_DISPOSITION,
+                    "inline;filename=Demande_Congé_" + congeDTO.getNom().trim().toUpperCase() + "_"
+                            + congeDTO.getPrenom().trim().toUpperCase() + ".pdf");
 
-            if (!demande.get().getEtat().equals("Validée") && !demande.get().getEtat().equals("Refusée")){
+            if (!demande.get().getEtat().equals("Validée") && !demande.get().getEtat().equals("Refusée")) {
                 demande.get().setEtat(DemandeState.En_cours_de_signature.name());
                 demandeRepository.save(demande.get());
             }
@@ -262,7 +289,8 @@ public class DemandeImpService implements DemandeService {
             return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(data);
         }
 
-        if (demande.get().getTypeDemande().getType().equals("Demande Attestation de travail") && individu!=null && !contrat.isEmpty()){
+        if (demande.get().getTypeDemande().getType().equals("Demande Attestation de travail") && individu != null
+                && !contrat.isEmpty()) {
             List<Object[]> demandeObject = demandeRepository.getDemande(demande.get().getId());
             DemandeDTO demandeDTO = new DemandeDTO();
 
@@ -275,17 +303,21 @@ public class DemandeImpService implements DemandeService {
 
             Resource resource = new ClassPathResource("File/ATTESTATIONTRAVAIL.jrxml");
 
-            JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(Collections.singleton(demandeDTO));
-            JasperReport compileReport = JasperCompileManager.compileReport(new FileInputStream(resource.getURL().getPath()));
+            JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(
+                    Collections.singleton(demandeDTO));
+            JasperReport compileReport = JasperCompileManager
+                    .compileReport(new FileInputStream(resource.getURL().getPath()));
 
             HashMap<String, Object> map = new HashMap<>();
             JasperPrint report = JasperFillManager.fillReport(compileReport, map, beanCollectionDataSource);
 
             byte[] data = JasperExportManager.exportReportToPdf(report);
             HttpHeaders headers = new HttpHeaders();
-            headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=Demande_Attestation_Travail_"+demandeDTO.getNom().trim().toUpperCase()+"_"+demandeDTO.getPrenom().trim().toUpperCase()+".pdf");
+            headers.set(HttpHeaders.CONTENT_DISPOSITION,
+                    "inline;filename=Demande_Attestation_Travail_" + demandeDTO.getNom().trim().toUpperCase() + "_"
+                            + demandeDTO.getPrenom().trim().toUpperCase() + ".pdf");
 
-            if (!demande.get().getEtat().equals("Validée") && !demande.get().getEtat().equals("Refusée")){
+            if (!demande.get().getEtat().equals("Validée") && !demande.get().getEtat().equals("Refusée")) {
                 demande.get().setEtat(DemandeState.En_cours_de_signature.name());
                 demandeRepository.save(demande.get());
             }
@@ -293,7 +325,7 @@ public class DemandeImpService implements DemandeService {
         }
 
         // ========== GÉNÉRATION PDF AUTORISATION D'ABSENCE ==========
-        if (demande.get().getTypeDemande().getType().equals("Autorisation d'absence") && individu!=null) {
+        if (demande.get().getTypeDemande().getType().equals("Autorisation d'absence") && individu != null) {
             AutorisationAbsenceDTO absenceDTO = new AutorisationAbsenceDTO();
 
             // Calculer la date de reprise (lendemain + éviter dimanche)
@@ -306,8 +338,7 @@ public class DemandeImpService implements DemandeService {
             // Calculer le nombre de jours
             long nombreJours = java.time.temporal.ChronoUnit.DAYS.between(
                     convertToLocalDate(demande.get().getDateDebut()),
-                    convertToLocalDate(demande.get().getDateFin())
-            ) + 1;
+                    convertToLocalDate(demande.get().getDateFin())) + 1;
 
             // Remplir le DTO
             absenceDTO.setMatricule(individu.getIndividu());
@@ -318,8 +349,22 @@ public class DemandeImpService implements DemandeService {
             absenceDTO.setDateReprise(dateReprise);
             absenceDTO.setNbrJour((int) nombreJours);
 
-            if (demande.get().getInterime() != null){
-                absenceDTO.setInterime(demande.get().getInterime().getNom() + " " + demande.get().getInterime().getPrenom());
+            if (demande.get().getInterime() != null) {
+                String nom = demande.get().getInterime().getNom() != null ? demande.get().getInterime().getNom().trim()
+                        : "";
+                String prenom = demande.get().getInterime().getPrenom() != null
+                        ? demande.get().getInterime().getPrenom().trim()
+                        : "";
+
+                if (!nom.isEmpty() && !prenom.isEmpty()) {
+                    absenceDTO.setInterime(nom + " " + prenom);
+                } else if (!nom.isEmpty()) {
+                    absenceDTO.setInterime(nom);
+                } else if (!prenom.isEmpty()) {
+                    absenceDTO.setInterime(prenom);
+                } else {
+                    absenceDTO.setInterime("Non renseigné");
+                }
             } else {
                 absenceDTO.setInterime("Non renseigné");
             }
@@ -327,17 +372,21 @@ public class DemandeImpService implements DemandeService {
             // Charger le template Jasper
             Resource resource = new ClassPathResource("File/AutorisationAbsence.jrxml");
 
-            JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(Collections.singleton(absenceDTO));
-            JasperReport compileReport = JasperCompileManager.compileReport(new FileInputStream(resource.getURL().getPath()));
+            JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(
+                    Collections.singleton(absenceDTO));
+            JasperReport compileReport = JasperCompileManager
+                    .compileReport(new FileInputStream(resource.getURL().getPath()));
 
             HashMap<String, Object> map = new HashMap<>();
             JasperPrint report = JasperFillManager.fillReport(compileReport, map, beanCollectionDataSource);
 
             byte[] data = JasperExportManager.exportReportToPdf(report);
             HttpHeaders headers = new HttpHeaders();
-            headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=Autorisation_Absence_"+absenceDTO.getNom().trim().toUpperCase()+"_"+absenceDTO.getPrenom().trim().toUpperCase()+".pdf");
+            headers.set(HttpHeaders.CONTENT_DISPOSITION,
+                    "inline;filename=Autorisation_Absence_" + absenceDTO.getNom().trim().toUpperCase() + "_"
+                            + absenceDTO.getPrenom().trim().toUpperCase() + ".pdf");
 
-            if (!demande.get().getEtat().equals("Validée") && !demande.get().getEtat().equals("Refusée")){
+            if (!demande.get().getEtat().equals("Validée") && !demande.get().getEtat().equals("Refusée")) {
                 demande.get().setEtat(DemandeState.En_cours_de_signature.name());
                 demandeRepository.save(demande.get());
             }
@@ -375,15 +424,19 @@ public class DemandeImpService implements DemandeService {
             message.setTo(user.getEmail());
             message.setSubject("Validation d'une demande sur PORTAILRH");
             message.setText("Bonjour \n \n " +
-                    "       Merci de valider la demande : "+demande.getTypeDemande().getType().trim().toUpperCase()+" préparé par : " +demande.getEmp().getNom().toUpperCase().trim()+" "+demande.getEmp().getPrenom().toUpperCase().trim()+" . \n\n"
-                    +"Sincéres salutations");
+                    "       Merci de valider la demande : " + demande.getTypeDemande().getType().trim().toUpperCase()
+                    + " préparé par : " + demande.getEmp().getNom().toUpperCase().trim() + " "
+                    + demande.getEmp().getPrenom().toUpperCase().trim() + " . \n\n"
+                    + "Sincéres salutations");
             this.emailSender.send(message);
         }
     }
+
     public LocalDate convertToDate(Date date) {
         Instant instant = date.toInstant();
         return instant.atZone(ZoneId.systemDefault()).toLocalDate();
     }
+
     public static LocalDate convertDateToLocalDate(Date date) {
         Instant instant = date.toInstant();
         LocalDate localDate = instant.atZone(ZoneId.systemDefault()).toLocalDate();
