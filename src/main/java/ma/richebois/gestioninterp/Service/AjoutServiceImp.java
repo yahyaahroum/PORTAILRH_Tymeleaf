@@ -12,12 +12,12 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.IOException;
 import java.nio.file.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 @AllArgsConstructor
 @Service
 public class AjoutServiceImp implements AjoutService {
@@ -31,9 +31,6 @@ public class AjoutServiceImp implements AjoutService {
     private UserImpService userImpService;
     private GlobalVariableConfig globalVariableConfig;
 
-
-
-
     @Override
     public List<Ajout> listImport(long id) {
         Optional<Import> imp = importRepository.findById(id);
@@ -41,11 +38,22 @@ public class AjoutServiceImp implements AjoutService {
         List<Ajout> listImport = ajoutRepository.findAllByImp(imp);
         List<Ajout> listFreshImport = new ArrayList<Ajout>();
 
-
         for (Ajout person : listImport) {
+            // Vérifier si la date d'entrée existe déjà dans les contrats
+            // Si oui, cela signifie que cet individu a déjà été intégré dans l'ERP
+            List<Contrat> contratsDate = contratRepository
+                    .findAllByMatriculeAndDateembaucheOrderByNumcontratDesc(person.getMatricule(),
+                            person.getDateentree());
+
+            // Si la date d'entrée existe déjà, ne pas inclure cet individu dans l'export
+            if (!contratsDate.isEmpty()) {
+                continue; // Passer à l'individu suivant
+            }
+
             List<Individu> ind = individuRepository.findAllByCodecinOrderByIndividuDesc(person.getCodecin());
             if (ind.size() > 0) {
-                Contrat contrat = contratRepository.findAllByMatriculeOrderByNumcontratDesc(ind.get(0).getIndividu()).get(0);
+                Contrat contrat = contratRepository.findAllByMatriculeOrderByNumcontratDesc(ind.get(0).getIndividu())
+                        .get(0);
                 person.setExist(true);
 
                 if (contrat.getContratactif() == 2) {
@@ -62,10 +70,9 @@ public class AjoutServiceImp implements AjoutService {
         return listFreshImport;
     }
 
-
     @Override
     public List<Ajout> getAll() {
-        return ajoutRepository.findAll(Sort.by(Sort.Direction.ASC,"nom"));
+        return ajoutRepository.findAll(Sort.by(Sort.Direction.ASC, "nom"));
     }
 
     @Override
@@ -74,80 +81,101 @@ public class AjoutServiceImp implements AjoutService {
     }
 
     @Override
-   /* public Ajout savePerson(MultipartFile file1, MultipartFile file2, MultipartFile file3, MultipartFile file4, MultipartFile file5, MultipartFile file6, Ajout ajout, String pessai) throws IOException {
-
-        ajout.setFanthrop(false);
-        ajout.setFcnss(false);
-        ajout.setFrib(false);
-        ajout.setFcv(false);
-
-        String directory = ajout.getNom().replaceAll("\\s", "") + ajout.getPrenom().replaceAll("\\s", "");
-
-      Path root = Paths.get(globalVariableConfig.getGlobalVariable() + directory);
-        System.out.println("Chemin base : " + globalVariableConfig.getGlobalVariable());
-        System.out.println("Chemin complet : " + root.toString());
-        if (Files.notExists(root)) {
-            System.out.println("Création du dossier : " + root.toString());
-            Files.createDirectories(root);
-        } else {
-            System.out.println("Le dossier existe déjà : " + root.toString());
-        }
-        Path filePath = root.resolve("CIN_Recto_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf");
-        System.out.println("Copie de file1 vers : " + filePath);
-
-        Files.copy(file1.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        Files.copy(file1.getInputStream(), root.resolve("CIN_Recto" + "_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf"),StandardCopyOption.REPLACE_EXISTING);
-
-        Files.copy(file2.getInputStream(), root.resolve("CIN_Verso" + "_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf"),StandardCopyOption.REPLACE_EXISTING);
-
-        ajout.setFcin(true);
-
-        if (file3.isEmpty()==false){
-            Files.copy(file3.getInputStream(), root.resolve("Fiche_Anthropometrique" + "_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf"),StandardCopyOption.REPLACE_EXISTING);
-            ajout.setFanthrop(true);
-        }
-
-        if (file4.isEmpty()==false){
-            Files.copy(file4.getInputStream(), root.resolve("Attestation_CNSS" + "_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf"),StandardCopyOption.REPLACE_EXISTING);
-            ajout.setFcnss(true);
-        }
-
-        if (file5.isEmpty()==false){
-            Files.copy(file5.getInputStream(), root.resolve("Attestation_RIB" + "_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf"),StandardCopyOption.REPLACE_EXISTING);
-            ajout.setFrib(true);
-        }
-
-        if (file6.isEmpty()==false){
-            Files.copy(file6.getInputStream(), root.resolve("CV_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf"),StandardCopyOption.REPLACE_EXISTING);
-            ajout.setFcv(true);
-        }
-
-        if (pessai.equals("")) {
-            ajout.setPessai("15");
-        } else if (pessai != "") {
-            ajout.setPessai(pessai);
-        }
-
-        if (ajout.getBulletin()==null){ajout.setBulletin(false);}
-        if (ajout.getWhatsapp()==null){ajout.setWhatsapp(false);}
-
-        ajout.setModeregl("V");
-        ajout.setOrigine("Saisi");
-        ajout.setTypecontrat("CDD");
-
-
-        ajout.setDesignation(affaireRepository.findByCode(ajout.getCodechantier()).getDesignation());
-
-
-        ajout.setLibelle(fonctionRepository.findByCodefonction(ajout.getFonction()).getLibelle());
-        ajout.setState(IndividuState.A_Valider.name());
-        return ajoutRepository.save(ajout);
-    }
-*/
+    /*
+     * public Ajout savePerson(MultipartFile file1, MultipartFile file2,
+     * MultipartFile file3, MultipartFile file4, MultipartFile file5, MultipartFile
+     * file6, Ajout ajout, String pessai) throws IOException {
+     * 
+     * ajout.setFanthrop(false);
+     * ajout.setFcnss(false);
+     * ajout.setFrib(false);
+     * ajout.setFcv(false);
+     * 
+     * String directory = ajout.getNom().replaceAll("\\s", "") +
+     * ajout.getPrenom().replaceAll("\\s", "");
+     * 
+     * Path root = Paths.get(globalVariableConfig.getGlobalVariable() + directory);
+     * System.out.println("Chemin base : " +
+     * globalVariableConfig.getGlobalVariable());
+     * System.out.println("Chemin complet : " + root.toString());
+     * if (Files.notExists(root)) {
+     * System.out.println("Création du dossier : " + root.toString());
+     * Files.createDirectories(root);
+     * } else {
+     * System.out.println("Le dossier existe déjà : " + root.toString());
+     * }
+     * Path filePath = root.resolve("CIN_Recto_" + ajout.getCodecin().trim() + "_" +
+     * ajout.getCodechantier() + directory + ".pdf");
+     * System.out.println("Copie de file1 vers : " + filePath);
+     * 
+     * Files.copy(file1.getInputStream(), filePath,
+     * StandardCopyOption.REPLACE_EXISTING);
+     * 
+     * Files.copy(file1.getInputStream(), root.resolve("CIN_Recto" + "_" +
+     * ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory +
+     * ".pdf"),StandardCopyOption.REPLACE_EXISTING);
+     * 
+     * Files.copy(file2.getInputStream(), root.resolve("CIN_Verso" + "_" +
+     * ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory +
+     * ".pdf"),StandardCopyOption.REPLACE_EXISTING);
+     * 
+     * ajout.setFcin(true);
+     * 
+     * if (file3.isEmpty()==false){
+     * Files.copy(file3.getInputStream(), root.resolve("Fiche_Anthropometrique" +
+     * "_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory +
+     * ".pdf"),StandardCopyOption.REPLACE_EXISTING);
+     * ajout.setFanthrop(true);
+     * }
+     * 
+     * if (file4.isEmpty()==false){
+     * Files.copy(file4.getInputStream(), root.resolve("Attestation_CNSS" + "_" +
+     * ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory +
+     * ".pdf"),StandardCopyOption.REPLACE_EXISTING);
+     * ajout.setFcnss(true);
+     * }
+     * 
+     * if (file5.isEmpty()==false){
+     * Files.copy(file5.getInputStream(), root.resolve("Attestation_RIB" + "_" +
+     * ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory +
+     * ".pdf"),StandardCopyOption.REPLACE_EXISTING);
+     * ajout.setFrib(true);
+     * }
+     * 
+     * if (file6.isEmpty()==false){
+     * Files.copy(file6.getInputStream(), root.resolve("CV_" +
+     * ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory +
+     * ".pdf"),StandardCopyOption.REPLACE_EXISTING);
+     * ajout.setFcv(true);
+     * }
+     * 
+     * if (pessai.equals("")) {
+     * ajout.setPessai("15");
+     * } else if (pessai != "") {
+     * ajout.setPessai(pessai);
+     * }
+     * 
+     * if (ajout.getBulletin()==null){ajout.setBulletin(false);}
+     * if (ajout.getWhatsapp()==null){ajout.setWhatsapp(false);}
+     * 
+     * ajout.setModeregl("V");
+     * ajout.setOrigine("Saisi");
+     * ajout.setTypecontrat("CDD");
+     * 
+     * 
+     * ajout.setDesignation(affaireRepository.findByCode(ajout.getCodechantier()).
+     * getDesignation());
+     * 
+     * 
+     * ajout.setLibelle(fonctionRepository.findByCodefonction(ajout.getFonction()).
+     * getLibelle());
+     * ajout.setState(IndividuState.A_Valider.name());
+     * return ajoutRepository.save(ajout);
+     * }
+     */
     public Ajout savePerson(MultipartFile file1, MultipartFile file2, MultipartFile file3,
-                            MultipartFile file4, MultipartFile file5, MultipartFile file6,
-                            Ajout ajout, String pessai) throws IOException {
+            MultipartFile file4, MultipartFile file5, MultipartFile file6,
+            Ajout ajout, String pessai) throws IOException {
 
         ajout.setFanthrop(false);
         ajout.setFcnss(false);
@@ -218,11 +246,9 @@ public class AjoutServiceImp implements AjoutService {
         return ajoutRepository.save(ajout);
     }
 
-
-
-
     @Override
-    public Ajout updatePerson(MultipartFile file1, MultipartFile file2, MultipartFile file3, MultipartFile file4, MultipartFile file5, MultipartFile file6, Ajout ajout) throws IOException {
+    public Ajout updatePerson(MultipartFile file1, MultipartFile file2, MultipartFile file3, MultipartFile file4,
+            MultipartFile file5, MultipartFile file6, Ajout ajout) throws IOException {
 
         ajout.setFcin(false);
         ajout.setFanthrop(false);
@@ -230,7 +256,7 @@ public class AjoutServiceImp implements AjoutService {
         ajout.setFrib(false);
         ajout.setFcv(false);
 
-        String directory = ajout.getNom().replaceAll("\\s","") + ajout.getPrenom().replaceAll("\\s","");
+        String directory = ajout.getNom().replaceAll("\\s", "") + ajout.getPrenom().replaceAll("\\s", "");
         Path root = Paths.get(globalVariableConfig.getGlobalVariable(), directory);
         Files.createDirectories(root);
 
@@ -240,22 +266,28 @@ public class AjoutServiceImp implements AjoutService {
         ajout.setFrib(false);
         ajout.setFcv(false);
 
-        if (saveIfPresent(file1, root, "CIN_Recto_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf") != null)
+        if (saveIfPresent(file1, root,
+                "CIN_Recto_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf") != null)
             ajout.setFcin(true);
 
-        if (saveIfPresent(file2, root, "CIN_Verso_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf") != null)
+        if (saveIfPresent(file2, root,
+                "CIN_Verso_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf") != null)
             ajout.setFcin(true);
 
-        if (saveIfPresent(file3, root, "Fiche_Anthropometrique_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf") != null)
+        if (saveIfPresent(file3, root, "Fiche_Anthropometrique_" + ajout.getCodecin().trim() + "_"
+                + ajout.getCodechantier() + directory + ".pdf") != null)
             ajout.setFanthrop(true);
 
-        if (saveIfPresent(file4, root, "Attestation_CNSS_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf") != null)
+        if (saveIfPresent(file4, root, "Attestation_CNSS_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier()
+                + directory + ".pdf") != null)
             ajout.setFcnss(true);
 
-        if (saveIfPresent(file5, root, "Attestation_RIB_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf") != null)
+        if (saveIfPresent(file5, root, "Attestation_RIB_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier()
+                + directory + ".pdf") != null)
             ajout.setFrib(true);
 
-        if (saveIfPresent(file6, root, "CV_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf") != null)
+        if (saveIfPresent(file6, root,
+                "CV_" + ajout.getCodecin().trim() + "_" + ajout.getCodechantier() + directory + ".pdf") != null)
             ajout.setFcv(true);
 
         ajout.setModeregl("V");
@@ -283,10 +315,8 @@ public class AjoutServiceImp implements AjoutService {
         }
         Page<Ajout> consultPage = new PageImpl<Ajout>(listCons, PageRequest.of(currentPage, pageSize), getAll().size());
 
-
         return consultPage;
     }
-
 
     @Override
     public Ajout valider(long id, String salaire, String pessai) {
@@ -305,7 +335,7 @@ public class AjoutServiceImp implements AjoutService {
     }
 
     @Override
-    public Ajout rejeter(long id,String motifRejet) {
+    public Ajout rejeter(long id, String motifRejet) {
         Optional<Ajout> ajout = ajoutRepository.findById(id);
         ajout.get().setState(IndividuState.Rejeté.name());
         ajout.get().setMotifRejet(motifRejet);
@@ -319,14 +349,12 @@ public class AjoutServiceImp implements AjoutService {
         return p.get();
     }
 
-
     @Override
     public Boolean deletePerson(Long id) {
         ajoutRepository.deleteById(id);
 
         return true;
     }
-
 
     @Override
     public Integer getLastMAtricul(Ajout ajout) {
@@ -338,12 +366,12 @@ public class AjoutServiceImp implements AjoutService {
 
         List<Individu> individu = individuRepository.findAllByCodecinOrderByIndividuDesc(ajout.getCodecin());
 
-        if (individu.isEmpty()){
+        if (individu.isEmpty()) {
             List<Ajout> ajoutList = ajoutRepository.findAllByStateInOrderByMatriculeDesc(states);
 
             int lastmatriculeajout = ajoutList.get(0).getMatricule();
 
-            List<Individu> individuList = individuRepository.findAll(Sort.by(Sort.Direction.DESC,"individu"));
+            List<Individu> individuList = individuRepository.findAll(Sort.by(Sort.Direction.DESC, "individu"));
 
             int lastIndividu = individuList.get(0).getIndividu();
 
@@ -351,18 +379,13 @@ public class AjoutServiceImp implements AjoutService {
                 return lastmatriculeajout + 1;
             } else
                 return lastIndividu + 1;
-        }else
+        } else
             return individu.get(0).getIndividu();
-
-
-
-
-
 
     }
 
     @Override
-    public List<Ajout> getPersonnesSaisie(String start,String end) throws ParseException {
+    public List<Ajout> getPersonnesSaisie(String start, String end) throws ParseException {
         Date datestart = new SimpleDateFormat("yyyy-MM-dd").parse(start);
         Date dateend = new SimpleDateFormat("yyyy-MM-dd").parse(end);
         List<String> states = new ArrayList<>();
@@ -371,24 +394,33 @@ public class AjoutServiceImp implements AjoutService {
         states.add(IndividuState.Imprimé.name());
         List<String> origine = new ArrayList<>();
         origine.add("Saisi");
-        List<Ajout> ajoutSaisie = ajoutRepository.findAllByStateInAndOrigineInAndDateentreeBetweenOrderByMatriculeAsc(states,origine,datestart,dateend);
+
+        // Utiliser la nouvelle requête qui exclut les individus ayant au moins un
+        // contrat avec contratactif=2
+        // Cela garantit que seuls les individus dont TOUS les contrats ont
+        // contratactif=1 sont exportés
+        List<Ajout> ajoutSaisie = ajoutRepository.findNewContractsWithoutIntegratedOnes(states, origine, datestart,
+                dateend);
 
         return ajoutSaisie;
     }
 
-
-
     @Override
-    public Ajout personneContractUpload(Long id, MultipartFile file1, MultipartFile file2, MultipartFile file3, Optional<Ajout> ajout) throws IOException {
+    public Ajout personneContractUpload(Long id, MultipartFile file1, MultipartFile file2, MultipartFile file3,
+            Optional<Ajout> ajout) throws IOException {
 
         ajout = ajoutRepository.findById(id);
-        String directory = ajout.get().getNom().trim().replaceAll("\\s","") + ajout.get().getPrenom().trim().replaceAll("\\s","");
+        String directory = ajout.get().getNom().trim().replaceAll("\\s", "")
+                + ajout.get().getPrenom().trim().replaceAll("\\s", "");
         Path root = Paths.get(globalVariableConfig.getGlobalVariable(), directory);
         Files.createDirectories(root);
 
-        saveIfPresent(file1, root, "Contrat_" + ajout.get().getCodecin().trim() + "_" + ajout.get().getCodechantier() + ".pdf");
-        saveIfPresent(file2, root, "Contrat_Decision_" + ajout.get().getCodecin().trim() + "_" + ajout.get().getCodechantier() + ".pdf");
-        saveIfPresent(file3, root, "Contrat_Decision_Equip_" + ajout.get().getCodecin().trim() + "_" + ajout.get().getCodechantier() + ".pdf");
+        saveIfPresent(file1, root,
+                "Contrat_" + ajout.get().getCodecin().trim() + "_" + ajout.get().getCodechantier() + ".pdf");
+        saveIfPresent(file2, root,
+                "Contrat_Decision_" + ajout.get().getCodecin().trim() + "_" + ajout.get().getCodechantier() + ".pdf");
+        saveIfPresent(file3, root, "Contrat_Decision_Equip_" + ajout.get().getCodecin().trim() + "_"
+                + ajout.get().getCodechantier() + ".pdf");
 
         ajout.get().setState(IndividuState.Imprimé.name());
         return ajoutRepository.save(ajout.get());
@@ -410,40 +442,37 @@ public class AjoutServiceImp implements AjoutService {
         List<Affaire> affaireList = login.getChantier();
         List<Ajout> ajoutList = new ArrayList<>();
 
-        for (Role role : roles){
-            if (role.getType().equals("Pointeur"))
-            {
-                for (Affaire chantier:affaireList)
-                {
+        for (Role role : roles) {
+            if (role.getType().equals("Pointeur")) {
+                for (Affaire chantier : affaireList) {
                     codeChantier.add(chantier.getCode());
-                    if (state.equals("All"))
-                    {
-                        List<Ajout> ajoutList1 = ajoutRepository.findAllByCodechantierInAndOrigineOrderByNomAsc(codeChantier,"Saisi");
+                    if (state.equals("All")) {
+                        List<Ajout> ajoutList1 = ajoutRepository
+                                .findAllByCodechantierInAndOrigineOrderByNomAsc(codeChantier, "Saisi");
                         ajoutList.addAll(ajoutList1);
                     }
-                    if (!state.equals("All"))
-                    {
-                        List<Ajout> listPerStateAndAffaire = ajoutRepository.findAllByCodechantierInAndOrigineAndStateOrderByNom(codeChantier,"Saisi",state);
+                    if (!state.equals("All")) {
+                        List<Ajout> listPerStateAndAffaire = ajoutRepository
+                                .findAllByCodechantierInAndOrigineAndStateOrderByNom(codeChantier, "Saisi", state);
                         ajoutList.addAll(listPerStateAndAffaire);
                     }
 
                 }
                 return ajoutList;
+            } else if (state.equals("All")) {
+                return ajoutRepository.findAllByOrigineOrderByNomAsc("Saisi");
             }
-            else if (state.equals("All"))
-            {
-               return ajoutRepository.findAllByOrigineOrderByNomAsc("Saisi");
-            }
-            if (!state.equals("All"))
-            {
-                return ajoutRepository.findAllByStateAndOrigineOrderByNomAsc(state,"Saisi");
+            if (!state.equals("All")) {
+                return ajoutRepository.findAllByStateAndOrigineOrderByNomAsc(state, "Saisi");
             }
 
         }
         return null;
     }
+
     private Path saveIfPresent(MultipartFile file, Path dir, String filename) throws IOException {
-        if (file == null || file.isEmpty()) return null;
+        if (file == null || file.isEmpty())
+            return null;
         Files.createDirectories(dir);
         Path dest = dir.resolve(filename);
         try (java.io.InputStream in = file.getInputStream()) {
@@ -465,14 +494,14 @@ public class AjoutServiceImp implements AjoutService {
             int toIndex = Math.min(startItem + pageSize, getPersonByState(state).size());
             listCons = getPersonByState(state).subList(startItem, toIndex);
         }
-        Page<Ajout> consultPage = new PageImpl<Ajout>(listCons, PageRequest.of(currentPage, pageSize), getPersonByState(state).size());
-
+        Page<Ajout> consultPage = new PageImpl<Ajout>(listCons, PageRequest.of(currentPage, pageSize),
+                getPersonByState(state).size());
 
         return consultPage;
     }
+
     @Override
-    public Page<Ajout> AjoutPage(Pageable pageable, List<Ajout> ajoutList)
-    {
+    public Page<Ajout> AjoutPage(Pageable pageable, List<Ajout> ajoutList) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
@@ -486,8 +515,5 @@ public class AjoutServiceImp implements AjoutService {
         Page<Ajout> ajoutPage = new PageImpl<Ajout>(listAjout, PageRequest.of(currentPage, pageSize), ajoutList.size());
         return ajoutPage;
     }
-    
-    
-
 
 }

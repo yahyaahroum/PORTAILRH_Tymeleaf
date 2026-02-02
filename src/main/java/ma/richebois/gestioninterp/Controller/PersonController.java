@@ -477,7 +477,6 @@ public class PersonController {
         String headerValue = "attachment; filename=Liste_Des_Nouveau_Contrats" + currentDateTime + ".xlsx";
         response.setHeader(headerKey, headerValue);
         List<Ajout> personList = personServiceImp.getPersonnesSaisie(start,end);
-
         canvasExportUtils.export(response, personList);
     }
 
