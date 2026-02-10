@@ -898,7 +898,7 @@
 
                                                                                                     </div>
                                                                                                     <div class="grid"
-                                                                                                        th:hidden="${(login.roles.contains(role) and (demande.etat != 'Validée' or demande.typeDemande.type != 'Autorisation d''absence')) or demande.typeDemande.type=='Demande Attestation de travail et de salaire'
+                                                                        th:hidden="${(login.roles.contains(role) and (demande.typeDemande.type != 'Autorisation d''absence')) or demande.typeDemande.type=='Demande Attestation de travail et de salaire'
                                                                                             or demande.typeDemande.type=='Demande de prêt' or demande.typeDemande.type=='Demande Bulletin de paie'
                                                                                             or demande.typeDemande.type=='Demande avance sur salaire'}">
                                                                                                         <div
@@ -976,7 +976,7 @@
                                                                         <a type="button" class="dropdown-item"
                                                                             th:href="@{/Demande/Generer/{id}(id=${demande.id})}"
                                                                             target="_blank"
-                                                                            th:hidden="${demande.etat != 'Validée' or demande.typeDemande.type != 'Autorisation d''absence'}">Imprimer</a>
+                                                                            th:hidden="${demande.typeDemande.type != 'Autorisation d''absence'}">Imprimer</a>
                                                                         <a type="button" class="dropdown-item"
                                                                             data-target="#deleteModal"
                                                                             data-toggle="modal"

@@ -5,6 +5,7 @@ import ma.richebois.gestioninterp.Enum.DemandeState;
 import ma.richebois.gestioninterp.Model.*;
 import ma.richebois.gestioninterp.Repository.AjoutRepository;
 import ma.richebois.gestioninterp.Repository.IndividuRepository;
+import ma.richebois.gestioninterp.Repository.LoginRepository;
 import ma.richebois.gestioninterp.Repository.RoleRepository;
 import ma.richebois.gestioninterp.Service.DemandeService;
 import ma.richebois.gestioninterp.Service.UserImpService;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,6 +36,7 @@ public class DemandeController {
     private UserImpService userImpService;
     private AjoutRepository ajoutRepository;
     private IndividuRepository individuRepository;
+    private LoginRepository loginRepository;
 
 
     @GetMapping("/Demande/Toutes")
@@ -97,7 +100,14 @@ public class DemandeController {
                     }
                 }
 
-                model.addAttribute("indByServ", listeIndividus);
+                List<Individu> activeIndividus = new ArrayList<>();
+                for (Individu ind : listeIndividus) {
+                    Login loginInterim = loginRepository.findByMatricule(ind.getIndividu());
+                    if (loginInterim != null && "active".equalsIgnoreCase(loginInterim.getSession()) && ind.getIndividu() != login.getMatricule()) {
+                        activeIndividus.add(ind);
+                    }
+                }
+                model.addAttribute("indByServ", activeIndividus);
             } else {
                 System.out.println("❌ Service est NULL !");
                 System.out.println("🔍 Tentative de récupération manuelle...");
@@ -108,7 +118,15 @@ public class DemandeController {
                     System.out.println("✅ Service trouvé avec requête alternative: " + ind2.getService().getCode());
                     List<Individu> listeIndividus = individuRepository.findAllByServiceOrderByNom(ind2.getService());
                     System.out.println("🔍 Nombre d'individus: " + listeIndividus.size());
-                    model.addAttribute("indByServ", listeIndividus);
+                    
+                    List<Individu> activeIndividus = new ArrayList<>();
+                    for (Individu ind : listeIndividus) {
+                        Login loginInterim = loginRepository.findByMatricule(ind.getIndividu());
+                        if (loginInterim != null && "active".equalsIgnoreCase(loginInterim.getSession()) && ind.getIndividu() != login.getMatricule()) {
+                            activeIndividus.add(ind);
+                        }
+                    }
+                    model.addAttribute("indByServ", activeIndividus);
                 } else {
                     System.out.println("❌ Toujours NULL même avec requête alternative");
                 }

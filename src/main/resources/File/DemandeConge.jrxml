@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DemandeConge" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0c2d55c6-67bf-4d67-89f4-ba19773054fd">
 	<field name="matricule" class="java.lang.Integer"/>
 	<field name="nom" class="java.lang.String"/>
@@ -145,7 +145,7 @@
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="159" splitType="Stretch">
+		<band height="131" splitType="Stretch">
 			<line>
 				<reportElement x="10" y="35" width="534" height="1" uuid="b59dda48-b8bc-4725-bd4c-d9fd044d6768"/>
 				<graphicElement>
@@ -191,30 +191,30 @@
 			<staticText>
 				<reportElement x="11" y="5" width="129" height="30" uuid="d9f5b625-e4c2-4e4e-9281-ba7ebe43aee2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[L'INTERESSE]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="141" y="5" width="139" height="30" uuid="70bd0389-71bf-47f6-9736-572cb49aa8b3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[SCE PERSONNEL]]></text>
+				<text><![CDATA[RESPONSABLE SERVICE]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="280" y="5" width="130" height="30" uuid="bb43088e-834c-4ba8-9a02-39a74eb45d68"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[DIRECTION]]></text>
+				<text><![CDATA[SERVICE RH]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="411" y="5" width="129" height="30" uuid="717ba54b-bee6-443d-a00a-a8e104048f90"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[OBSERVATION]]></text>
+				<text><![CDATA[DIRECTION]]></text>
 			</staticText>
 		</band>
 	</pageFooter>
