@@ -265,7 +265,14 @@ public class CanvasExportUtils {
                 createCell(row, 15, "", styleData);
                 createCell(row, 16, "", styleData);
                 createCell(row, 17, p.getAdresseville(), styleData);
-                createCell(row, 18, p.getAdressepays().substring(0, 2).toUpperCase(), styleData);
+                String pays = p.getAdressepays();
+                if (pays != null && pays.length() >= 2) {
+                    createCell(row, 18, pays.substring(0, 2).toUpperCase(), styleData);
+                } else if (pays != null && pays.length() == 1) {
+                    createCell(row, 18, pays.toUpperCase(), styleData);
+                } else {
+                    createCell(row, 18, "MA", styleData); // valeur par défaut
+                }
                 createCell(row, 19, p.getCodecin().replaceAll("\\s", ""), styleData);
                 createCell(row, 20, p.getNumtele(), styleData);
                 LocalDate date = p.getDateExpCin();
@@ -786,9 +793,10 @@ public class CanvasExportUtils {
                     createCell(row, 5, p.getSalaire(), styleData);
                     createCell(row, 6, dateFormatter.format(p.getDateentree()), styleData);
                     createCell(row, 7, "31/12/9999", styleData);
+
                 }
 
-                System.out.println("RowCount" + rowCount);
+
             }
         }
     }
