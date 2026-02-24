@@ -45,6 +45,7 @@ public class CanvasExportUtils {
     private XSSFSheet canvasImport;
     private XSSFSheet stc;
     private XSSFSheet avance;
+    private XSSFSheet individuCIN;
 
     DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -796,7 +797,6 @@ public class CanvasExportUtils {
 
                 }
 
-
             }
         }
     }
@@ -1159,4 +1159,35 @@ public class CanvasExportUtils {
 
     }
 
+    public void exportIndividusCIN(HttpServletResponse response, List<IndividuCIN> list) throws IOException {
+        workbook = new XSSFWorkbook();
+        individuCIN = workbook.createSheet("Liste CIN");
+
+        Row headerRow = individuCIN.createRow(0);
+        CellStyle headerStyle = workbook.createCellStyle();
+        XSSFFont font = workbook.createFont();
+        font.setBold(true);
+        headerStyle.setFont(font);
+
+        createCell(headerRow, 0, "Matricule", headerStyle);
+        createCell(headerRow, 1, "Nom", headerStyle);
+        createCell(headerRow, 2, "Prénom", headerStyle);
+        createCell(headerRow, 3, "CIN", headerStyle);
+
+        int rowNum = 1;
+        CellStyle dataStyle = workbook.createCellStyle();
+
+        for (IndividuCIN item : list) {
+            Row row = individuCIN.createRow(rowNum++);
+            createCell(row, 0, item.getMatricule(), dataStyle);
+            createCell(row, 1, item.getNom(), dataStyle);
+            createCell(row, 2, item.getPrenom(), dataStyle);
+            createCell(row, 3, item.getCin(), dataStyle);
+        }
+
+        ServletOutputStream outputStream = response.getOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
+    }
 }

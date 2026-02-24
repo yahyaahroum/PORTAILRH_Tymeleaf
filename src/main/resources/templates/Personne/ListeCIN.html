@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head th:replace="fragments/layout :: head" />
+
+<body class="header-fixed">
+    <nav class="t-header" th:replace="fragments/navbar::navbar"></nav>
+    <div class="page-body">
+        <div class="sidebar" th:replace="fragments/sidebar::sidebar"></div>
+        <div class="page-content-wrapper">
+            <div class="page-content-wrapper-inner">
+                <div class="viewport-header">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb has-arrow">
+                            <li class="breadcrumb-item">
+                                <a href="#">Liste des Individus (CIN)</a>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="content-viewport">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="grid">
+                                <div class="grid-header">
+                                    <form th:action="@{/Personne/ListeCIN}" method="get" class="row">
+                                        <div class="col-md-2">
+                                            <input type="text" name="matricule" class="form-control"
+                                                placeholder="Matricule" th:value="${matricule}">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="text" name="nom" class="form-control" placeholder="Nom"
+                                                th:value="${nom}">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="text" name="prenom" class="form-control" placeholder="Prénom"
+                                                th:value="${prenom}">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="text" name="cin" class="form-control" placeholder="CIN"
+                                                th:value="${cin}">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="submit" class="btn btn-primary">Rechercher</button>
+                                        </div>
+                                        <div class="col-md-2 text-right">
+                                            <a th:href="@{/Personne/ExportCIN(matricule=${matricule}, nom=${nom}, prenom=${prenom}, cin=${cin})}"
+                                                class="btn btn-success">
+                                                Exporter Excel <i class="mdi mdi-file-excel"></i>
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="item-wrapper">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Matricule</th>
+                                                    <th>Nom</th>
+                                                    <th>Prénom</th>
+                                                    <th>CIN</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:if="${individuPage.isEmpty()}">
+                                                    <td class="text-lg-center" colspan="4"><strong>Aucun individu
+                                                            trouvé</strong></td>
+                                                </tr>
+                                                <tr th:each="ind : ${individuPage}">
+                                                    <td th:text="${ind.matricule}"></td>
+                                                    <td th:text="${ind.nom}"></td>
+                                                    <td th:text="${ind.prenom}"></td>
+                                                    <td th:text="${ind.cin}"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div th:if="${individuPage.totalElements > 0}" class="fc-footer-toolbar text-center mt-4">
+                                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                                    <div class="d-flex align-items-center mb-2 me-3">
+                                        <label for="pageSize" class="form-label me-2 mb-0">Éléments par page :</label>
+                                        <select id="pageSize" class="form-select form-select-sm" style="width: auto;"
+                                            onchange="changePageSize(this.value)">
+                                            <option value="10" th:selected="${individuPage.size == 10}">10</option>
+                                            <option value="30" th:selected="${individuPage.size == 30}">30</option>
+                                            <option value="50" th:selected="${individuPage.size == 50}">50</option>
+                                            <option value="100" th:selected="${individuPage.size == 100}">100</option>
+                                        </select>
+                                    </div>
+
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-center flex-wrap mb-0">
+                                            <li class="page-item" th:classappend="${individuPage.first} ? 'disabled'">
+                                                <a class="page-link"
+                                                    th:href="@{/Personne/ListeCIN(size=${individuPage.size}, page=1, matricule=${matricule}, nom=${nom}, prenom=${prenom}, cin=${cin})}">&laquo;</a>
+                                            </li>
+                                            <li class="page-item" th:classappend="${individuPage.first} ? 'disabled'">
+                                                <a class="page-link"
+                                                    th:href="@{/Personne/ListeCIN(size=${individuPage.size}, page=${individuPage.number}, matricule=${matricule}, nom=${nom}, prenom=${prenom}, cin=${cin})}">&#8249;</a>
+                                            </li>
+                                            <li class="page-item" th:each="pageNumber : ${pageNumbers}"
+                                                th:classappend="${pageNumber == individuPage.number + 1} ? 'active'">
+                                                <a class="page-link"
+                                                    th:href="@{/Personne/ListeCIN(size=${individuPage.size}, page=${pageNumber}, matricule=${matricule}, nom=${nom}, prenom=${prenom}, cin=${cin})}"
+                                                    th:text="${pageNumber}"></a>
+                                            </li>
+                                            <li class="page-item" th:classappend="${individuPage.last} ? 'disabled'">
+                                                <a class="page-link"
+                                                    th:href="@{/Personne/ListeCIN(size=${individuPage.size}, page=${individuPage.number + 2}, matricule=${matricule}, nom=${nom}, prenom=${prenom}, cin=${cin})}">&#8250;</a>
+                                            </li>
+                                            <li class="page-item" th:classappend="${individuPage.last} ? 'disabled'">
+                                                <a class="page-link"
+                                                    th:href="@{/Personne/ListeCIN(size=${individuPage.size}, page=${individuPage.totalPages}, matricule=${matricule}, nom=${nom}, prenom=${prenom}, cin=${cin})}">&raquo;</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+
+                                    <div class="text-muted mb-2 me-3">
+                                        <small>
+                                            Affichage de <span
+                                                th:text="${(individuPage.number * individuPage.size) + 1}">1</span>
+                                            à <span
+                                                th:text="${(individuPage.number + 1) * individuPage.size > individuPage.totalElements ? individuPage.totalElements : (individuPage.number + 1) * individuPage.size}">30</span>
+                                            sur <span th:text="${individuPage.totalElements}">100</span> éléments
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        function changePageSize(newSize) {
+            /*<![CDATA[*/
+            var contextPath = /*[[@{/}]]*/ '';
+            var matricule = /*[[${matricule}]]*/ '';
+            var nom = /*[[${nom}]]*/ '';
+            var prenom = /*[[${prenom}]]*/ '';
+            var cin = /*[[${cin}]]*/ '';
+
+            var url = contextPath + 'Personne/ListeCIN?size=' + newSize + '&page=1';
+            if (matricule) url += '&matricule=' + encodeURIComponent(matricule);
+            if (nom) url += '&nom=' + encodeURIComponent(nom);
+            if (prenom) url += '&prenom=' + encodeURIComponent(prenom);
+            if (cin) url += '&cin=' + encodeURIComponent(cin);
+
+            window.location.href = url;
+            /*]]>*/
+        }
+    </script>
+</body>
+
+</html>
